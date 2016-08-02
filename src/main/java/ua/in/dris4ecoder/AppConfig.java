@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ua.in.dris4ecoder.controllers.StaffController;
+import ua.in.dris4ecoder.model.Employee;
+import ua.in.dris4ecoder.model.EmployeePost;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeeDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
@@ -18,11 +20,10 @@ import java.beans.PropertyVetoException;
 public class AppConfig {
 
     @Bean
-    Main main(StaffController controller, RestaurantDao jdbcEmployeePostsDao) {
+    Main main(StaffController controller) {
         Main mainObject = new Main();
 
         mainObject.setStaffController(controller);
-//        mainObject.setRestaurantDao(jdbcEmployeePostsDao);
 
         return mainObject;
     }
@@ -50,7 +51,7 @@ public class AppConfig {
     }
 
     @Bean
-    StaffController staffController(RestaurantDao jdbcEmployeePostsDao, RestaurantDao jdbcEmployeeDao) {
+    StaffController staffController(RestaurantDao<EmployeePost> jdbcEmployeePostsDao, RestaurantDao<Employee> jdbcEmployeeDao) {
         StaffController controller = new StaffController();
         controller.setEmployeePostsDao(jdbcEmployeePostsDao);
         controller.setEmployeeDao(jdbcEmployeeDao);
@@ -58,13 +59,17 @@ public class AppConfig {
     }
 
     @Bean
-    JdbcEmployeePostsDao jdbcEmployeePostsDao() {
-        return new JdbcEmployeePostsDao();
+    JdbcEmployeePostsDao jdbcEmployeePostsDao(ComboPooledDataSource comboPooledDataSource) {
+        final JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
+        jdbcEmployeePostsDao.setDataSource(comboPooledDataSource);
+        return jdbcEmployeePostsDao;
     }
 
     @Bean
-    JdbcEmployeeDao jdbcEmployeeDao() {
-        return new JdbcEmployeeDao();
+    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource comboPooledDataSource) {
+        final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
+        jdbcEmployeeDao.setDataSource(comboPooledDataSource);
+        return jdbcEmployeeDao;
     }
 
     @Bean

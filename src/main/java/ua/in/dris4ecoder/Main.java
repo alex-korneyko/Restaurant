@@ -11,7 +11,6 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 public class Main {
 
     private StaffController staffController;
-//    private RestaurantDao restaurantDao;
 
     public static void main(String[] args) {
 
@@ -22,14 +21,29 @@ public class Main {
 
     private void start() {
 
+        staffController.getAllEmployeePosts().forEach(System.out::println);
+
+//        System.out.println("Adding new employee post");
+//        staffController.addEmployeePost("Завхоз");
+//        staffController.getAllEmployeePosts().forEach(System.out::println);
+//
+//        System.out.println("Removing id 23");
+//        staffController.removeEmployeePost(23);
+//        staffController.getAllEmployeePosts().forEach(System.out::println);
+//
+//        System.out.println("Edit item with id 22");
+//        staffController.editEmployeePost(22, "Сецуриту");
+//        staffController.getAllEmployeePosts().forEach(System.out::println);
+
+        System.out.println("Find Повар");
+        System.out.println(staffController.findEmployeePost("Повар"));
+
+        System.out.println("Find bi ID 20");
+        System.out.println(staffController.findEmployeePostById(20));
 
     }
 
     public void setStaffController(StaffController staffController) {
         this.staffController = staffController;
     }
-
-//    public void setRestaurantDao(RestaurantDao restaurantDao) {
-//        this.restaurantDao = restaurantDao;
-//    }
 }

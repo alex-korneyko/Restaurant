@@ -12,23 +12,27 @@ import java.util.Objects;
 /**
  * Created by Alex Korneyko on 28.07.2016 20:14.
  */
-public interface RestaurantDao {
+public interface RestaurantDao<T> {
 
-    void addItem(Object item);
+    void addItem(T item);
 
-    void removeItem(int id);
+    void removeItemById(int id);
 
-    void editItem(int id, Object changedItem);
+    void removeItemByName(String name);
 
-    Object findItem(String name);
+    void editItem(int id, T changedItem);
 
-    List<?> findItem(Employee employee);
+    T findItemById(int id);
+
+    T findItem(String name);
+
+    List<T> findItem(Employee employee);
 
     KitchenProcess findItem(int orderId);
 
-    List<?> findItem(OrderDishStatus status);
+    List<T> findItem(OrderDishStatus status);
 
-    List<?> findItem(Date startPeriod, Date endPeriod);
+    List<T> findItem(Date startPeriod, Date endPeriod);
 
-    List<?> findAll();
+    List<T> findAll();
 }
