@@ -24,7 +24,7 @@ public interface RestaurantDao<T> {
 
     T findItemById(int id);
 
-    T findItem(String name);
+    List<T> findItem(String name);
 
     List<T> findItem(Employee employee);
 

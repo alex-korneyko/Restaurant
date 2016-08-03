@@ -6,10 +6,10 @@ import ua.in.dris4ecoder.model.KitchenProcess;
 import ua.in.dris4ecoder.model.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import javax.security.auth.login.CredentialException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +49,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
         try (Connection connection = dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM service.employees WHERE id = ?")) {
             statement.setInt(1, id);
+            statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -62,40 +63,109 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     @Override
     public void editItem(int id, Employee changedItem) {
 
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                "UPDATE service.employees SET last_name = ?, first_name = ?, date_of_birth = ?, telephone = ?, post_id = ?, salary = ? WHERE id = ?")) {
+            statement.setString(1, changedItem.getLastName());
+            statement.setString(2, changedItem.getFirstName());
+            statement.setDate(3, (java.sql.Date) changedItem.getDateOfBirth());
+            statement.setString(4, changedItem.getTelephone());
+            statement.setDouble(5, changedItem.getSalary());
+            statement.setInt(6, id);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Employee findItemById(int id) {
-        return null;
+
+        ResultSet resultSet;
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE id = ?")){
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            resultSet.next();
+            return createEmployee(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public Employee findItem(String name) {
-        return null;
+    public List<Employee> findItem(String name) {
+
+        List<Employee> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE employees.first_name LIKE ? OR employees.last_name LIKE ?")) {
+            statement.setString(1, name);
+            statement.setString(2, name);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                result.add(createEmployee(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     @Override
     public List<Employee> findItem(Employee employee) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public KitchenProcess findItem(int orderId) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public List<Employee> findItem(OrderDishStatus status) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public List<Employee> findItem(Date startPeriod, Date endPeriod) {
-        return null;
+
+        List<Employee> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE date_of_birth > ? AND date_of_birth < ?")) {
+            statement.setDate(1, (java.sql.Date) startPeriod);
+            statement.setDate(2, (java.sql.Date) endPeriod);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                result.add(createEmployee(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
     }
 
     @Override
     public List<Employee> findAll() {
-        return null;
+        List<Employee> employees = new ArrayList<>();
+        try (Connection connection = dataSource.getConnection();
+        Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM service.employees");
+
+            while (resultSet.next()) {
+                employees.add(createEmployee(resultSet));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return employees;
+    }
+
+    private Employee createEmployee(ResultSet resultSet) throws SQLException {
+        return new Employee(resultSet.getInt("id"), resultSet.getString("last_name"), resultSet.getString("first_name"),
+                resultSet.getDate("date_of_birth"), resultSet.getString("telephone"), resultSet.getInt("post_id"), resultSet.getDouble("salary"));
     }
 }

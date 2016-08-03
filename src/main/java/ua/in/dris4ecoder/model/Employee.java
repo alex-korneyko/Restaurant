@@ -21,6 +21,24 @@ public class Employee {
         this.postId = postId;
     }
 
+    public Employee(int id, String lastName, String firstName, Date dateOfBirth, String telephone, int postId, double salary) {
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.dateOfBirth = dateOfBirth;
+        this.telephone = telephone;
+        this.postId = postId;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getLastName() {
         return lastName;
     }

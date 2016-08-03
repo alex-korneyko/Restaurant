@@ -89,21 +89,23 @@ public class JdbcEmployeePostsDao implements RestaurantDao<EmployeePost> {
     }
 
     @Override
-    public EmployeePost findItem(String name) {
+    public List<EmployeePost> findItem(String name) {
 
-        EmployeePost employeePost;
+        List<EmployeePost> employeePosts = new ArrayList<>();
+
         try (Connection connection = dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employee_posts WHERE post_name LIKE ?")) {
             statement.setString(1, name);
             ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            employeePost = new EmployeePost(resultSet.getString("post_name"));
-            employeePost.setId(resultSet.getInt("id"));
+
+            while (resultSet.next()) {
+                employeePosts.add(new EmployeePost(resultSet.getInt("id") ,resultSet.getString("post_name")));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return employeePost;
+        return employeePosts;
     }
 
     @Override

@@ -13,6 +13,11 @@ public class EmployeePost {
         this.postName = postName;
     }
 
+    public EmployeePost(int id, String postName) {
+        this.id = id;
+        this.postName = postName;
+    }
+
     public String getPostName() {
         return postName;
     }
