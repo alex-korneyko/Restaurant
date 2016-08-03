@@ -9,7 +9,9 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -124,7 +126,7 @@ public class JdbcEmployeePostsDao implements RestaurantDao<EmployeePost> {
     }
 
     @Override
-    public List<EmployeePost> findItem(Date startPeriod, Date endPeriod) {
+    public List<EmployeePost> findItem(LocalDate startPeriod, LocalDate endPeriod) {
         throw new NotImplementedException();
     }
 

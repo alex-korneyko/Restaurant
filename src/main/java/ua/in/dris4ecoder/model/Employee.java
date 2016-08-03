@@ -1,5 +1,8 @@
 package ua.in.dris4ecoder.model;
 
+import ua.in.dris4ecoder.controllers.StaffController;
+import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
+
 import java.util.Date;
 
 /**
@@ -14,6 +17,8 @@ public class Employee {
     private String telephone;
     private int postId;
     private double salary;
+
+    private JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
 
     public Employee(String lastName, String firstName, int postId) {
         this.lastName = lastName;
@@ -85,5 +90,18 @@ public class Employee {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", telephone='" + telephone + '\'' +
+                ", postId=" + postId +
+                ", salary=" + salary +
+                '}';
     }
 }

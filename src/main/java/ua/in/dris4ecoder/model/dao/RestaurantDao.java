@@ -5,6 +5,8 @@ import ua.in.dris4ecoder.model.EmployeePost;
 import ua.in.dris4ecoder.model.KitchenProcess;
 import ua.in.dris4ecoder.model.OrderDishStatus;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +34,7 @@ public interface RestaurantDao<T> {
 
     List<T> findItem(OrderDishStatus status);
 
-    List<T> findItem(Date startPeriod, Date endPeriod);
+    List<T> findItem(LocalDate startPeriod, LocalDate endPeriod);
 
     List<T> findAll();
 }

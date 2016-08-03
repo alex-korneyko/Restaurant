@@ -9,7 +9,9 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import javax.security.auth.login.CredentialException;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -70,8 +72,9 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
             statement.setString(2, changedItem.getFirstName());
             statement.setDate(3, (java.sql.Date) changedItem.getDateOfBirth());
             statement.setString(4, changedItem.getTelephone());
-            statement.setDouble(5, changedItem.getSalary());
-            statement.setInt(6, id);
+            statement.setInt(5, changedItem.getPostId());
+            statement.setDouble(6, changedItem.getSalary());
+            statement.setInt(7, id);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -129,14 +132,14 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     }
 
     @Override
-    public List<Employee> findItem(Date startPeriod, Date endPeriod) {
+    public List<Employee> findItem(LocalDate startPeriod, LocalDate endPeriod) {
 
         List<Employee> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE date_of_birth > ? AND date_of_birth < ?")) {
-            statement.setDate(1, (java.sql.Date) startPeriod);
-            statement.setDate(2, (java.sql.Date) endPeriod);
+            statement.setDate(1, java.sql.Date.valueOf(startPeriod));
+            statement.setDate(2, java.sql.Date.valueOf(endPeriod));
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

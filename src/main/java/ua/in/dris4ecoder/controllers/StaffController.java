@@ -5,6 +5,8 @@ import ua.in.dris4ecoder.model.Employee;
 import ua.in.dris4ecoder.model.EmployeePost;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public class StaffController {
         employeePostsDao.editItem(id, new EmployeePost(newEmployeePostName));
     }
 
-    public EmployeePost findEmployeePost(String name) {
+    public List<EmployeePost> findEmployeePost(String name) {
         return employeePostsDao.findItem(name);
     }
 
@@ -40,7 +42,29 @@ public class StaffController {
     }
 
 
+    public void addEmployee(String lastName, String firstName, int postId) {
+        employeeDao.addItem(new Employee(lastName, firstName, postId));
+    }
 
+    public void removeEmployee(int id) {
+        employeeDao.removeItemById(id);
+    }
+
+    public void editEmployee(int id, Employee changedEmployee) {
+        employeeDao.editItem(id, changedEmployee);
+    }
+
+    public List<Employee> findEmployeeByName(String name) {
+        return employeeDao.findItem(name);
+    }
+
+    public Employee findEmployeeById(int id) {
+        return employeeDao.findItemById(id);
+    }
+
+    public List<Employee> findEmployeeByDateRange(LocalDate start, LocalDate end) {
+        return employeeDao.findItem(start, end);
+    }
 
     public List<Employee> getAllEmployees() {
         return employeeDao.findAll();
