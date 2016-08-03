@@ -6,7 +6,6 @@ import ua.in.dris4ecoder.model.EmployeePost;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,11 +68,6 @@ public class StaffController {
     public List<Employee> getAllEmployees() {
         return employeeDao.findAll();
     }
-
-
-
-
-
 
 
     public void setEmployeeDao(RestaurantDao<Employee> employeeDao) {

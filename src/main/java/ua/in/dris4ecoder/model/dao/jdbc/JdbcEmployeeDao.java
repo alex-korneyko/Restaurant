@@ -6,13 +6,10 @@ import ua.in.dris4ecoder.model.KitchenProcess;
 import ua.in.dris4ecoder.model.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
-import javax.security.auth.login.CredentialException;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
