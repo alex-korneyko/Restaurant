@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.model;
+package ua.in.dris4ecoder.model.businessObjects;
 
 import ua.in.dris4ecoder.controllers.StaffController;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;

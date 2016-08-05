@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.model;
+package ua.in.dris4ecoder.model.businessObjects;
 
 import java.util.Date;
 

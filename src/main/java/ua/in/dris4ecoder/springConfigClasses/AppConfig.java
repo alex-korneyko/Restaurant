@@ -1,15 +1,23 @@
-package ua.in.dris4ecoder;
+package ua.in.dris4ecoder.springConfigClasses;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import ua.in.dris4ecoder.Main;
+import ua.in.dris4ecoder.controllers.ServiceController;
 import ua.in.dris4ecoder.controllers.StaffController;
-import ua.in.dris4ecoder.model.Employee;
-import ua.in.dris4ecoder.model.EmployeePost;
+import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
+import ua.in.dris4ecoder.gui.windowsSet.SimpleMainWindow;
+import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
+import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
+import ua.in.dris4ecoder.model.businessObjects.Order;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeeDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
+import ua.in.dris4ecoder.model.dao.jdbc.JdbcKitchenProcessDao;
+import ua.in.dris4ecoder.model.dao.jdbc.JdbcOrderDao;
 
 import java.beans.PropertyVetoException;
 
@@ -20,10 +28,12 @@ import java.beans.PropertyVetoException;
 public class AppConfig {
 
     @Bean
-    Main main(StaffController controller) {
+    Main main(StaffController staffController, ServiceController serviceController, MainWindow mainWindow) {
         Main mainObject = new Main();
 
-        mainObject.setStaffController(controller);
+        mainObject.setStaffController(staffController);
+        mainObject.setServiceController(serviceController);
+        mainObject.setMainWindow(mainWindow);
 
         return mainObject;
     }
@@ -59,6 +69,14 @@ public class AppConfig {
     }
 
     @Bean
+    ServiceController serviceController(RestaurantDao<Order> jdbcOrderDao, RestaurantDao<KitchenProcess> jdbcKitchenProcessDao) {
+        final ServiceController serviceController = new ServiceController();
+        serviceController.setOrdersDao(jdbcOrderDao);
+        serviceController.setKitchenProcessDao(jdbcKitchenProcessDao);
+        return serviceController;
+    }
+
+    @Bean
     JdbcEmployeePostsDao jdbcEmployeePostsDao(ComboPooledDataSource comboPooledDataSource) {
         final JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
         jdbcEmployeePostsDao.setDataSource(comboPooledDataSource);
@@ -70,6 +88,20 @@ public class AppConfig {
         final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
         jdbcEmployeeDao.setDataSource(comboPooledDataSource);
         return jdbcEmployeeDao;
+    }
+
+    @Bean
+    JdbcOrderDao jdbcOrderDao(ComboPooledDataSource comboPooledDataSource) {
+        final JdbcOrderDao jdbcOrderDao = new JdbcOrderDao();
+        jdbcOrderDao.setDataSource(comboPooledDataSource);
+        return jdbcOrderDao;
+    }
+
+    @Bean
+    JdbcKitchenProcessDao jdbcKitchenProcessDao(ComboPooledDataSource comboPooledDataSource) {
+        final JdbcKitchenProcessDao jdbcKitchenProcessDao = new JdbcKitchenProcessDao();
+        jdbcKitchenProcessDao.setDataSource(comboPooledDataSource);
+        return jdbcKitchenProcessDao;
     }
 
     @Bean

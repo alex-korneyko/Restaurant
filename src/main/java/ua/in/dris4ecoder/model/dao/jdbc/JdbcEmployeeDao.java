@@ -1,9 +1,9 @@
 package ua.in.dris4ecoder.model.dao.jdbc;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import ua.in.dris4ecoder.model.Employee;
-import ua.in.dris4ecoder.model.KitchenProcess;
-import ua.in.dris4ecoder.model.OrderDishStatus;
+import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
+import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import javax.sql.DataSource;

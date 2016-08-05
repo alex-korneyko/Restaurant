@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.model;
+package ua.in.dris4ecoder.model.businessObjects;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:19.

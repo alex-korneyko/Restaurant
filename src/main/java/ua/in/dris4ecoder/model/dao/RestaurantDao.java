@@ -1,15 +1,11 @@
 package ua.in.dris4ecoder.model.dao;
 
-import ua.in.dris4ecoder.model.Employee;
-import ua.in.dris4ecoder.model.EmployeePost;
-import ua.in.dris4ecoder.model.KitchenProcess;
-import ua.in.dris4ecoder.model.OrderDishStatus;
+import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
+import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 20:14.

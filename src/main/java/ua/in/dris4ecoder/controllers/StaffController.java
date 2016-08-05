@@ -1,8 +1,8 @@
 package ua.in.dris4ecoder.controllers;
 
 
-import ua.in.dris4ecoder.model.Employee;
-import ua.in.dris4ecoder.model.EmployeePost;
+import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
