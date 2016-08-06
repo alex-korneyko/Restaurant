@@ -5,7 +5,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.ServiceController;
 import ua.in.dris4ecoder.controllers.StaffController;
 import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
-import ua.in.dris4ecoder.gui.windowsSet.SimpleMainWindow;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 13:28.
@@ -27,8 +26,8 @@ public class Main{
 
         mainWindow.runMainWindow(args);
 
-        staffController.getAllEmployees().forEach(System.out::println);
-        staffController.getAllEmployeePosts().forEach(System.out::println);
+//        staffController.getAllEmployees().forEach(System.out::println);
+//        staffController.getAllEmployeePosts().forEach(System.out::println);
 
     }
 
