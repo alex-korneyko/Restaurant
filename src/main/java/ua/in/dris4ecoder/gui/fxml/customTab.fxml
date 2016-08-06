@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="javafx.scene.control.Tab" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<fx:root type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 <!--<Tab text="Должности" xmlns="http://javafx.com/javafx/8" >-->
    <content>
       <AnchorPane>
@@ -89,5 +89,12 @@
          </children>
       </AnchorPane>
    </content>
+   <contextMenu>
+      <ContextMenu>
+        <items>
+          <MenuItem mnemonicParsing="false" text="Закрыть" />
+        </items>
+      </ContextMenu>
+   </contextMenu>
 <!--</Tab>-->
 </fx:root>

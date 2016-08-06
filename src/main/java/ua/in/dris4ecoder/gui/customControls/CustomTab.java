@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Created by Alex Korneyko on 06.08.2016 11:33.
@@ -45,6 +44,10 @@ public class CustomTab extends Tab {
         hBox.getChildren().forEach(node -> node.setDisable(disable));
     }
 
+    /**
+     * Method create columns in tableView.
+     * @param columns
+     */
     public void setColumns(String... columns) {
 
         for (String columnName : columns) {
@@ -60,8 +63,7 @@ public class CustomTab extends Tab {
         return (TableView) anchorPane1.getChildren().get(0);
     }
 
-    @FXML
-    protected void getAllAction(ActionEvent actionEvent) {
+    @FXML protected void getAllAction(ActionEvent actionEvent) {
 
         System.out.println(getText());
 
