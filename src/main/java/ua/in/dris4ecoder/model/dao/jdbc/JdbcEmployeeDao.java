@@ -2,6 +2,7 @@ package ua.in.dris4ecoder.model.dao.jdbc;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -33,7 +34,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
             statement.setString(2, item.getFirstName());
             statement.setDate(3, (java.sql.Date) item.getDateOfBirth());
             statement.setString(4, item.getTelephone());
-            statement.setInt(5, item.getPostId());
+            statement.setInt(5, item.getEmployeePost().getId());
             statement.setDouble(6, item.getSalary());
             statement.execute();
         } catch (SQLException e) {
@@ -69,7 +70,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
             statement.setString(2, changedItem.getFirstName());
             statement.setDate(3, (java.sql.Date) changedItem.getDateOfBirth());
             statement.setString(4, changedItem.getTelephone());
-            statement.setInt(5, changedItem.getPostId());
+            statement.setInt(5, changedItem.getEmployeePost().getId());
             statement.setDouble(6, changedItem.getSalary());
             statement.setInt(7, id);
             statement.execute();
@@ -153,7 +154,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
         List<Employee> employees = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
         Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM service.employees");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM service.employees INNER JOIN service.employee_posts ON employees.post_id = employee_posts.id");
 
             while (resultSet.next()) {
                 employees.add(createEmployee(resultSet));
@@ -166,6 +167,6 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
 
     private Employee createEmployee(ResultSet resultSet) throws SQLException {
         return new Employee(resultSet.getInt("id"), resultSet.getString("last_name"), resultSet.getString("first_name"),
-                resultSet.getDate("date_of_birth"), resultSet.getString("telephone"), resultSet.getInt("post_id"), resultSet.getDouble("salary"));
+                resultSet.getDate("date_of_birth"), resultSet.getString("telephone"), new EmployeePost(resultSet.getString("post_name")), resultSet.getDouble("salary"));
     }
 }

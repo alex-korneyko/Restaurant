@@ -8,6 +8,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.gui.customControls.CustomTab;
+import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
 import java.io.IOException;
 
@@ -33,11 +35,11 @@ public class MainWindowController {
 
         if(findTab("posts")) return;
 
-        CustomTab tabPosts = new CustomTab("Должности");
-        tabPosts.setId("posts");
+        CustomTab<EmployeePost> tabPosts = new CustomTab<>("Должности", "posts");
 
         tabPosts.setDisableSearchByDataRange(true);
-        tabPosts.setColumns("Id", "Название");
+//        tabPosts.setColumns("Id", "Название");
+        tabPosts.setColumnsByClass(EmployeePost.class, "id", "Название");
 
         tabPaneDbManagement.getTabs().add(tabPosts);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
@@ -45,12 +47,11 @@ public class MainWindowController {
 
     public void createTabEmployees(ActionEvent actionEvent) {
 
-        if(findTab("Employees")) return;
+        if(findTab("employees")) return;
 
-        CustomTab tabEmployees = new CustomTab("Сотрудники");
-        tabEmployees.setId("Employees");
+        CustomTab<Employee> tabEmployees = new CustomTab<>("Сотрудники", "employees");
 
-        tabEmployees.setColumns("Id", "Фамилия", "Имя", "Должность", "Дата рождения", "Телефон", "Оклад");
+        tabEmployees.setColumnsByClass(Employee.class, "Id", "Фамилия", "Имя", "Телефон", "Дата рождения", "Должность", "Оклад");
 
         tabPaneDbManagement.getTabs().add(tabEmployees);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);

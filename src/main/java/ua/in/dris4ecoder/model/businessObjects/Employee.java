@@ -8,31 +8,30 @@ import java.util.Date;
 /**
  * Created by Alex Korneyko on 29.07.2016 18:15.
  */
-public class Employee {
+public class Employee implements BusinessObject {
 
-    private int id;
-    private String lastName;
-    private String firstName;
-    private Date dateOfBirth;
-    private String telephone;
-    private int postId;
-    private double salary;
+    public int id;
+    public String lastName;
+    public String firstName;
+    public String telephone;
+    public Date dateOfBirth;
+    public EmployeePost employeePost;
+    public double salary;
 
     private JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
 
-    public Employee(String lastName, String firstName, int postId) {
+    public Employee(String lastName, String firstName, EmployeePost employeePost) {
         this.lastName = lastName;
         this.firstName = firstName;
-        this.postId = postId;
+        this.employeePost = employeePost;
     }
 
-    public Employee(int id, String lastName, String firstName, Date dateOfBirth, String telephone, int postId, double salary) {
+    public Employee(int id, String lastName, String firstName, Date dateOfBirth, String telephone, EmployeePost employeePost, double salary) {
+
+        this(lastName, firstName, employeePost);
         this.id = id;
-        this.lastName = lastName;
-        this.firstName = firstName;
         this.dateOfBirth = dateOfBirth;
         this.telephone = telephone;
-        this.postId = postId;
         this.salary = salary;
     }
 
@@ -76,12 +75,12 @@ public class Employee {
         this.telephone = telephone;
     }
 
-    public int getPostId() {
-        return postId;
+    public EmployeePost getEmployeePost() {
+        return employeePost;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setEmployeePost(EmployeePost employeePost) {
+        this.employeePost = employeePost;
     }
 
     public double getSalary() {
@@ -100,7 +99,7 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", telephone='" + telephone + '\'' +
-                ", postId=" + postId +
+                ", postId=" + employeePost.getPostName() +
                 ", salary=" + salary +
                 '}';
     }

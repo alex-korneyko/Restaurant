@@ -1,13 +1,20 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Alex Korneyko on 29.07.2016 19:12.
  */
-public class EmployeePost {
+public class EmployeePost implements BusinessObject {
 
-    private int id;
+    public int id;
 
-    private String postName;
+    public String postName;
+
+    public EmployeePost(int id) {
+        this.id = id;
+    }
 
     public EmployeePost(String postName) {
         this.postName = postName;
@@ -36,6 +43,6 @@ public class EmployeePost {
 
     @Override
     public String toString() {
-        return id + ".\t" + postName;
+        return  postName;
     }
 }

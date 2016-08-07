@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 28.07.2016 19:09.
  */
-public class StaffController {
+public class StaffController implements BusinessController {
 
     private RestaurantDao<EmployeePost> employeePostsDao;
     private RestaurantDao<Employee> employeeDao;
@@ -42,7 +42,7 @@ public class StaffController {
 
 
     public void addEmployee(String lastName, String firstName, int postId) {
-        employeeDao.addItem(new Employee(lastName, firstName, postId));
+        employeeDao.addItem(new Employee(lastName, firstName, new EmployeePost(postId)));
     }
 
     public void removeEmployee(int id) {

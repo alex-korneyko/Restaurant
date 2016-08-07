@@ -7,7 +7,7 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 /**
  * Created by Alex Korneyko on 04.08.2016 10:55.
  */
-public class ServiceController {
+public class ServiceController implements BusinessController {
 
     private RestaurantDao<Order> ordersDao;
     private RestaurantDao<KitchenProcess> kitchenProcessDao;

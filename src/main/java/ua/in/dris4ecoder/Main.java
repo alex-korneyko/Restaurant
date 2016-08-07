@@ -11,7 +11,7 @@ import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
  */
 public class Main{
 
-    private StaffController staffController;
+    private static StaffController staffController;
     private ServiceController serviceController;
     private MainWindow mainWindow;
 
@@ -26,14 +26,17 @@ public class Main{
 
         mainWindow.runMainWindow(args);
 
-//        staffController.getAllEmployees().forEach(System.out::println);
 //        staffController.getAllEmployeePosts().forEach(System.out::println);
+//        staffController.getAllEmployees().forEach(System.out::println);
 
     }
 
+    public static StaffController getStaffController() {
+        return staffController;
+    }
 
     public void setStaffController(StaffController staffController) {
-        this.staffController = staffController;
+        Main.staffController = staffController;
     }
 
     public void setServiceController(ServiceController serviceController) {
