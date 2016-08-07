@@ -5,11 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.StaffController;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
@@ -91,6 +96,33 @@ public class CustomTab<T> extends Tab {
         VBox vBox = ((VBox) anchorPane.getChildren().get(0));
         AnchorPane anchorPane1 = (AnchorPane) vBox.getChildren().get(1);
         return (TableView) anchorPane1.getChildren().get(0);
+    }
+
+    @FXML
+    protected void addAction(ActionEvent actionEvent) {
+
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("/emPostAddEdit.fxml"));
+            stage.setTitle("Новая должность");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    protected void editAction(ActionEvent actionEvent) {
+
+    }
+
+    @FXML
+    protected void deleteAction(ActionEvent actionEvent) {
+
     }
 
     @FXML

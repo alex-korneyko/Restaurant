@@ -16,9 +16,9 @@
                      <children>
                         <ToolBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <items>
-                              <Button mnemonicParsing="false" prefWidth="90.0" text="Создать" />
-                              <Button mnemonicParsing="false" prefWidth="90.0" text="Изменить" />
-                              <Button mnemonicParsing="false" prefWidth="90.0" text="Удалить" />
+                              <Button mnemonicParsing="false" onAction="#addAction" prefWidth="90.0" text="Создать" />
+                              <Button mnemonicParsing="false" onAction="#editAction" prefWidth="90.0" text="Изменить" />
+                              <Button mnemonicParsing="false" onAction="#deleteAction" prefWidth="90.0" text="Удалить" />
                               <MenuButton mnemonicParsing="false" prefWidth="90.0" text="Поиск">
                                  <items>
                                     <MenuItem id="searchBiId" mnemonicParsing="false">
