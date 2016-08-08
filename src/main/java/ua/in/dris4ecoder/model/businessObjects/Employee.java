@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.model.businessObjects;
 import ua.in.dris4ecoder.controllers.StaffController;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ public class Employee implements BusinessObject {
     public String lastName;
     public String firstName;
     public String telephone;
-    public Date dateOfBirth;
+    public LocalDate dateOfBirth;
     public EmployeePost employeePost;
     public double salary;
 
@@ -26,7 +27,7 @@ public class Employee implements BusinessObject {
         this.employeePost = employeePost;
     }
 
-    public Employee(int id, String lastName, String firstName, Date dateOfBirth, String telephone, EmployeePost employeePost, double salary) {
+    public Employee(int id, String lastName, String firstName, LocalDate dateOfBirth, String telephone, EmployeePost employeePost, double salary) {
 
         this(lastName, firstName, employeePost);
         this.id = id;
@@ -59,11 +60,11 @@ public class Employee implements BusinessObject {
         this.firstName = firstName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

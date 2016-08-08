@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers;
+package ua.in.dris4ecoder.controllers.fxControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,10 +35,9 @@ public class MainWindowController {
 
         if(findTab("posts")) return;
 
-        CustomTab<EmployeePost> tabPosts = new CustomTab<>("Должности", "posts");
+        CustomTab<EmployeePost> tabPosts = new CustomTab<>("Должности", "posts", mainStage);
 
         tabPosts.setDisableSearchByDataRange(true);
-//        tabPosts.setColumns("Id", "Название");
         tabPosts.setColumnsByClass(EmployeePost.class, "id", "Название");
 
         tabPaneDbManagement.getTabs().add(tabPosts);
@@ -49,7 +48,7 @@ public class MainWindowController {
 
         if(findTab("employees")) return;
 
-        CustomTab<Employee> tabEmployees = new CustomTab<>("Сотрудники", "employees");
+        CustomTab<Employee> tabEmployees = new CustomTab<>("Сотрудники", "employees", mainStage);
 
         tabEmployees.setColumnsByClass(Employee.class, "Id", "Фамилия", "Имя", "Телефон", "Дата рождения", "Должность", "Оклад");
 

@@ -32,7 +32,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
                              "INSERT INTO service.employees (last_name, first_name, date_of_birth, telephone, post_id, salary) VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setString(1, item.getLastName());
             statement.setString(2, item.getFirstName());
-            statement.setDate(3, (java.sql.Date) item.getDateOfBirth());
+            statement.setDate(3, Date.valueOf(item.getDateOfBirth()));
             statement.setString(4, item.getTelephone());
             statement.setInt(5, item.getEmployeePost().getId());
             statement.setDouble(6, item.getSalary());
@@ -68,7 +68,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
                 "UPDATE service.employees SET last_name = ?, first_name = ?, date_of_birth = ?, telephone = ?, post_id = ?, salary = ? WHERE id = ?")) {
             statement.setString(1, changedItem.getLastName());
             statement.setString(2, changedItem.getFirstName());
-            statement.setDate(3, (java.sql.Date) changedItem.getDateOfBirth());
+            statement.setDate(3, Date.valueOf(changedItem.getDateOfBirth()));
             statement.setString(4, changedItem.getTelephone());
             statement.setInt(5, changedItem.getEmployeePost().getId());
             statement.setDouble(6, changedItem.getSalary());
@@ -167,6 +167,6 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
 
     private Employee createEmployee(ResultSet resultSet) throws SQLException {
         return new Employee(resultSet.getInt("id"), resultSet.getString("last_name"), resultSet.getString("first_name"),
-                resultSet.getDate("date_of_birth"), resultSet.getString("telephone"), new EmployeePost(resultSet.getString("post_name")), resultSet.getDouble("salary"));
+                resultSet.getDate("date_of_birth").toLocalDate(), resultSet.getString("telephone"), new EmployeePost(resultSet.getString("post_name")), resultSet.getDouble("salary"));
     }
 }

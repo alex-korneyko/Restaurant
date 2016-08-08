@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.controllers.MainWindowController;
+import ua.in.dris4ecoder.controllers.fxControllers.MainWindowController;
 
 /**
  * Created by Alex Korneyko on 04.08.2016 13:22.

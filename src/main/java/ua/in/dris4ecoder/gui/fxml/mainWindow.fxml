@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="625.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.MainWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="625.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.MainWindowController">
    <children>
       <MenuBar>
         <menus>

@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,9 +15,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.StaffController;
+import ua.in.dris4ecoder.controllers.fxControllers.EmAddEditController;
+import ua.in.dris4ecoder.controllers.fxControllers.EmPostAddEditController;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -31,16 +32,37 @@ import java.util.stream.Collectors;
  */
 public class CustomTab<T> extends Tab {
 
-    private TableView<T> tableView;
+    @FXML private TableView<T> tableView;
     private ObservableList<T> observableList;
+    private Parent emPostAddEditParent;
+    private FXMLLoader fxmlLoader = new FXMLLoader();
+    private EmPostAddEditController emPostAddEditController;
+    private EmAddEditController emAddEditController;
+    private Stage mainStage;
 
-    public CustomTab() {
+    private Stage emPostAddEditStage;
+    private Stage emAddEditStage;
+
+    @FXML
+    private void initialize() {
+
+        tableView = getTableView();
+
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        tableView.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2) {
+                editAction(new ActionEvent());
+            }
+        });
+
     }
 
-    public CustomTab(String text, String id) {
+    public CustomTab(String text, String id, Stage mainStage) {
         super(text);
 
         observableList = FXCollections.observableArrayList();
+        this.mainStage = mainStage;
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/customTab.fxml"));
         fxmlLoader.setRoot(this);
@@ -53,7 +75,7 @@ public class CustomTab<T> extends Tab {
 
         setId(id);
 
-        tableView = getTableView();
+
     }
 
     /**
@@ -99,42 +121,42 @@ public class CustomTab<T> extends Tab {
     }
 
     @FXML
-    protected void addAction(ActionEvent actionEvent) {
+    protected void addAction(ActionEvent actionEvent) throws IOException {
 
         if(getId().equals("posts")) {
-            try {
-                Stage stage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/emPostAddEdit.fxml"));
-                stage.setTitle("Новая должность");
-                stage.setResizable(false);
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.WINDOW_MODAL);
-                stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+//            createAddEditWindow("/emPostAddEdit.fxml", "Новая должность");
         }
 
         if (getId().equals("employees")) {
-            try {
-                Stage stage = new Stage();
-                Parent root = FXMLLoader.load(getClass().getResource("/emAddEdit.fxml"));
-                stage.setTitle("Новый сотрудник");
-                stage.setResizable(false);
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.WINDOW_MODAL);
-                stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-                stage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+//            createAddEditWindow("/emAddEdit.fxml", "Новый сотрудник");
         }
     }
 
     @FXML
     protected void editAction(ActionEvent actionEvent) {
 
+        if(tableView.getSelectionModel().getSelectedItem() == null)
+            return;
+
+        if(getId().equals("posts")) {
+            EmployeePost selectedItem = (EmployeePost) tableView.getSelectionModel().getSelectedItem();
+            if(emPostAddEditStage == null) {
+                emPostAddEditController = (EmPostAddEditController) initLoader("/emPostAddEdit.fxml");
+                emPostAddEditStage = createAddEditWindow("Изменить должность");
+            }
+            emPostAddEditController.setEmployeePost(selectedItem);
+            emPostAddEditStage.showAndWait();
+        }
+
+        if (getId().equals("employees")) {
+            Employee selectedItem = (Employee) tableView.getSelectionModel().getSelectedItem();
+            if (emAddEditStage == null) {
+                emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
+                emAddEditStage = createAddEditWindow("Изменить сотрудника");
+            }
+            emAddEditController.setEmployee(selectedItem);
+            emAddEditStage.showAndWait();
+        }
     }
 
     @FXML
@@ -155,6 +177,29 @@ public class CustomTab<T> extends Tab {
         if(getId().equals("employees")) {
             List<? extends T> employees = (List<? extends T>) Main.getStaffController().getAllEmployees();
             observableList.addAll(employees);
+        }
+    }
+
+    private Stage createAddEditWindow(String stageTitle) {
+
+        Stage stage = new Stage();
+
+        stage.setTitle(stageTitle);
+        stage.setResizable(false);
+        stage.setScene(new Scene(emPostAddEditParent));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+
+        return stage;
+    }
+
+    private Object initLoader(String resource) {
+        try {
+            fxmlLoader.setLocation(getClass().getResource(resource));
+            emPostAddEditParent = fxmlLoader.load();
+            return fxmlLoader.getController();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

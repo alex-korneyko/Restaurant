@@ -30,7 +30,7 @@
                                                       <Insets right="5.0" />
                                                    </HBox.margin>
                                                 </TextField>
-                                                <Button mnemonicParsing="false" text="Ok" />
+                                                <Button defaultButton="true" mnemonicParsing="false" text="Ok" />
                                              </children>
                                           </HBox>
                                        </graphic>
@@ -44,7 +44,7 @@
                                                       <Insets right="5.0" />
                                                    </HBox.margin>
                                                 </TextField>
-                                                <Button mnemonicParsing="false" text="Ok" />
+                                                <Button defaultButton="true" mnemonicParsing="false" text="Ok" />
                                              </children>
                                           </HBox>
                                        </graphic>
@@ -63,7 +63,7 @@
                                                       <Insets right="5.0" />
                                                    </HBox.margin>
                                                 </DatePicker>
-                                                <Button mnemonicParsing="false" text="Ok" />
+                                                <Button defaultButton="true" mnemonicParsing="false" text="Ok" />
                                              </children>
                                           </HBox>
                                        </graphic>
@@ -77,7 +77,7 @@
                   </AnchorPane>
                   <AnchorPane VBox.vgrow="ALWAYS">
                      <children>
-                        <TableView prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
