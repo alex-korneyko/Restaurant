@@ -1,5 +1,8 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,41 +11,52 @@ import java.util.Map;
  */
 public class EmployeePost implements BusinessObject {
 
-    public int id;
+    public SimpleIntegerProperty id = new SimpleIntegerProperty();
 
-    public String postName;
+    public SimpleStringProperty postName = new SimpleStringProperty();
+
+    public EmployeePost() {
+    }
 
     public EmployeePost(int id) {
-        this.id = id;
+        this.id.setValue(id);
     }
 
     public EmployeePost(String postName) {
-        this.postName = postName;
+        this.postName.set(postName);
     }
 
     public EmployeePost(int id, String postName) {
-        this.id = id;
-        this.postName = postName;
+        this(postName);
+        this.id.set(id);
     }
 
     public String getPostName() {
-        return postName;
+        return postName.get();
     }
 
     public void setPostName(String postName) {
-        this.postName = postName;
+        this.postName.set(postName);
     }
 
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
+    }
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+    public SimpleStringProperty postNameProperty() {
+        return postName;
     }
 
     @Override
     public String toString() {
-        return  postName;
+        return  postName.get();
     }
 }

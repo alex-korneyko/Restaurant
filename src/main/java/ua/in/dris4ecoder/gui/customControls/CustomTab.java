@@ -23,6 +23,7 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,7 +56,6 @@ public class CustomTab<T> extends Tab {
                 editAction(new ActionEvent());
             }
         });
-
     }
 
     public CustomTab(String text, String id, Stage mainStage) {
@@ -74,8 +74,6 @@ public class CustomTab<T> extends Tab {
         }
 
         setId(id);
-
-
     }
 
     /**
@@ -97,6 +95,7 @@ public class CustomTab<T> extends Tab {
 
     public void setColumnsByClass(Class<? extends BusinessObject> businessObjectClass, String... columnNames) {
 
+        //Receiving list of businessObjectClass fields
         List<String> fieldNames = Arrays.asList(businessObjectClass.getFields()).stream().map(Field::getName).collect(Collectors.toList());
 
         if(fieldNames.size() != columnNames.length) {
@@ -138,7 +137,7 @@ public class CustomTab<T> extends Tab {
         if(tableView.getSelectionModel().getSelectedItem() == null)
             return;
 
-        if(getId().equals("posts")) {
+        if(this.getId().equals("posts")) {
             EmployeePost selectedItem = (EmployeePost) tableView.getSelectionModel().getSelectedItem();
             if(emPostAddEditStage == null) {
                 emPostAddEditController = (EmPostAddEditController) initLoader("/emPostAddEdit.fxml");
@@ -148,7 +147,7 @@ public class CustomTab<T> extends Tab {
             emPostAddEditStage.showAndWait();
         }
 
-        if (getId().equals("employees")) {
+        if (this.getId().equals("employees")) {
             Employee selectedItem = (Employee) tableView.getSelectionModel().getSelectedItem();
             if (emAddEditStage == null) {
                 emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
@@ -168,16 +167,17 @@ public class CustomTab<T> extends Tab {
     protected void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();
+        List<? extends T> businessObjects = new ArrayList<>();
 
         if(getId().equals("posts")) {
-            List<? extends T> employeePosts = (List<? extends T>) Main.getStaffController().getAllEmployeePosts();
-            observableList.addAll(employeePosts);
+            businessObjects = (List<? extends T>) Main.getStaffController().getAllEmployeePosts();
         }
 
         if(getId().equals("employees")) {
-            List<? extends T> employees = (List<? extends T>) Main.getStaffController().getAllEmployees();
-            observableList.addAll(employees);
+            businessObjects = (List<? extends T>) Main.getStaffController().getAllEmployees();
         }
+
+        observableList.addAll(businessObjects);
     }
 
     private Stage createAddEditWindow(String stageTitle) {
