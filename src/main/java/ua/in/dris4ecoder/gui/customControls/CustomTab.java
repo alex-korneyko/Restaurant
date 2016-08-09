@@ -123,7 +123,14 @@ public class CustomTab<T> extends Tab {
     protected void addAction(ActionEvent actionEvent) throws IOException {
 
         if(getId().equals("posts")) {
-//            createAddEditWindow("/emPostAddEdit.fxml", "Новая должность");
+
+            if(emPostAddEditStage == null) {
+                emPostAddEditController = (EmPostAddEditController) initLoader("/emPostAddEdit.fxml");
+                emPostAddEditStage = createAddEditWindow("Добавить должность");
+            }
+            emPostAddEditController.setEmployeePost(null);
+            emPostAddEditController.setObservableList(observableList);
+            emPostAddEditStage.showAndWait();
         }
 
         if (getId().equals("employees")) {
@@ -149,6 +156,7 @@ public class CustomTab<T> extends Tab {
 
         if (this.getId().equals("employees")) {
             Employee selectedItem = (Employee) tableView.getSelectionModel().getSelectedItem();
+            selectedItem.getEmployeePost().setId(Main.getStaffController().findEmployeePost(selectedItem.getEmployeePost().getPostName()).get(0).getId());
             if (emAddEditStage == null) {
                 emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
                 emAddEditStage = createAddEditWindow("Изменить сотрудника");
