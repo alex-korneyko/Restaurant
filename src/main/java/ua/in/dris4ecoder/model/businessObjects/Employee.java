@@ -25,6 +25,8 @@ public class Employee implements BusinessObject {
 
     private JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
 
+    public Employee(){}
+
     public Employee(String lastName, String firstName, EmployeePost employeePost) {
         this.lastName.set(lastName);
         this.firstName.set(firstName);

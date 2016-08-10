@@ -1,10 +1,13 @@
 package ua.in.dris4ecoder.controllers.fxControllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ua.in.dris4ecoder.Main;
+import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
 /**
@@ -12,7 +15,28 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
  */
 public class EmPostAddEditController implements EditController {
 
-    @FXML public TextField textFieldEmployeePostName;
+    @FXML
+    public TextField textFieldEmployeePostName;
+
+    private EmployeePost employeePost;
+    private ObservableList<BusinessObject> observableList;
+
+    @Override
+    public void saveAction(ActionEvent actionEvent) {
+
+        if (!textFieldEmployeePostName.getText().isEmpty()) {
+            if (employeePost != null) {
+                employeePost.setPostName(textFieldEmployeePostName.getText());
+                Main.getStaffController().editEmployeePost(employeePost.getId(), employeePost.getPostName());
+            } else {
+                if (observableList != null) {
+                    Main.getStaffController().addEmployeePost(textFieldEmployeePostName.getText());
+                    observableList.add(Main.getStaffController().findEmployeePost(textFieldEmployeePostName.getText()).get(0));
+                }
+            }
+        }
+        closeAction(actionEvent);
+    }
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
@@ -22,6 +46,11 @@ public class EmPostAddEditController implements EditController {
     }
 
     public void setEmployeePost(EmployeePost post) {
-        textFieldEmployeePostName.setText(post.getPostName());
+        employeePost = post;
+        textFieldEmployeePostName.setText(post == null ? "" : post.getPostName());
+    }
+
+    public void setObservableList(ObservableList observableList) {
+        this.observableList = observableList;
     }
 }

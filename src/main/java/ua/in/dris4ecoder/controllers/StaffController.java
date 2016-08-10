@@ -45,6 +45,10 @@ public class StaffController implements BusinessController {
         employeeDao.addItem(new Employee(lastName, firstName, new EmployeePost(postId)));
     }
 
+    public void addEmployee(Employee employee) {
+        employeeDao.addItem(employee);
+    }
+
     public void removeEmployee(int id) {
         employeeDao.removeItemById(id);
     }
