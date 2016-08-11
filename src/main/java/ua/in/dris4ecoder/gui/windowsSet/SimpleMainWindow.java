@@ -14,7 +14,7 @@ public class SimpleMainWindow extends Application implements MainWindow {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainWindow.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/mainWindow.fxml"));
         Parent fxmlParent = fxmlLoader.load();
         MainWindowController mainWindowController = fxmlLoader.getController();
         mainWindowController.setMainStage(primaryStage);
