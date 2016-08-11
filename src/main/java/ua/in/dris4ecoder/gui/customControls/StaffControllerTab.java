@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 06.08.2016 11:33.
  */
-public class CustomTab<T> extends Tab {
+public class StaffControllerTab<T> extends Tab {
 
     @FXML private TableView<T> tableView;
     private ObservableList<T> observableList;
@@ -59,7 +58,7 @@ public class CustomTab<T> extends Tab {
         });
     }
 
-    public CustomTab(String text, String id, Stage mainStage) {
+    public StaffControllerTab(String text, String id, Stage mainStage) {
         super(text);
 
         observableList = FXCollections.observableArrayList();
@@ -137,10 +136,10 @@ public class CustomTab<T> extends Tab {
         }
 
         if (getId().equals("employees")) {
-            if(emAddEditStage == null) {
+//            if(emAddEditStage == null) {
                 emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
                 emAddEditStage = createAddEditWindow("Добавить сотрудника");
-            }
+//            }
             emAddEditController.setEmployee(null);
             emAddEditController.setObservableList(observableList);
             emAddEditController.setOwner(this);
@@ -184,6 +183,17 @@ public class CustomTab<T> extends Tab {
     @FXML
     protected void deleteAction(ActionEvent actionEvent) {
 
+        if(this.getId().equals("posts")) {
+            EmployeePost selectedItem = (EmployeePost) tableView.getSelectionModel().getSelectedItem();
+            Main.getStaffController().removeEmployeePost(selectedItem.getId());
+            observableList.removeIf(ePost -> ((EmployeePost) ePost).getId() == selectedItem.getId());
+        }
+
+        if(this.getId().equals("employees")) {
+            Employee selectedItem = (Employee) tableView.getSelectionModel().getSelectedItem();
+            Main.getStaffController().removeEmployee(selectedItem.getId());
+            observableList.removeIf(em -> ((Employee) em).getId() == selectedItem.getId());
+        }
     }
 
     @FXML

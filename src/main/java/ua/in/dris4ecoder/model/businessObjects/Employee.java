@@ -2,11 +2,9 @@ package ua.in.dris4ecoder.model.businessObjects;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import ua.in.dris4ecoder.controllers.StaffController;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Created by Alex Korneyko on 29.07.2016 18:15.

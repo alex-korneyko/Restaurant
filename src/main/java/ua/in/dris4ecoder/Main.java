@@ -2,8 +2,8 @@ package ua.in.dris4ecoder;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.in.dris4ecoder.controllers.ServiceController;
-import ua.in.dris4ecoder.controllers.StaffController;
+import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
+import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
 import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
 
 /**
@@ -25,10 +25,6 @@ public class Main{
     private void start(String[] args) {
 
         mainWindow.runMainWindow(args);
-
-//        staffController.getAllEmployeePosts().forEach(System.out::println);
-//        staffController.getAllEmployees().forEach(System.out::println);
-
     }
 
     public static StaffController getStaffController() {

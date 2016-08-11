@@ -4,16 +4,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.gui.customControls.CustomTab;
+import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -35,7 +30,7 @@ public class EmAddEditController implements EditController {
     public DatePicker datePickerDayOfBirth;
 
     private ObservableList<String> employeePosts = FXCollections.observableArrayList();
-    private CustomTab owner;
+    private StaffControllerTab owner;
 
     Employee employee;
     private ObservableList<BusinessObject> observableList;
@@ -89,7 +84,7 @@ public class EmAddEditController implements EditController {
         employee = selectedItem;
     }
 
-    public void setOwner(CustomTab owner) {
+    public void setOwner(StaffControllerTab owner) {
         this.owner = owner;
     }
 

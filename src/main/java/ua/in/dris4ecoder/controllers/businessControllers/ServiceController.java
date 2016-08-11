@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers;
+package ua.in.dris4ecoder.controllers.businessControllers;
 
 import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.Order;

@@ -7,11 +7,9 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.gui.customControls.CustomTab;
+import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
-
-import java.io.IOException;
 
 /**
  * Created by Alex Korneyko on 04.08.2016 14:49.
@@ -35,7 +33,7 @@ public class MainWindowController {
 
         if(findTab("posts")) return;
 
-        CustomTab<EmployeePost> tabPosts = new CustomTab<>("Должности", "posts", mainStage);
+        StaffControllerTab<EmployeePost> tabPosts = new StaffControllerTab<>("Должности", "posts", mainStage);
 
         tabPosts.setDisableSearchByDataRange(true);
         tabPosts.setColumnsByClass(EmployeePost.class, "id", "Название");
@@ -48,7 +46,7 @@ public class MainWindowController {
 
         if(findTab("employees")) return;
 
-        CustomTab<Employee> tabEmployees = new CustomTab<>("Сотрудники", "employees", mainStage);
+        StaffControllerTab<Employee> tabEmployees = new StaffControllerTab<>("Сотрудники", "employees", mainStage);
 
         tabEmployees.setColumnsByClass(Employee.class, "Id", "Фамилия", "Имя", "Телефон", "Дата рождения", "Должность", "Оклад");
 
