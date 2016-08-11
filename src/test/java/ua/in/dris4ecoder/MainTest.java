@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class MainTest {
 
     @Test
-    void testConsole() {
+    public void testConsole() {
 
     }
 

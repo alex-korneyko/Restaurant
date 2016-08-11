@@ -15,8 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.fxControllers.EmAddEditController;
-import ua.in.dris4ecoder.controllers.fxControllers.EmPostAddEditController;
+import ua.in.dris4ecoder.controllers.fxControllers.EmployeeAddEditController;
+import ua.in.dris4ecoder.controllers.fxControllers.PostAddEditController;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -37,8 +37,8 @@ public class StaffControllerTab<T> extends Tab {
     private ObservableList<T> observableList;
     private Parent emPostAddEditParent;
     private FXMLLoader fxmlLoader = new FXMLLoader();
-    private EmPostAddEditController emPostAddEditController;
-    private EmAddEditController emAddEditController;
+    private PostAddEditController postAddEditController;
+    private EmployeeAddEditController employeeAddEditController;
     private Stage mainStage;
 
     private Stage emPostAddEditStage;
@@ -127,22 +127,22 @@ public class StaffControllerTab<T> extends Tab {
         if(getId().equals("posts")) {
 
             if(emPostAddEditStage == null) {
-                emPostAddEditController = (EmPostAddEditController) initLoader("/emPostAddEdit.fxml");
+                postAddEditController = (PostAddEditController) initLoader("/emPostAddEdit.fxml");
                 emPostAddEditStage = createAddEditWindow("Добавить должность");
             }
-            emPostAddEditController.setEmployeePost(null);
-            emPostAddEditController.setObservableList(observableList);
+            postAddEditController.setEmployeePost(null);
+            postAddEditController.setObservableList(observableList);
             emPostAddEditStage.showAndWait();
         }
 
         if (getId().equals("employees")) {
 //            if(emAddEditStage == null) {
-                emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
+                employeeAddEditController = (EmployeeAddEditController) initLoader("/emAddEdit.fxml");
                 emAddEditStage = createAddEditWindow("Добавить сотрудника");
 //            }
-            emAddEditController.setEmployee(null);
-            emAddEditController.setObservableList(observableList);
-            emAddEditController.setOwner(this);
+            employeeAddEditController.setEmployee(null);
+            employeeAddEditController.setObservableList(observableList);
+            employeeAddEditController.setOwner(this);
             emAddEditStage.showAndWait();
             getAllAction(actionEvent);
         }
@@ -159,10 +159,10 @@ public class StaffControllerTab<T> extends Tab {
         if(this.getId().equals("posts")) {
             EmployeePost selectedItem = (EmployeePost) tableView.getSelectionModel().getSelectedItem();
             if(emPostAddEditStage == null) {
-                emPostAddEditController = (EmPostAddEditController) initLoader("/emPostAddEdit.fxml");
+                postAddEditController = (PostAddEditController) initLoader("/emPostAddEdit.fxml");
                 emPostAddEditStage = createAddEditWindow("Изменить должность");
             }
-            emPostAddEditController.setEmployeePost(selectedItem);
+            postAddEditController.setEmployeePost(selectedItem);
             emPostAddEditStage.showAndWait();
         }
 
@@ -170,11 +170,11 @@ public class StaffControllerTab<T> extends Tab {
             Employee selectedItem = (Employee) tableView.getSelectionModel().getSelectedItem();
             selectedItem.getEmployeePost().setId(Main.getStaffController().findEmployeePost(selectedItem.getEmployeePost().getPostName()).get(0).getId());
             if (emAddEditStage == null) {
-                emAddEditController = (EmAddEditController) initLoader("/emAddEdit.fxml");
+                employeeAddEditController = (EmployeeAddEditController) initLoader("/emAddEdit.fxml");
                 emAddEditStage = createAddEditWindow("Изменить сотрудника");
             }
-            emAddEditController.setEmployee(selectedItem);
-            emAddEditController.setOwner(this);
+            employeeAddEditController.setEmployee(selectedItem);
+            employeeAddEditController.setOwner(this);
             emAddEditStage.showAndWait();
             getAllAction(actionEvent);
         }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 09.08.2016 12:36.
  */
-public class EmAddEditController implements EditController {
+public class EmployeeAddEditController implements AddEditController {
 
 
     public TextField textFieldLastName;

@@ -13,7 +13,7 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 /**
  * Created by Alex Korneyko on 08.08.2016 12:21.
  */
-public class EmPostAddEditController implements EditController {
+public class PostAddEditController implements AddEditController {
 
     @FXML
     public TextField textFieldEmployeePostName;
