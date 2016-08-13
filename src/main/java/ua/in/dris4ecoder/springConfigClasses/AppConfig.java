@@ -16,6 +16,8 @@ import ua.in.dris4ecoder.model.dao.jdbc.JdbcKitchenProcessDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcOrderDao;
 
 import java.beans.PropertyVetoException;
+import java.io.*;
+import java.util.Properties;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 15:00.
@@ -38,13 +40,23 @@ public class AppConfig {
     ComboPooledDataSource comboPooledDataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
-        dataSource.setDriverClass("org.postgresql.Driver");
-        dataSource.setJdbcUrl("jdbc:postgresql://localhost:5432/restaurant");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("8ergamot");
-        dataSource.setMinPoolSize(1);
-        dataSource.setMaxPoolSize(10);
-        dataSource.setAcquireIncrement(1);
+        Properties properties = new Properties();
+
+        try {
+            properties.load(new FileInputStream("jdbc.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        dataSource.setProperties(properties);
+
+        dataSource.setDriverClass(properties.getProperty("jdbc.driver.class"));
+        dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
+        dataSource.setUser(properties.getProperty("jdbc.user"));
+        dataSource.setPassword(properties.getProperty("jdbc.password"));
+        dataSource.setMinPoolSize(Integer.parseInt(properties.getProperty("jdbc.min.connection")));
+        dataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty("jdbc.max.connection")));
+        dataSource.setAcquireIncrement(Integer.parseInt(properties.getProperty("jdbc.acquire.increment")));
 
         return dataSource;
     }
