@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.dao.hibernate;
 
+import org.hibernate.SessionFactory;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
@@ -12,6 +13,8 @@ import java.util.List;
  * Created by Alex Korneyko on 15.08.2016 10:56.
  */
 public class HibernateDishDao implements RestaurantDao<Dish> {
+
+    SessionFactory sessionFactory;
 
     @Override
     public void addItem(Dish item) {
@@ -66,5 +69,9 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     @Override
     public List<Dish> findAll() {
         return null;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }
