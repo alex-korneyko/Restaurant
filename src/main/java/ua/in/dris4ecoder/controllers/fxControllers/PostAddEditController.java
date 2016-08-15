@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -22,6 +23,7 @@ public class PostAddEditController implements AddEditController {
     private ObservableList<BusinessObject> observableList;
 
     @Override
+    @Transactional
     public void saveAction(ActionEvent actionEvent) {
 
         if (!textFieldEmployeePostName.getText().isEmpty()) {

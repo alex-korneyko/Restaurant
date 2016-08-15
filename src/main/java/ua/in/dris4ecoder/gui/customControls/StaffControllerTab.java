@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.EmployeeAddEditController;
 import ua.in.dris4ecoder.controllers.fxControllers.PostAddEditController;
@@ -149,6 +150,7 @@ public class StaffControllerTab<T> extends Tab {
     }
 
     @FXML
+    @Transactional
     protected void editAction(ActionEvent actionEvent) {
 
         if(tableView.getSelectionModel().getSelectedItem() == null)
@@ -181,6 +183,7 @@ public class StaffControllerTab<T> extends Tab {
     }
 
     @FXML
+    @Transactional
     protected void deleteAction(ActionEvent actionEvent) {
 
         if(this.getId().equals("posts")) {
@@ -197,6 +200,7 @@ public class StaffControllerTab<T> extends Tab {
     }
 
     @FXML
+    @Transactional
     protected void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();

@@ -47,7 +47,7 @@ public class JdbcKitchenProcessDao implements RestaurantDao<KitchenProcess> {
     }
 
     @Override
-    public List<KitchenProcess> findItem(Employee employee) {
+    public List<KitchenProcess> findItem(KitchenProcess employee) {
         return null;
     }
 

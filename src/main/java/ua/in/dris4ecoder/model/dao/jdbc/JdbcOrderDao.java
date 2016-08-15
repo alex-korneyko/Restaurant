@@ -48,7 +48,7 @@ public class JdbcOrderDao implements RestaurantDao<Order> {
     }
 
     @Override
-    public List<Order> findItem(Employee employee) {
+    public List<Order> findItem(Order employee) {
         return null;
     }
 

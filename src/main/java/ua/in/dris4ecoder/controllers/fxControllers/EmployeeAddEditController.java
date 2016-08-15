@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
@@ -36,6 +37,7 @@ public class EmployeeAddEditController implements AddEditController {
     private ObservableList<BusinessObject> observableList;
 
     @Override
+    @Transactional
     public void saveAction(ActionEvent actionEvent) {
 
         if(employee == null) {
@@ -51,6 +53,7 @@ public class EmployeeAddEditController implements AddEditController {
         closeAction(actionEvent);
     }
 
+    @Transactional
     private void fillEmployee() {
         employee.setFirstName(textFieldFirstName.getText());
         employee.setLastName(textFieldLastName.getText());
@@ -65,6 +68,7 @@ public class EmployeeAddEditController implements AddEditController {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
+    @Transactional
     public void setEmployee(Employee selectedItem) {
 
         employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
@@ -88,6 +92,7 @@ public class EmployeeAddEditController implements AddEditController {
         this.owner = owner;
     }
 
+    @Transactional
     public void addNewEmPost(ActionEvent actionEvent) throws IOException {
         System.out.println(owner.getId());
         owner.setId("posts");

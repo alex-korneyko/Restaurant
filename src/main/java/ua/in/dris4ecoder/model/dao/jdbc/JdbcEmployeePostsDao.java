@@ -108,7 +108,7 @@ public class JdbcEmployeePostsDao implements RestaurantDao<EmployeePost> {
     }
 
     @Override
-    public List<EmployeePost> findItem(Employee employee) {
+    public List<EmployeePost> findItem(EmployeePost employee) {
         throw new NotImplementedException();
     }
 
