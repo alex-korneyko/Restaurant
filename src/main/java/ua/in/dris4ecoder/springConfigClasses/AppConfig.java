@@ -48,8 +48,6 @@ public class AppConfig {
             e.printStackTrace();
         }
 
-//        dataSource.setProperties(properties);
-
         dataSource.setDriverClass(properties.getProperty("jdbc.driver.class"));
         dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
         dataSource.setUser(properties.getProperty("jdbc.user"));
@@ -84,38 +82,5 @@ public class AppConfig {
         return serviceController;
     }
 
-    @Bean
-    JdbcEmployeePostsDao jdbcEmployeePostsDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
-        jdbcEmployeePostsDao.setDataSource(comboPooledDataSource);
-        return jdbcEmployeePostsDao;
-    }
 
-    @Bean
-    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
-        jdbcEmployeeDao.setDataSource(comboPooledDataSource);
-        return jdbcEmployeeDao;
-    }
-
-    @Bean
-    JdbcOrderDao jdbcOrderDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcOrderDao jdbcOrderDao = new JdbcOrderDao();
-        jdbcOrderDao.setDataSource(comboPooledDataSource);
-        return jdbcOrderDao;
-    }
-
-    @Bean
-    JdbcKitchenProcessDao jdbcKitchenProcessDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcKitchenProcessDao jdbcKitchenProcessDao = new JdbcKitchenProcessDao();
-        jdbcKitchenProcessDao.setDataSource(comboPooledDataSource);
-        return jdbcKitchenProcessDao;
-    }
-
-    @Bean
-    DataSourceTransactionManager transactionManager(ComboPooledDataSource dataSource) {
-        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-        dataSourceTransactionManager.setDataSource(dataSource);
-        return dataSourceTransactionManager;
-    }
 }
