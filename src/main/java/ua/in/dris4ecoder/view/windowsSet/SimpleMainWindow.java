@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.gui.windowsSet;
+package ua.in.dris4ecoder.view.windowsSet;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

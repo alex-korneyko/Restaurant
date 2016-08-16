@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
-import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
+import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 13:28.

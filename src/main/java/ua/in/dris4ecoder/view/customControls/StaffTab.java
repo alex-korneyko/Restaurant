@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.gui.customControls;
+package ua.in.dris4ecoder.view.customControls;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 06.08.2016 11:33.
  */
-public class StaffControllerTab<T> extends Tab {
+public class StaffTab<T> extends Tab {
 
     @FXML private TableView<T> tableView;
     private ObservableList<T> observableList;
@@ -48,20 +48,11 @@ public class StaffControllerTab<T> extends Tab {
 
     @FXML
     private void initialize() {
-
-        tableView = ServiceClass.getTableView(this);
-
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-        tableView.setOnMouseClicked(event -> {
-            if(event.getClickCount() == 2) {
-                editAction(new ActionEvent());
-            }
-        });
     }
 
-    public StaffControllerTab(String text, String id, Stage mainStage) {
+    public StaffTab(String text, String id, Stage mainStage) {
         super(text);
+        setId(id);
 
         observableList = FXCollections.observableArrayList();
         this.mainStage = mainStage;
@@ -75,7 +66,13 @@ public class StaffControllerTab<T> extends Tab {
             throw new RuntimeException(e);
         }
 
-        setId(id);
+        tableView = ServiceClass.getTableView(this);
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableView.setOnMouseClicked(event -> {
+            if(event.getClickCount() == 2) {
+                editAction(new ActionEvent());
+            }
+        });
     }
 
     /**

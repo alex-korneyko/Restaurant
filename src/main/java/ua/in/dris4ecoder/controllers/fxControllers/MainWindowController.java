@@ -7,8 +7,8 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.gui.customControls.IngredientControllerTab;
-import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
+import ua.in.dris4ecoder.view.customControls.IngredientTab;
+import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
@@ -34,7 +34,7 @@ public class MainWindowController {
 
         if(findTab("posts")) return;
 
-        StaffControllerTab<EmployeePost> tabPosts = new StaffControllerTab<>("Должности", "posts", mainStage);
+        StaffTab<EmployeePost> tabPosts = new StaffTab<>("Должности", "posts", mainStage);
 
         tabPosts.setDisableSearchByDataRange(true);
         tabPosts.setColumnsByClass(EmployeePost.class, "id", "Название");
@@ -47,7 +47,7 @@ public class MainWindowController {
 
         if(findTab("employees")) return;
 
-        StaffControllerTab<Employee> tabEmployees = new StaffControllerTab<>("Сотрудники", "employees", mainStage);
+        StaffTab<Employee> tabEmployees = new StaffTab<>("Сотрудники", "employees", mainStage);
 
         tabEmployees.setColumnsByClass(Employee.class, "Id", "Фамилия", "Имя", "Телефон", "Дата рождения", "Должность", "Оклад");
 
@@ -59,9 +59,9 @@ public class MainWindowController {
 
         if(findTab("ingredients")) return;
 
-        IngredientControllerTab ingredientControllerTab = new IngredientControllerTab("Ингредиенты", "ingredients", mainStage);
+        IngredientTab ingredientTab = new IngredientTab("Ингредиенты", "ingredients", mainStage);
 
-        tabPaneDbManagement.getTabs().add(ingredientControllerTab);
+        tabPaneDbManagement.getTabs().add(ingredientTab);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 

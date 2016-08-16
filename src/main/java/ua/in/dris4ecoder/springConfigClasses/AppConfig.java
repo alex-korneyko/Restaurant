@@ -8,7 +8,7 @@ import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
-import ua.in.dris4ecoder.gui.windowsSet.MainWindow;
+import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;

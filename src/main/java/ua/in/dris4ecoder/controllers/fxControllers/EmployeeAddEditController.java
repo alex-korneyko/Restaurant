@@ -9,7 +9,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
+import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -31,7 +31,7 @@ public class EmployeeAddEditController implements AddEditController {
     public DatePicker datePickerDayOfBirth;
 
     private ObservableList<String> employeePosts = FXCollections.observableArrayList();
-    private StaffControllerTab owner;
+    private StaffTab owner;
 
     Employee employee;
     private ObservableList<BusinessObject> observableList;
@@ -88,7 +88,7 @@ public class EmployeeAddEditController implements AddEditController {
         employee = selectedItem;
     }
 
-    public void setOwner(StaffControllerTab owner) {
+    public void setOwner(StaffTab owner) {
         this.owner = owner;
     }
 
