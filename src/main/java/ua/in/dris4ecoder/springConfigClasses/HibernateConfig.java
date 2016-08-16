@@ -24,10 +24,11 @@ public class HibernateConfig {
 
     @Bean
     LocalSessionFactoryBean localSessionFactoryBean(ComboPooledDataSource dataSource) {
+
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
-        sessionFactoryBean.setPackagesToScan("ua.in.dris4ecoder.hibernate.model");
-        final Properties properties = new Properties();
+        sessionFactoryBean.setPackagesToScan("ua.in.dris4ecoder.model");
+        Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
         sessionFactoryBean.setHibernateProperties(properties);
 
@@ -36,27 +37,36 @@ public class HibernateConfig {
 
     @Bean
     RestaurantDao<Ingredient> hibernateIngredientDao(SessionFactory sessionFactory) {
+
         HibernateIngredientDao ingredientDao = new HibernateIngredientDao();
         ingredientDao.setSessionFactory(sessionFactory);
+
         return ingredientDao;
     }
 
     @Bean
     RestaurantDao<Dish> hibernateDishDao(SessionFactory sessionFactory) {
+
         HibernateDishDao dishDao = new HibernateDishDao();
         dishDao.setSessionFactory(sessionFactory);
+
         return dishDao;
     }
 
     @Bean
     RestaurantDao<Menu> hibernateMenuDao(SessionFactory sessionFactory) {
+
         HibernateMenuDao menuDao = new HibernateMenuDao();
         menuDao.setSessionFactory(sessionFactory);
+
         return menuDao;
     }
 
     @Bean
     HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
-        return new HibernateTransactionManager(sessionFactory);
+
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory);
+        return transactionManager;
     }
 }

@@ -113,11 +113,6 @@ public class JdbcEmployeePostsDao implements RestaurantDao<EmployeePost> {
     }
 
     @Override
-    public KitchenProcess findItem(int orderId) {
-        throw new NotImplementedException();
-    }
-
-    @Override
     public List<EmployeePost> findItem(OrderDishStatus status) {
         throw new NotImplementedException();
     }

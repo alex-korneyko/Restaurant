@@ -52,11 +52,6 @@ public class JdbcKitchenProcessDao implements RestaurantDao<KitchenProcess> {
     }
 
     @Override
-    public KitchenProcess findItem(int orderId) {
-        return null;
-    }
-
-    @Override
     public List<KitchenProcess> findItem(OrderDishStatus status) {
         return null;
     }

@@ -1,9 +1,9 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
+import javax.persistence.*;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:14.
@@ -14,16 +14,32 @@ public class Ingredient {
 
     @Id
     @Column(name = "id")
-    public short id;
+    private short id;
+
+    @Transient
+    public SimpleIntegerProperty idProp = new SimpleIntegerProperty();
 
     @Column(name = "ingredient_name")
-    public String ingredientName;
+    private String ingredientName;
+
+    @Transient
+    public SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
 
     public Ingredient() {
     }
 
     public Ingredient(String ingredientName) {
         this.ingredientName = ingredientName;
+        this.ingredientNameProp.set(ingredientName);
+    }
+
+    public short getId() {
+        return id;
+    }
+
+    public void setId(short id) {
+        this.id = id;
+        idProp.set(id);
     }
 
     public String getIngredientName() {
@@ -32,6 +48,15 @@ public class Ingredient {
 
     public void setIngredientName(String ingredientName) {
         this.ingredientName = ingredientName;
+        ingredientNameProp.set(ingredientName);
+    }
+
+    public SimpleIntegerProperty idPropProperty() {
+        return idProp;
+    }
+
+    public SimpleStringProperty ingredientNamePropProperty() {
+        return ingredientNameProp;
     }
 
     @Override

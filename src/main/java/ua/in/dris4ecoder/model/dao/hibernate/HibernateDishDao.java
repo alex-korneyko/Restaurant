@@ -52,11 +52,6 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     }
 
     @Override
-    public KitchenProcess findItem(int orderId) {
-        return null;
-    }
-
-    @Override
     public List<Dish> findItem(OrderDishStatus status) {
         return null;
     }

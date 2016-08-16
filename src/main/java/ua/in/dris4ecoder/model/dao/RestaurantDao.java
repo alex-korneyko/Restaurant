@@ -26,8 +26,6 @@ public interface RestaurantDao<T> {
 
     List<T> findItem(T employee);
 
-    KitchenProcess findItem(int orderId);
-
     List<T> findItem(OrderDishStatus status);
 
     List<T> findItem(LocalDate startPeriod, LocalDate endPeriod);

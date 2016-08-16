@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.EmployeeAddEditController;
 import ua.in.dris4ecoder.controllers.fxControllers.PostAddEditController;
+import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -48,7 +49,8 @@ public class StaffControllerTab<T> extends Tab {
     @FXML
     private void initialize() {
 
-        tableView = getTableView();
+//        tableView = getTableView();
+        tableView = ServiceClass.getTableView(this);
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 

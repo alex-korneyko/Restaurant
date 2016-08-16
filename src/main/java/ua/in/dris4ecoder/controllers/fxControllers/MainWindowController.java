@@ -7,6 +7,7 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import ua.in.dris4ecoder.gui.customControls.IngredientControllerTab;
 import ua.in.dris4ecoder.gui.customControls.StaffControllerTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -63,5 +64,16 @@ public class MainWindowController {
             }
         }
         return false;
+    }
+
+    public void createTabIngredients(ActionEvent actionEvent) {
+
+        if(findTab("ingredients")) return;
+
+        IngredientControllerTab ingredientControllerTab = new IngredientControllerTab("Ингредиенты", "ingredients", mainStage);
+
+
+
+
     }
 }
