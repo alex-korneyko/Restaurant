@@ -55,6 +55,16 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
+    public void createTabIngredients(ActionEvent actionEvent) {
+
+        if(findTab("ingredients")) return;
+
+        IngredientControllerTab ingredientControllerTab = new IngredientControllerTab("Ингредиенты", "ingredients", mainStage);
+
+        tabPaneDbManagement.getTabs().add(ingredientControllerTab);
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
     private boolean findTab(String id) {
 
         for(int i=0; i < tabPaneDbManagement.getTabs().size(); i++) {
@@ -64,16 +74,5 @@ public class MainWindowController {
             }
         }
         return false;
-    }
-
-    public void createTabIngredients(ActionEvent actionEvent) {
-
-        if(findTab("ingredients")) return;
-
-        IngredientControllerTab ingredientControllerTab = new IngredientControllerTab("Ингредиенты", "ingredients", mainStage);
-
-
-
-
     }
 }

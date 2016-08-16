@@ -49,7 +49,6 @@ public class StaffControllerTab<T> extends Tab {
     @FXML
     private void initialize() {
 
-//        tableView = getTableView();
         tableView = ServiceClass.getTableView(this);
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -67,7 +66,7 @@ public class StaffControllerTab<T> extends Tab {
         observableList = FXCollections.observableArrayList();
         this.mainStage = mainStage;
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/customTab.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/postAndEmployeeTab.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
         try {
@@ -115,14 +114,8 @@ public class StaffControllerTab<T> extends Tab {
         tableView.setItems(observableList);
     }
 
-    private TableView getTableView() {
-        AnchorPane anchorPane = (AnchorPane) getContent();
-        VBox vBox = ((VBox) anchorPane.getChildren().get(0));
-        AnchorPane anchorPane1 = (AnchorPane) vBox.getChildren().get(1);
-        return (TableView) anchorPane1.getChildren().get(0);
-    }
-
     @FXML
+    @Transactional
     public void addAction(ActionEvent actionEvent) throws IOException {
 
         fxmlLoader = new FXMLLoader();

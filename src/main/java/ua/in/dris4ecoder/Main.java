@@ -28,6 +28,7 @@ public class Main{
     private void start(String[] args) {
 
 //        managementController.addIngredient("Соль");
+//        managementController.getAllIngredients().forEach(System.out::println);
         mainWindow.runMainWindow(args);
 
     }

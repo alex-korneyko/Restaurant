@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by Alex Korneyko on 01.08.2016 20:14.
  */
 @Entity
-@Table(name = "ingredients")
+@Table(name = "service.ingredients")
 public class Ingredient {
 
     @Id
@@ -17,13 +17,13 @@ public class Ingredient {
     private short id;
 
     @Transient
-    public SimpleIntegerProperty idProp = new SimpleIntegerProperty();
+    private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
 
     @Column(name = "ingredient_name")
     private String ingredientName;
 
     @Transient
-    public SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
+    private SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
 
     public Ingredient() {
     }
@@ -43,7 +43,7 @@ public class Ingredient {
     }
 
     public String getIngredientName() {
-        return ingredientName;
+        return ingredientNameProp.get();
     }
 
     public void setIngredientName(String ingredientName) {
@@ -52,10 +52,12 @@ public class Ingredient {
     }
 
     public SimpleIntegerProperty idPropProperty() {
+        idProp.set(this.id);
         return idProp;
     }
 
     public SimpleStringProperty ingredientNamePropProperty() {
+        ingredientNameProp.set(this.ingredientName);
         return ingredientNameProp;
     }
 
