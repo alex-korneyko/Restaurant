@@ -1,5 +1,8 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -39,19 +42,37 @@ public class Dish {
     )
     private List<Ingredient> ingredients;
 
+    @Transient
+    private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
+
+    @Transient
+    private SimpleStringProperty dishNameProp = new SimpleStringProperty();
+
+    @Transient
+    private SimpleStringProperty dishCategoryProp = new SimpleStringProperty();
+
+    @Transient
+    private SimpleDoubleProperty priceProp = new SimpleDoubleProperty();
+
+    @Transient
+    private SimpleDoubleProperty weightProp = new SimpleDoubleProperty();
+
     public Dish() {
     }
 
     public Dish(String dishName, DishCategory dishCategory) {
         this.dishName = dishName;
+        this.dishNameProp.set(dishName);
         this.dishCategory = dishCategory;
+        this.dishCategoryProp.set(dishCategory.toString());
     }
 
     public Dish(String dishName, DishCategory dishCategory, double price, double weight) {
-        this.dishName = dishName;
-        this.dishCategory = dishCategory;
+        this(dishName, dishCategory);
         this.price = price;
+        this.priceProp.setValue(price);
         this.weight = weight;
+        this.weightProp.setValue(weight);
     }
 
     public int getId() {
@@ -60,6 +81,7 @@ public class Dish {
 
     public void setId(int id) {
         this.id = id;
+        this.idProp.set(id);
     }
 
     public String getDishName() {
@@ -68,6 +90,7 @@ public class Dish {
 
     public void setDishName(String dishName) {
         this.dishName = dishName;
+        this.dishNameProp.set(dishName);
     }
 
     public DishCategory getDishCategory() {
@@ -76,6 +99,7 @@ public class Dish {
 
     public void setDishCategory(DishCategory dishCategory) {
         this.dishCategory = dishCategory;
+        this.dishCategoryProp.set(dishCategory.toString());
     }
 
     public double getPrice() {
@@ -84,6 +108,7 @@ public class Dish {
 
     public void setPrice(double price) {
         this.price = price;
+        this.priceProp.setValue(price);
     }
 
     public double getWeight() {
@@ -92,6 +117,7 @@ public class Dish {
 
     public void setWeight(double weight) {
         this.weight = weight;
+        this.weightProp.setValue(weight);
     }
 
     public List<Ingredient> getIngredients() {
@@ -100,6 +126,32 @@ public class Dish {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+
+    public SimpleIntegerProperty idPropProperty() {
+        idProp.set(id);
+        return idProp;
+    }
+
+    public SimpleStringProperty dishNamePropProperty() {
+        dishNameProp.set(dishName);
+        return dishNameProp;
+    }
+
+    public SimpleStringProperty dishCategoryPropProperty() {
+        dishCategoryProp.set(dishCategory.toString());
+        return dishCategoryProp;
+    }
+
+    public SimpleDoubleProperty pricePropProperty() {
+        priceProp.setValue(price);
+        return priceProp;
+    }
+
+    public SimpleDoubleProperty weightPropProperty() {
+        weightProp.setValue(weight);
+        return weightProp;
     }
 
     @Override
