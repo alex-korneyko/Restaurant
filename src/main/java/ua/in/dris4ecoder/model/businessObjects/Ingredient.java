@@ -17,7 +17,7 @@ public class Ingredient {
     @Column(name = "id")
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private short id;
+    private int id;
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
@@ -36,11 +36,11 @@ public class Ingredient {
         this.ingredientNameProp.set(ingredientName);
     }
 
-    public short getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(int id) {
         this.id = id;
         idProp.set(id);
     }

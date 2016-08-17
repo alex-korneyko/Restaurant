@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 
 /**
@@ -29,6 +30,7 @@ public class Main{
 
 //        managementController.addIngredient("Соль");
 //        managementController.getAllIngredients().forEach(System.out::println);
+//        managementController.editIngredient(7, new Ingredient("Сода"));
         mainWindow.runMainWindow(args);
 
     }

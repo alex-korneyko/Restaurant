@@ -22,10 +22,9 @@ import java.io.IOException;
 public class IngredientTab extends Tab {
 
     private Stage mainStage;
-
-    @FXML
-    private void initialize(){
-    }
+    private TableView<Ingredient> tableView;
+    ObservableList<Ingredient> observableList = FXCollections.observableArrayList();
+    private final IngredientTabController ingredientTabController;
 
     public IngredientTab(String text, String id, Stage mainStage) throws IOException {
         super(text);
@@ -33,21 +32,21 @@ public class IngredientTab extends Tab {
         setId(id);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientTab.fxml"));
+        ingredientTabController = new IngredientTabController(observableList, mainStage);
+        fxmlLoader.setController(ingredientTabController);
         fxmlLoader.setRoot(this);
-        ObservableList<Ingredient> observableList = FXCollections.observableArrayList();
-        fxmlLoader.setController(new IngredientTabController(observableList, mainStage));
         try {
             fxmlLoader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        TableView<Ingredient> tableView = ServiceClass.getTableView(this);
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableView.setItems(observableList);
-
+        tableView = ServiceClass.getTableView(this);
         setColumns(tableView, "id", "idProp");
         setColumns(tableView, "Название", "ingredientNameProp");
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        tableView.setItems(observableList);
+        ingredientTabController.init(tableView);
     }
 
     private void setColumns(TableView<Ingredient> tableView, String columnName, String propertyName) {

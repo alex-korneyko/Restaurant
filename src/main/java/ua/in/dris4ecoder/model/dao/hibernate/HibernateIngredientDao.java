@@ -54,20 +54,9 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public void editItem(int id, Ingredient changedItem) {
-        Ingredient ingredient;
         final Session session = sessionFactory.getCurrentSession();
-
-        final Query<Ingredient> findQuery = session.createQuery("select i from Ingredient i where i.id = :id");
-        findQuery.setParameter("id", id);
-        ingredient = findQuery.uniqueResult();
-        if(ingredient == null) {
-            throw new ObjectNotFoundException(id, "Ingredient not found");
-        }
-
-        final Query query = session.createQuery("update Ingredient i set i.ingredientName = :newName where i.ingredientName = :oldName");
-        query.setParameter("newName", changedItem.getIngredientName());
-        query.setParameter("oldName", ingredient.getIngredientName());
-        query.executeUpdate();
+        changedItem.setId(id);
+        session.update(changedItem);
     }
 
     @Override

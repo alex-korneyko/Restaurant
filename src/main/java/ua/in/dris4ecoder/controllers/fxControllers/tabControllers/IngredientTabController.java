@@ -5,9 +5,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.IngredientAddEditDialogueWindowController;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
@@ -23,6 +24,8 @@ public class IngredientTabController {
     private ObservableList<Ingredient> observableList;
     private Stage mainStage;
     private Stage ingredientAddEditStage;
+    private IngredientAddEditDialogueWindowController ingredientAddEditDialogueWindowController;
+    private TableView<Ingredient> tableView;
 
     public IngredientTabController(ObservableList<Ingredient> observableList, Stage mainStage) throws IOException {
         this.observableList = observableList;
@@ -42,12 +45,17 @@ public class IngredientTabController {
     public void editAction(ActionEvent actionEvent) {
 
         ingredientAddEditStage.setTitle("Изменить");
-
+        final Ingredient selectedItem = tableView.getSelectionModel().getSelectedItem();
+        ingredientAddEditDialogueWindowController.setIngredient(selectedItem);
+        ingredientAddEditStage.showAndWait();
     }
 
     @FXML
     public void deleteAction(ActionEvent actionEvent) {
 
+        final Ingredient selectedItem = tableView.getSelectionModel().getSelectedItem();
+        Main.getManagementController().removeIngredient(selectedItem.getId());
+        getAllAction(actionEvent);
     }
 
     @FXML
@@ -59,6 +67,7 @@ public class IngredientTabController {
     }
 
     private void createStage() throws IOException {
+
         if(ingredientAddEditStage == null) {
             ingredientAddEditStage = new Stage();
             ingredientAddEditStage.setResizable(false);
@@ -66,8 +75,19 @@ public class IngredientTabController {
             ingredientAddEditStage.initOwner(mainStage);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEdit.fxml"));
             ingredientAddEditStage.setScene(new Scene(fxmlLoader.load()));
-            IngredientAddEditDialogueWindowController ingredientAddEditDialogueWindowController = fxmlLoader.getController();
+            ingredientAddEditDialogueWindowController = fxmlLoader.getController();
             ingredientAddEditDialogueWindowController.setObservableList(observableList);
         }
+    }
+
+
+    public void init(TableView<Ingredient> tableView) {
+
+        this.tableView = tableView;
+        tableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+                editAction(new ActionEvent());
+            }
+        });
     }
 }

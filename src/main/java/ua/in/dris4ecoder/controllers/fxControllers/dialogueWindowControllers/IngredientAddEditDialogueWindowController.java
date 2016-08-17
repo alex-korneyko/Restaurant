@@ -15,6 +15,7 @@ import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 public class IngredientAddEditDialogueWindowController implements AddEditController {
 
     private ObservableList<Ingredient> observableList;
+    private Ingredient selectedIngredient;
 
     @FXML
     public TextField textFieldIngredientName;
@@ -22,9 +23,16 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        if(!textFieldIngredientName.getText().isEmpty()) {
-            Main.getManagementController().addIngredient(textFieldIngredientName.getText());
-            observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
+        if(selectedIngredient == null) {
+            if (!textFieldIngredientName.getText().isEmpty()) {
+                Main.getManagementController().addIngredient(textFieldIngredientName.getText());
+                observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
+            }
+        } else {
+//            final int i = observableList.indexOf(Main.getManagementController().findIngredient(selectedIngredient.getId()));
+            Main.getManagementController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));
+            observableList.clear();
+            observableList.addAll(Main.getManagementController().getAllIngredients());
         }
 
         textFieldIngredientName.setText("");
@@ -39,5 +47,10 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
 
     public void setObservableList(ObservableList<Ingredient> observableList) {
         this.observableList = observableList;
+    }
+
+    public void setIngredient(Ingredient selectedItem) {
+        selectedIngredient = selectedItem;
+        textFieldIngredientName.setText(selectedItem.getIngredientName());
     }
 }
