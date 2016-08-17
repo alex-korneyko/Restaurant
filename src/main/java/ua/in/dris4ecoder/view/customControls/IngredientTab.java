@@ -21,38 +21,26 @@ import java.io.IOException;
  */
 public class IngredientTab extends Tab {
 
-    private Stage mainStage;
-    private TableView<Ingredient> tableView;
-    ObservableList<Ingredient> observableList = FXCollections.observableArrayList();
-    private final IngredientTabController ingredientTabController;
-
-    public IngredientTab(String text, String id, Stage mainStage) throws IOException {
+    public IngredientTab(String text, String id){
         super(text);
-        this.mainStage = mainStage;
         setId(id);
+    }
+
+    public void init(Stage mainStage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientTab.fxml"));
-        ingredientTabController = new IngredientTabController(observableList, mainStage);
+        ObservableList<Ingredient> observableList = FXCollections.observableArrayList();
+        IngredientTabController ingredientTabController = new IngredientTabController(observableList, mainStage);
         fxmlLoader.setController(ingredientTabController);
         fxmlLoader.setRoot(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        fxmlLoader.load();
 
-        tableView = ServiceClass.getTableView(this);
-        setColumns(tableView, "id", "idProp");
-        setColumns(tableView, "Название", "ingredientNameProp");
+        TableView<Ingredient> tableView = ServiceClass.getTableView(this);
+        ServiceClass.setColumns(tableView, "id", "idProp");
+        ServiceClass.setColumns(tableView, "Название", "ingredientNameProp");
         tableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableView.setItems(observableList);
+
         ingredientTabController.init(tableView);
     }
-
-    private void setColumns(TableView<Ingredient> tableView, String columnName, String propertyName) {
-        TableColumn<Ingredient, String> tableColumn = new TableColumn<>(columnName);
-        tableColumn.setCellValueFactory(new PropertyValueFactory<>(propertyName));
-        tableView.getColumns().add(tableColumn);
-    }
-
 }

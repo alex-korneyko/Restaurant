@@ -7,6 +7,7 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import ua.in.dris4ecoder.view.customControls.DishTab;
 import ua.in.dris4ecoder.view.customControls.IngredientTab;
 import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
@@ -61,9 +62,21 @@ public class MainWindowController {
 
         if(findTab("ingredients")) return;
 
-        IngredientTab ingredientTab = new IngredientTab("Ингредиенты", "ingredients", mainStage);
+        IngredientTab ingredientTab = new IngredientTab("Ингредиенты", "ingredients");
+        ingredientTab.init(mainStage);
 
         tabPaneDbManagement.getTabs().add(ingredientTab);
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabDishes(ActionEvent actionEvent) throws IOException {
+
+        if(findTab("dishes")) return;
+
+        DishTab dishTab = new DishTab("Блюда", "dishes");
+        dishTab.init(mainStage);
+
+        tabPaneDbManagement.getTabs().add(dishTab);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 

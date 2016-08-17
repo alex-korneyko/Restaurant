@@ -28,7 +28,6 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
                 observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
             }
         } else {
-//            final int i = observableList.indexOf(Main.getManagementController().findIngredient(selectedIngredient.getId()));
             Main.getManagementController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));
             observableList.clear();
             observableList.addAll(Main.getManagementController().findAllIngredients());
@@ -41,6 +40,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     @Override
     public void closeAction(ActionEvent actionEvent) {
 
+        textFieldIngredientName.setText("");
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 

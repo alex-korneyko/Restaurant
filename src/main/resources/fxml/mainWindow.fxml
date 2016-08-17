@@ -46,7 +46,7 @@
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#createTabIngredients" text="Ингредиенты" />
                       <MenuItem mnemonicParsing="false" text="Категории блюд" />
-                        <MenuItem mnemonicParsing="false" text="Блюда" />
+                        <MenuItem mnemonicParsing="false" onAction="#createTabDishes" text="Блюда" />
                         <MenuItem mnemonicParsing="false" text="Меню" />
                     </items>
                   </MenuButton>
