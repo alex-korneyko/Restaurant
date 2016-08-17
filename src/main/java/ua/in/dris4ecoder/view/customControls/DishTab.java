@@ -34,7 +34,7 @@ public class DishTab extends Tab {
 
         TableView<Dish> tableView = ServiceClass.getTableView(this);
         ServiceClass.setColumns(tableView, "id", "idProp");
-        ServiceClass.setColumns(tableView, "Название", "nameProp");
+        ServiceClass.setColumns(tableView, "Название", "dishNameProp");
         ServiceClass.setColumns(tableView, "Категория", "dishCategoryProp");
         ServiceClass.setColumns(tableView, "Цена", "priceProp");
         ServiceClass.setColumns(tableView, "Вес", "weightProp");

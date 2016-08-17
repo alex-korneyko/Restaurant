@@ -135,7 +135,7 @@ public class Dish {
     }
 
     public SimpleStringProperty dishNamePropProperty() {
-        dishNameProp.set(dishName);
+        dishNameProp.set(this.dishName);
         return dishNameProp;
     }
 

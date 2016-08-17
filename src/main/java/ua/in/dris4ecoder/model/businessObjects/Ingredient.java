@@ -46,7 +46,7 @@ public class Ingredient {
     }
 
     public String getIngredientName() {
-        return ingredientNameProp.get();
+        return ingredientName;
     }
 
     public void setIngredientName(String ingredientName) {

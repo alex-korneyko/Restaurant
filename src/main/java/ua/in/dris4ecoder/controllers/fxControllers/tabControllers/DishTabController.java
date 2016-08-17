@@ -6,8 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+
+import java.util.List;
 
 /**
  * Created by Alex Korneyko on 17.08.2016 19:54.
@@ -15,9 +18,11 @@ import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 public class DishTabController {
 
     @FXML private TableView<Dish> tableView;
+    private ObservableList<Dish> observableList;
 
     public DishTabController(ObservableList<Dish> observableList, Stage mainStage) {
 
+        this.observableList = observableList;
     }
 
     public void addAction(ActionEvent actionEvent) {
@@ -34,6 +39,9 @@ public class DishTabController {
 
     public void getAllAction(ActionEvent actionEvent) {
 
+        observableList.clear();
+        final List<Dish> allDishes = Main.getManagementController().findAllDishes();
+        observableList.addAll(allDishes);
     }
 
     public void init(TableView<Dish> tableView) {
