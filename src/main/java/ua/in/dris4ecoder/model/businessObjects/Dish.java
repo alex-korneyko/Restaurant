@@ -1,5 +1,7 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,12 +9,14 @@ import java.util.List;
  * Created by Alex Korneyko on 01.08.2016 20:14.
  */
 @Entity
-@Table(name = "dishes")
+@Table(name = "service.dishes")
 public class Dish {
 
     @Id
     @Column(name = "id")
-    private short id;
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    private int id;
 
     @Column(name = "dish_name")
     private String dishName;
@@ -50,6 +54,14 @@ public class Dish {
         this.weight = weight;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getDishName() {
         return dishName;
     }
@@ -80,6 +92,14 @@ public class Dish {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     @Override

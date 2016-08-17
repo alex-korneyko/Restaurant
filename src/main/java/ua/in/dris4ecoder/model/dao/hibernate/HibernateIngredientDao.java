@@ -1,13 +1,9 @@
 package ua.in.dris4ecoder.model.dao.hibernate;
 
-import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.transaction.annotation.Transactional;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
-import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
@@ -27,6 +23,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public void addItem(Ingredient item) {
+
         Set<Ingredient> ingredients = new HashSet<>(findAll());
         if (!ingredients.contains(item)) {
             sessionFactory.getCurrentSession().save(item);
@@ -46,6 +43,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public void removeItemByName(String name) {
+
         final Session session = sessionFactory.getCurrentSession();
         final Query query = session.createQuery("delete from Ingredient i where i.ingredientName = :name");
         query.setParameter("name", name);
@@ -54,6 +52,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public void editItem(int id, Ingredient changedItem) {
+
         final Session session = sessionFactory.getCurrentSession();
         changedItem.setId(id);
         session.update(changedItem);
@@ -61,6 +60,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public Ingredient findItemById(int id) {
+
         final Session session = sessionFactory.getCurrentSession();
         final Query<Ingredient> query = session.createQuery("select i from Ingredient i where i.id = :id");
         query.setParameter("id", id);
@@ -69,6 +69,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public List<Ingredient> findItem(String name) {
+
         final Session session = sessionFactory.getCurrentSession();
         final Query<Ingredient> query = session.createQuery("select i from Ingredient i where i.ingredientName like :name");
         query.setParameter("name", name);
@@ -94,6 +95,7 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
 
     @Override
     public List<Ingredient> findAll() {
+
         return sessionFactory.getCurrentSession().createQuery("select i from Ingredient i").list();
     }
 
