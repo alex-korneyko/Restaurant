@@ -62,7 +62,7 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     public Dish findItemById(int id) {
 
         final Session currentSession = sessionFactory.getCurrentSession();
-        final Query<Dish> query = currentSession.createQuery("select d from Dish d where d = :id");
+        final Query<Dish> query = currentSession.createQuery("select d from Dish d where d.id = :id");
         query.setParameter("id", id);
         return query.uniqueResult();
     }

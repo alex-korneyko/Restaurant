@@ -33,7 +33,7 @@ public class Dish {
 
     @ManyToMany
     @JoinTable(
-            name = "dish_composition",
+            name = "service.dish_composition",
             joinColumns = @JoinColumn(name = "dish_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )

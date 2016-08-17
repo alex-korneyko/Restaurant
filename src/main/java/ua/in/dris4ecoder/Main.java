@@ -5,13 +5,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.model.businessObjects.Dish;
+import ua.in.dris4ecoder.model.businessObjects.DishCategory;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 13:28.
  */
-public class Main{
+public class Main {
 
     private static StaffController staffController;
     private static ManagementController managementController;
@@ -29,7 +34,6 @@ public class Main{
     private void start(String[] args) {
 
         mainWindow.runMainWindow(args);
-
     }
 
     public static StaffController getStaffController() {

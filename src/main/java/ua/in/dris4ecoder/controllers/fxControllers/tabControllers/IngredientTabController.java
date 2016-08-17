@@ -62,7 +62,7 @@ public class IngredientTabController {
     public void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();
-        final List<Ingredient> allIngredients = Main.getManagementController().getAllIngredients();
+        final List<Ingredient> allIngredients = Main.getManagementController().findAllIngredients();
         observableList.addAll(allIngredients);
     }
 

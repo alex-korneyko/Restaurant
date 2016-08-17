@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 
@@ -32,7 +31,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
 //            final int i = observableList.indexOf(Main.getManagementController().findIngredient(selectedIngredient.getId()));
             Main.getManagementController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));
             observableList.clear();
-            observableList.addAll(Main.getManagementController().getAllIngredients());
+            observableList.addAll(Main.getManagementController().findAllIngredients());
         }
 
         textFieldIngredientName.setText("");
