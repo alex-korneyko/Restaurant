@@ -12,6 +12,8 @@ import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
+import java.io.IOException;
+
 /**
  * Created by Alex Korneyko on 04.08.2016 14:49.
  */
@@ -55,7 +57,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabIngredients(ActionEvent actionEvent) {
+    public void createTabIngredients(ActionEvent actionEvent) throws IOException {
 
         if(findTab("ingredients")) return;
 

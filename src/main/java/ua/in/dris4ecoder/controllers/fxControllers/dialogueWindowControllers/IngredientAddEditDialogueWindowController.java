@@ -12,13 +12,14 @@ import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 /**
  * Created by Alex Korneyko on 16.08.2016 19:47.
  */
-public class IngredientAddEditDialogueWindowController {
+public class IngredientAddEditDialogueWindowController implements AddEditController {
 
     private ObservableList<Ingredient> observableList;
 
     @FXML
     public TextField textFieldIngredientName;
 
+    @Override
     public void saveAction(ActionEvent actionEvent) {
 
         if(!textFieldIngredientName.getText().isEmpty()) {
@@ -30,6 +31,7 @@ public class IngredientAddEditDialogueWindowController {
         closeAction(actionEvent);
     }
 
+    @Override
     public void closeAction(ActionEvent actionEvent) {
 
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();

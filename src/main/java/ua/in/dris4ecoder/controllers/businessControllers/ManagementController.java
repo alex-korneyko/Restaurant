@@ -22,18 +22,22 @@ public class ManagementController implements BusinessController {
         ingredientRestaurantDao.addItem(new Ingredient(name));
     }
 
+    @Transactional
     public void removeIngredient(String name) {
         ingredientRestaurantDao.removeItemByName(name);
     }
 
+    @Transactional
     public void removeIngredient(int id) {
         ingredientRestaurantDao.removeItemById(id);
     }
 
+    @Transactional
     public void editIngredient(int id, Ingredient newIngredient) {
         ingredientRestaurantDao.editItem(id, newIngredient);
     }
 
+    @Transactional
     public Ingredient findIngredient(int id) {
         return ingredientRestaurantDao.findItemById(id);
     }
@@ -43,6 +47,7 @@ public class ManagementController implements BusinessController {
         return ingredientRestaurantDao.findItem(name);
     }
 
+    @Transactional
     public List<Ingredient> findIngredient(Ingredient ingredient) {
         return ingredientRestaurantDao.findItem(ingredient);
     }

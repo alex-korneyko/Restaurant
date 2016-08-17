@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.fxControllers;
+package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 
 import javafx.event.ActionEvent;
 

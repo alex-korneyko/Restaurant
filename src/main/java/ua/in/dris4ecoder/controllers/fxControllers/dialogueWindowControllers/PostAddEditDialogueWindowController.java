@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.fxControllers;
+package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +14,7 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 /**
  * Created by Alex Korneyko on 08.08.2016 12:21.
  */
-public class PostAddEditController implements AddEditController {
+public class PostAddEditDialogueWindowController implements AddEditController {
 
     @FXML
     public TextField textFieldEmployeePostName;

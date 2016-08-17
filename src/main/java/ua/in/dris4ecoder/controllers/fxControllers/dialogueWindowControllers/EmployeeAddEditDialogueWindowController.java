@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.fxControllers;
+package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +9,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
+import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.AddEditController;
 import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 09.08.2016 12:36.
  */
-public class EmployeeAddEditController implements AddEditController {
+public class EmployeeAddEditDialogueWindowController implements AddEditController {
 
 
     public TextField textFieldLastName;

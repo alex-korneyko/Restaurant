@@ -10,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.controllers.fxControllers.IngredientControllerTab;
+import ua.in.dris4ecoder.controllers.fxControllers.tabControllers.IngredientTabController;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 
@@ -27,7 +27,7 @@ public class IngredientTab extends Tab {
     private void initialize(){
     }
 
-    public IngredientTab(String text, String id, Stage mainStage) {
+    public IngredientTab(String text, String id, Stage mainStage) throws IOException {
         super(text);
         this.mainStage = mainStage;
         setId(id);
@@ -35,7 +35,7 @@ public class IngredientTab extends Tab {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientTab.fxml"));
         fxmlLoader.setRoot(this);
         ObservableList<Ingredient> observableList = FXCollections.observableArrayList();
-        fxmlLoader.setController(new IngredientControllerTab(observableList, mainStage));
+        fxmlLoader.setController(new IngredientTabController(observableList, mainStage));
         try {
             fxmlLoader.load();
         } catch (IOException e) {
