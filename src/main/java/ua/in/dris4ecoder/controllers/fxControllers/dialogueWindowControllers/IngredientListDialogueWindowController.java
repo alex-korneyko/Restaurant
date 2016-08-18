@@ -59,4 +59,10 @@ public class IngredientListDialogueWindowController {
         ingredientsFullList.clear();
         ingredientsFullList.addAll(filteredIngredients);
     }
+
+    public void refreshIngredients() {
+
+        ingredientsFullList.clear();
+        ingredientsFullList.addAll(Main.getManagementController().findAllIngredients());
+    }
 }

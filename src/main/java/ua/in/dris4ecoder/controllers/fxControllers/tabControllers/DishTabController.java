@@ -38,6 +38,7 @@ public class DishTabController {
     public void addAction(ActionEvent actionEvent) {
 
         dishAddEditStage.setTitle("Создать");
+        dishAddEditDialogueWindowController.setToEmpty();
         dishAddEditStage.showAndWait();
     }
 

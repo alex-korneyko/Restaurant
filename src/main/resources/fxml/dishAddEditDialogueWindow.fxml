@@ -55,22 +55,22 @@
             <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="200.0" />
             <HBox>
                <children>
-                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDish" prefWidth="70.0" text="Добавить">
+                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDishAction" prefWidth="70.0" text="Добавить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditIngredient" disable="true" mnemonicParsing="false" onAction="#editIngredientWeightInDish" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" prefWidth="70.0" text="Удалить">
+                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" onAction="#removeIngredientFromDishAction" prefWidth="70.0" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" prefWidth="70.0" text="Очистить">
+                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" onAction="#clearIngredientListFromDishAction" prefWidth="70.0" text="Очистить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -84,12 +84,12 @@
       </VBox>
       <HBox alignment="CENTER">
          <children>
-            <Button fx:id="buttonOk" defaultButton="true" mnemonicParsing="false" prefWidth="100.0" text="Ok">
+            <Button fx:id="buttonOk" defaultButton="true" mnemonicParsing="false" onAction="#okAction" prefWidth="100.0" text="Ok">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="buttonCancel" cancelButton="true" mnemonicParsing="false" prefWidth="100.0" text="Cancel">
+            <Button fx:id="buttonCancel" cancelButton="true" mnemonicParsing="false" onAction="#closeAction" prefWidth="100.0" text="Cancel">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>

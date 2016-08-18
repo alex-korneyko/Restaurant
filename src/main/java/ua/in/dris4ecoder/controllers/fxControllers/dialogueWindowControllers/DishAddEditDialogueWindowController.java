@@ -5,11 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.DishCategory;
@@ -37,7 +39,6 @@ public class DishAddEditDialogueWindowController {
     public Button buttonOk;
     public Button buttonCancel;
 
-    private List<String> dishCategories;
     private ObservableList<Dish> dishObservableList;
     private ObservableList<Ingredient> ingredientObservableList;
     private Stage ingredientsListStage;
@@ -47,10 +48,49 @@ public class DishAddEditDialogueWindowController {
     }
 
 
+    public void addIngredientsToDishAction(ActionEvent actionEvent) {
+
+        ingredientsListStage.setTitle("Ингредиенты");
+        ingredientListDialogueWindowController.refreshIngredients();
+        ingredientsListStage.showAndWait();
+    }
+
+    public void removeIngredientFromDishAction(ActionEvent actionEvent) {
+
+        final Ingredient selectedItem = tableViewIngredients.getSelectionModel().getSelectedItem();
+        ingredientObservableList.remove(selectedItem);
+    }
+
+    public void clearIngredientListFromDishAction(ActionEvent actionEvent) {
+        ingredientObservableList.clear();
+    }
+
+    public void editIngredientWeightInDish(ActionEvent actionEvent) {
+        // TODO: 18.08.2016
+    }
+
+    public void okAction(ActionEvent actionEvent) {
+
+        if(textFieldName.getText().isEmpty()) return;
+
+        List<Ingredient> ingredients = tableViewIngredients.getItems();
+        Dish dish = new Dish(textFieldName.getText(), DishCategory.getValueByStringName(comboBoxCategory.getValue()));
+        dish.setIngredients(ingredients);
+        dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
+        dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
+
+        Main.getManagementController().addDish(dish);
+        dishObservableList.clear();
+        dishObservableList.addAll(Main.getManagementController().findAllDishes());
+        closeAction(actionEvent);
+    }
+
+    public void closeAction(ActionEvent actionEvent) {
+        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+    }
 
     public void init(ObservableList<Dish> observableList, Window owner) throws IOException {
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
-        comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
         this.dishObservableList = observableList;
         ingredientObservableList = FXCollections.observableArrayList();
         ServiceClass.setColumns(tableViewIngredients, "id", "idProp");
@@ -74,9 +114,11 @@ public class DishAddEditDialogueWindowController {
         ingredientListDialogueWindowController.init(ingredientObservableList);
     }
 
-    public void addIngredientsToDish(ActionEvent actionEvent) {
-
-        ingredientsListStage.setTitle("Ингредиенты");
-        ingredientsListStage.showAndWait();
+    public void setToEmpty() {
+        textFieldName.setText("");
+        textFieldPrice.setText("0.0");
+        textFieldWeight.setText("0.0");
+        comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
+        ingredientObservableList.clear();
     }
 }

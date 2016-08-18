@@ -38,4 +38,24 @@ public enum  DishCategory {
         }
         return list;
     }
+
+    public static DishCategory getValueByStringName(String value) {
+
+        switch (value) {
+            case "Первое": return FIRST_COURSE;
+            case "Второе": return MAIN_COURSE;
+            case "Аперитив": return APERITIF;
+            case "Закуска": return APPETIZER;
+            case "Холодная закуска": return COLD_PLATTER;
+            case "Салат": return SALAD;
+            case "Десерт": return DESSERT;
+            case "б/а напиток": return SOFT_DRINK;
+            case "с/а напиток": return LOW_ALCOHOL;
+            case "Крепкий напиток": return HARD_DRINK;
+            case "Газировка": return CARBONATED_DRINK;
+            case "Сок": return STILL_DRINK;
+            case "Коктейль": return COCKTAIL;
+            default: throw new IllegalArgumentException(value);
+        }
+    }
 }

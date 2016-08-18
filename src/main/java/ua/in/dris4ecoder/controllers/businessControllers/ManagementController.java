@@ -68,6 +68,11 @@ public class ManagementController implements BusinessController {
     }
 
     @Transactional
+    public void addDish(Dish dish) {
+        dishRestaurantDao.addItem(dish);
+    }
+
+    @Transactional
     public void removeDish(String name) {
         dishRestaurantDao.removeItemByName(name);
     }
