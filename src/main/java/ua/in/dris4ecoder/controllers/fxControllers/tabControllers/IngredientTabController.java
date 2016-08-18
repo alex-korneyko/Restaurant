@@ -73,7 +73,7 @@ public class IngredientTabController {
             ingredientAddEditStage.setResizable(false);
             ingredientAddEditStage.initModality(Modality.WINDOW_MODAL);
             ingredientAddEditStage.initOwner(mainStage);
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEdit.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
             ingredientAddEditStage.setScene(new Scene(fxmlLoader.load()));
             ingredientAddEditDialogueWindowController = fxmlLoader.getController();
             ingredientAddEditDialogueWindowController.setObservableList(observableList);
