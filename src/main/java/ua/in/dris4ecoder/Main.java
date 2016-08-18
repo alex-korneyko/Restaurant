@@ -34,6 +34,7 @@ public class Main {
     private void start(String[] args) {
 
         mainWindow.runMainWindow(args);
+
     }
 
     public static StaffController getStaffController() {

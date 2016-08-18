@@ -23,14 +23,15 @@ import java.util.List;
 public class DishTabController {
 
     @FXML private TableView<Dish> tableView;
-    Stage mainStage;
-    Stage dishAddEditStage;
-    DishAddEditDialogueWindowController dishAddEditDialogueWindowController;
+    private Stage mainStage;
+    private Stage dishAddEditStage;
+    private DishAddEditDialogueWindowController dishAddEditDialogueWindowController;
     private ObservableList<Dish> observableList;
 
     public DishTabController(ObservableList<Dish> observableList, Stage mainStage) throws IOException {
 
         this.observableList = observableList;
+        this.mainStage = mainStage;
         createStage();
     }
 
@@ -78,7 +79,7 @@ public class DishTabController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
         dishAddEditStage.setScene(new Scene(fxmlLoader.load()));
         dishAddEditDialogueWindowController = fxmlLoader.getController();
-        dishAddEditDialogueWindowController.setObservableList(observableList);
+        dishAddEditDialogueWindowController.init(observableList, dishAddEditStage);
 
     }
 }

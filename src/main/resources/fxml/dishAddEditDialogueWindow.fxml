@@ -7,9 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -31,17 +29,17 @@ fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControl
                </GridPane.margin>
             </Label>
             <Label text="Цена" GridPane.rowIndex="2" />
-            <TextField maxWidth="220.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField id="textFieldName" fx:id="textFieldName" maxWidth="220.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <TextField id="textFieldPrice" fx:id="textFieldPrice" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Вес" GridPane.rowIndex="3" />
-            <TextField prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox mnemonicParsing="false" prefWidth="49.0" text="Авто" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <TextField id="textFieldWeight" fx:id="textFieldWeight" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <CheckBox id="checkBoxAutoWeight" fx:id="checkBoxAutoWeight" disable="true" mnemonicParsing="false" prefWidth="49.0" text="Авто" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </CheckBox>
-            <ComboBox prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-            <CheckBox mnemonicParsing="false" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <ComboBox id="comboBoxCategory" fx:id="comboBoxCategory" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+            <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoPrice" disable="true" mnemonicParsing="false" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
@@ -54,30 +52,25 @@ fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControl
       <VBox alignment="TOP_CENTER">
          <children>
             <Label text="Ингредиенты" />
-            <TableView prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
-            </TableView>
+            <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="200.0" />
             <HBox>
                <children>
-                  <Button mnemonicParsing="false" prefWidth="70.0" text="Добавить">
+                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDish" prefWidth="70.0" text="Добавить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="70.0" text="Удалить">
+                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" prefWidth="70.0" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" prefWidth="70.0" text="Очистить">
+                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" prefWidth="70.0" text="Очистить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
@@ -91,12 +84,12 @@ fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControl
       </VBox>
       <HBox alignment="CENTER">
          <children>
-            <Button defaultButton="true" mnemonicParsing="false" prefWidth="100.0" text="Ok">
+            <Button fx:id="buttonOk" defaultButton="true" mnemonicParsing="false" prefWidth="100.0" text="Ok">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button cancelButton="true" mnemonicParsing="false" prefWidth="100.0" text="Cancel">
+            <Button fx:id="buttonCancel" cancelButton="true" mnemonicParsing="false" prefWidth="100.0" text="Cancel">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
