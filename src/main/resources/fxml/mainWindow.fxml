@@ -64,8 +64,8 @@
                   </MenuButton>
                   <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Сервис">
                      <items>
-                        <MenuItem disable="true" mnemonicParsing="false" text="Приход/расход" />
-                        <MenuItem disable="true" mnemonicParsing="false" text="Финансы" />
+                        <MenuItem mnemonicParsing="false" onAction="#createTabSettings" text="Настройки" />
+                        <MenuItem disable="true" mnemonicParsing="false" text="База данных" />
                      </items>
                   </MenuButton>
                </children>

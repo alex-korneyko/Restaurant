@@ -9,6 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.view.customControls.DishTab;
 import ua.in.dris4ecoder.view.customControls.IngredientTab;
+import ua.in.dris4ecoder.view.customControls.SettingsTab;
 import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
@@ -78,6 +79,17 @@ public class MainWindowController {
 
         tabPaneDbManagement.getTabs().add(dishTab);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabSettings(ActionEvent actionEvent) throws IOException {
+
+        if(findTab("settings")) return;
+
+        SettingsTab settingsTab = new SettingsTab("Настройки", "settings");
+        settingsTab.init(mainStage);
+        tabPaneDbManagement.getTabs().add(settingsTab);
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+
     }
 
     private boolean findTab(String id) {
