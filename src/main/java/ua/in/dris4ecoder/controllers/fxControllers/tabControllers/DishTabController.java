@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
-import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,7 +37,7 @@ public class DishTabController {
     public void addAction(ActionEvent actionEvent) {
 
         dishAddEditStage.setTitle("Создать");
-        dishAddEditDialogueWindowController.setToEmpty();
+        dishAddEditDialogueWindowController.setTo(null);
         dishAddEditStage.showAndWait();
     }
 
@@ -49,6 +48,10 @@ public class DishTabController {
     }
 
     public void editAction(ActionEvent actionEvent) {
+
+        dishAddEditStage.setTitle("Изменить");
+        dishAddEditDialogueWindowController.setTo(tableView.getSelectionModel().getSelectedItem());
+        dishAddEditStage.showAndWait();
 
     }
 
