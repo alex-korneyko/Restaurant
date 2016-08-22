@@ -49,7 +49,6 @@ public class DishAddEditDialogueWindowController {
     public DishAddEditDialogueWindowController() {
     }
 
-
     public void addIngredientsToDishAction(ActionEvent actionEvent) {
 
         ingredientsListStage.setTitle("Ингредиенты");
@@ -75,20 +74,51 @@ public class DishAddEditDialogueWindowController {
 
         if(textFieldName.getText().isEmpty()) return;
 
-        dish = new Dish(textFieldName.getText(), DishCategory.getValueByStringName(comboBoxCategory.getValue()));
-        List<Ingredient> ingredients = tableViewIngredients.getItems();
-        dish.setIngredients(ingredients);
-        dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
-        dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
+        if(dish == null) {
+            dish = new Dish();
+            fillDish();
+            Main.getManagementController().addDish(dish);
+        } else {
+            fillDish();
+            Main.getManagementController().editDish(dish.getId(), dish);
+        }
 
-        Main.getManagementController().addDish(dish);
         dishObservableList.clear();
         dishObservableList.addAll(Main.getManagementController().findAllDishes());
+        dish = null;
         closeAction(actionEvent);
+    }
+
+    private void fillDish() {
+        dish.setDishName(textFieldName.getText());
+        dish.setDishCategory(DishCategory.getValueByStringName(comboBoxCategory.getValue()));
+        dish.setIngredients(tableViewIngredients.getItems());
+        dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
+        dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
     }
 
     public void closeAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+    }
+
+    public void setTo(Dish dish) {
+        if(dish == null) {
+            this.dish = null;
+            textFieldName.setText("");
+            textFieldPrice.setText("0.0");
+            textFieldWeight.setText("0.0");
+            comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
+            ingredientObservableList.clear();
+        } else {
+            this.dish = dish;
+            textFieldName.setText(dish.getDishName());
+            textFieldPrice.setText(String.valueOf(dish.getPrice()));
+            textFieldWeight.setText(String.valueOf(dish.getWeight()));
+            comboBoxCategory.setValue(dish.getDishCategory().toString());
+            ingredientObservableList.clear();
+            List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
+            ingredientObservableList.addAll(ingredients);
+        }
     }
 
     public void init(ObservableList<Dish> observableList, Window owner) throws IOException {
@@ -104,8 +134,6 @@ public class DishAddEditDialogueWindowController {
         tableViewIngredients.setItems(ingredientObservableList);
 
         createStage(owner);
-
-
     }
 
     private void createStage(Window owner) throws IOException {
@@ -117,23 +145,5 @@ public class DishAddEditDialogueWindowController {
         ingredientsListStage.setScene(new Scene(fxmlLoader.load()));
         ingredientListDialogueWindowController = fxmlLoader.getController();
         ingredientListDialogueWindowController.init(ingredientObservableList);
-    }
-
-    public void setTo(Dish dish) {
-        if(dish == null) {
-            textFieldName.setText("");
-            textFieldPrice.setText("0.0");
-            textFieldWeight.setText("0.0");
-            comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
-            ingredientObservableList.clear();
-        } else {
-            textFieldName.setText(dish.getDishName());
-            textFieldPrice.setText(String.valueOf(dish.getPrice()));
-            textFieldWeight.setText(String.valueOf(dish.getWeight()));
-            comboBoxCategory.setValue(dish.getDishCategory().toString());
-            ingredientObservableList.clear();
-            List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
-            ingredientObservableList.addAll(ingredients);
-        }
     }
 }

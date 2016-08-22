@@ -54,7 +54,7 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     public void editItem(int id, Dish changedItem) {
 
         final Session currentSession = sessionFactory.getCurrentSession();
-        changedItem.setId(id);
+//        changedItem.setId(id);
         currentSession.update(changedItem);
     }
 
