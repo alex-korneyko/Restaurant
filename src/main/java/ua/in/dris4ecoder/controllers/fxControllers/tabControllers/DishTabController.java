@@ -4,14 +4,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
+import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,23 +20,22 @@ import java.util.List;
 public class DishTabController {
 
     @FXML private TableView<Dish> tableView;
-    private Stage mainStage;
-    private Stage dishAddEditStage;
-    private DishAddEditDialogueWindowController dishAddEditDialogueWindowController;
     private ObservableList<Dish> observableList;
 
-    public DishTabController(ObservableList<Dish> observableList, Stage mainStage) throws IOException {
+    public DishTabController(ObservableList<Dish> observableList, Stage mainStage) throws Exception {
 
         this.observableList = observableList;
-        this.mainStage = mainStage;
-        createStage();
+        if(DialogueWindows.getStage("dishAddEditStage") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
+            DialogueWindows.createStage("dishAddEditStage", mainStage, fxmlLoader, observableList);
+        }
     }
 
     public void addAction(ActionEvent actionEvent) {
 
-        dishAddEditStage.setTitle("Создать");
-        dishAddEditDialogueWindowController.setTo(null);
-        dishAddEditStage.showAndWait();
+        DialogueWindows.getStage("dishAddEditStage").setTitle("Создать");
+        DialogueWindows.getController("dishAddEditStage").setValueForEditing(null);
+        DialogueWindows.getStage("dishAddEditStage").showAndWait();
     }
 
     public void deleteAction(ActionEvent actionEvent) {
@@ -49,9 +46,9 @@ public class DishTabController {
 
     public void editAction(ActionEvent actionEvent) {
 
-        dishAddEditStage.setTitle("Изменить");
-        dishAddEditDialogueWindowController.setTo(tableView.getSelectionModel().getSelectedItem());
-        dishAddEditStage.showAndWait();
+        DialogueWindows.getStage("dishAddEditStage").setTitle("Изменить");
+        DialogueWindows.getController("dishAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
+        DialogueWindows.getStage("dishAddEditStage").showAndWait();
 
     }
 
@@ -70,20 +67,5 @@ public class DishTabController {
                 editAction(new ActionEvent());
             }
         });
-    }
-
-    private void createStage() throws IOException {
-
-        if (dishAddEditStage != null) return;
-
-        dishAddEditStage = new Stage();
-        dishAddEditStage.setResizable(false);
-        dishAddEditStage.initModality(Modality.WINDOW_MODAL);
-        dishAddEditStage.initOwner(mainStage);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
-        dishAddEditStage.setScene(new Scene(fxmlLoader.load()));
-        dishAddEditDialogueWindowController = fxmlLoader.getController();
-        dishAddEditDialogueWindowController.init(observableList, dishAddEditStage);
-
     }
 }

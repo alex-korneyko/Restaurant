@@ -7,6 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.AddEditController;
@@ -21,12 +23,12 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 09.08.2016 12:36.
  */
-public class EmployeeAddEditDialogueWindowController implements AddEditController {
+public class EmployeeAddEditDialogueWindowController implements AddEditController<Employee> {
 
 
     public TextField textFieldLastName;
     public TextField textFieldFirstName;
-    public ComboBox comboBoxEmployeePost;
+    public ComboBox<String> comboBoxEmployeePost;
     public TextField textFieldPhone;
     public TextField textFieldSalary;
     public DatePicker datePickerDayOfBirth;
@@ -58,7 +60,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
     private void fillEmployee() {
         employee.setFirstName(textFieldFirstName.getText());
         employee.setLastName(textFieldLastName.getText());
-        employee.setEmployeePost(Main.getStaffController().findEmployeePost(comboBoxEmployeePost.getValue().toString()).get(0));
+        employee.setEmployeePost(Main.getStaffController().findEmployeePost(comboBoxEmployeePost.getValue()).get(0));
         employee.setTelephone(textFieldPhone.getText());
         employee.setSalary(Double.parseDouble(textFieldSalary.getText()));
         employee.setDateOfBirth(datePickerDayOfBirth.getValue());
@@ -69,9 +71,14 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    @Transactional
-    public void setEmployee(Employee selectedItem) {
+    @Override
+    public void setMainStage(Stage mainStage) {
 
+    }
+
+    @Override
+    @Transactional
+    public void setValueForEditing(Employee selectedItem) {
         employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
 
         comboBoxEmployeePost.getItems().clear();
@@ -89,6 +96,26 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         employee = selectedItem;
     }
 
+//    @Transactional
+//    public void setEmployee(Employee selectedItem) {
+//
+//        employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
+//
+//        comboBoxEmployeePost.getItems().clear();
+//        comboBoxEmployeePost.setItems(employeePosts);
+//
+//        if (selectedItem != null) {
+//            textFieldLastName.setText(selectedItem.getLastName());
+//            textFieldFirstName.setText(selectedItem.getFirstName());
+//            comboBoxEmployeePost.setValue(selectedItem.getEmployeePost().getPostName());
+//            textFieldPhone.setText(selectedItem.getTelephone());
+//            textFieldSalary.setText(String.valueOf(selectedItem.getSalary()));
+//            datePickerDayOfBirth.setValue(selectedItem.getDateOfBirth());
+//        }
+//
+//        employee = selectedItem;
+//    }
+
     public void setOwner(StaffTab owner) {
         this.owner = owner;
     }
@@ -104,7 +131,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         comboBoxEmployeePost.setValue(employeePosts.get(employeePosts.size() - 1));
     }
 
-    public void setObservableList(ObservableList observableList) {
+    public void init(ObservableList observableList) {
         this.observableList = observableList;
     }
 

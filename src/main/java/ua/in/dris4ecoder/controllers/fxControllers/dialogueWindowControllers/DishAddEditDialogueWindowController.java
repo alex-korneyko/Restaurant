@@ -6,16 +6,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.DishCategory;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 18.08.2016 13:12.
  */
-public class DishAddEditDialogueWindowController {
+public class DishAddEditDialogueWindowController implements AddEditController<Dish>{
 
     public TextField textFieldName;
     public TextField textFieldPrice;
@@ -42,35 +40,34 @@ public class DishAddEditDialogueWindowController {
 
     private ObservableList<Dish> dishObservableList;
     private ObservableList<Ingredient> ingredientObservableList;
-    private Stage ingredientsListStage;
-    private IngredientListDialogueWindowController ingredientListDialogueWindowController;
     private Dish dish;
+    private Stage mainStage;
 
     public DishAddEditDialogueWindowController() {
     }
 
-    public void addIngredientsToDishAction(ActionEvent actionEvent) {
+    public void addIngredientsToDishAction() throws IOException {
 
-        ingredientsListStage.setTitle("Ингредиенты");
-        ingredientListDialogueWindowController.refreshIngredients();
-        ingredientsListStage.showAndWait();
+        DialogueWindows.getStage("ingredientsListStage").setTitle("Ингредиенты");
+        DialogueWindows.getStage("ingredientsListStage").showAndWait();
     }
 
-    public void removeIngredientFromDishAction(ActionEvent actionEvent) {
+    public void removeIngredientFromDishAction() {
 
         final Ingredient selectedItem = tableViewIngredients.getSelectionModel().getSelectedItem();
         ingredientObservableList.remove(selectedItem);
     }
 
-    public void clearIngredientListFromDishAction(ActionEvent actionEvent) {
+    public void clearIngredientListFromDishAction() {
         ingredientObservableList.clear();
     }
 
-    public void editIngredientWeightInDish(ActionEvent actionEvent) {
+    public void editIngredientWeightInDishAction() {
         // TODO: 18.08.2016
     }
 
-    public void okAction(ActionEvent actionEvent) {
+    @Override
+    public void saveAction(ActionEvent actionEvent) {
 
         if(textFieldName.getText().isEmpty()) return;
 
@@ -89,39 +86,20 @@ public class DishAddEditDialogueWindowController {
         closeAction(actionEvent);
     }
 
-    private void fillDish() {
-        dish.setDishName(textFieldName.getText());
-        dish.setDishCategory(DishCategory.getValueByStringName(comboBoxCategory.getValue()));
-        dish.setIngredients(tableViewIngredients.getItems());
-        dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
-        dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
-    }
-
+    @Override
     public void closeAction(ActionEvent actionEvent) {
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    public void setTo(Dish dish) {
-        if(dish == null) {
-            this.dish = null;
-            textFieldName.setText("");
-            textFieldPrice.setText("0.0");
-            textFieldWeight.setText("0.0");
-            comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
-            ingredientObservableList.clear();
-        } else {
-            this.dish = dish;
-            textFieldName.setText(dish.getDishName());
-            textFieldPrice.setText(String.valueOf(dish.getPrice()));
-            textFieldWeight.setText(String.valueOf(dish.getWeight()));
-            comboBoxCategory.setValue(dish.getDishCategory().toString());
-            ingredientObservableList.clear();
-            List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
-            ingredientObservableList.addAll(ingredients);
-        }
+    @Override
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
     }
 
-    public void init(ObservableList<Dish> observableList, Window owner) throws IOException {
+    @Override
+    public void init(ObservableList<Dish> observableList) throws Exception {
+        this.dishObservableList = observableList;
+
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
         this.dishObservableList = observableList;
         ingredientObservableList = FXCollections.observableArrayList();
@@ -133,17 +111,39 @@ public class DishAddEditDialogueWindowController {
         tableViewIngredients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableViewIngredients.setItems(ingredientObservableList);
 
-        createStage(owner);
+        if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientSelectList.fxml"));
+            DialogueWindows.createStage("ingredientsListStage", mainStage, fxmlLoader, ingredientObservableList);
+        }
     }
 
-    private void createStage(Window owner) throws IOException {
-        ingredientsListStage = new Stage();
-        ingredientsListStage.setResizable(false);
-        ingredientsListStage.initModality(Modality.WINDOW_MODAL);
-        ingredientsListStage.initOwner(owner);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientSelectList.fxml"));
-        ingredientsListStage.setScene(new Scene(fxmlLoader.load()));
-        ingredientListDialogueWindowController = fxmlLoader.getController();
-        ingredientListDialogueWindowController.init(ingredientObservableList);
+    @Override
+    public void setValueForEditing(Dish valueForEditing) {
+        this.dish = valueForEditing;
+
+        if(dish == null) {
+            this.dish = null;
+            textFieldName.setText("");
+            textFieldPrice.setText("0.0");
+            textFieldWeight.setText("0.0");
+            comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
+            ingredientObservableList.clear();
+        } else {
+            textFieldName.setText(dish.getDishName());
+            textFieldPrice.setText(String.valueOf(dish.getPrice()));
+            textFieldWeight.setText(String.valueOf(dish.getWeight()));
+            comboBoxCategory.setValue(dish.getDishCategory().toString());
+            ingredientObservableList.clear();
+            List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
+            ingredientObservableList.addAll(ingredients);
+        }
+    }
+
+    private void fillDish() {
+        dish.setDishName(textFieldName.getText());
+        dish.setDishCategory(DishCategory.getValueByStringName(comboBoxCategory.getValue()));
+        dish.setIngredients(tableViewIngredients.getItems());
+        dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
+        dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
     }
 }

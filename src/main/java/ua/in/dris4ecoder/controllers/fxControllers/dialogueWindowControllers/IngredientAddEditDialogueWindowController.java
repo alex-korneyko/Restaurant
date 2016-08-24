@@ -5,16 +5,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 
 /**
  * Created by Alex Korneyko on 16.08.2016 19:47.
  */
-public class IngredientAddEditDialogueWindowController implements AddEditController {
+public class IngredientAddEditDialogueWindowController implements AddEditController<Ingredient> {
 
     private ObservableList<Ingredient> observableList;
     private Ingredient selectedIngredient;
+    private Stage mainStage;
 
     @FXML
     public TextField textFieldIngredientName;
@@ -22,7 +24,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        if(selectedIngredient == null) {
+        if (selectedIngredient == null) {
             if (!textFieldIngredientName.getText().isEmpty()) {
                 Main.getManagementController().addIngredient(textFieldIngredientName.getText());
                 observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
@@ -33,23 +35,30 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
             observableList.addAll(Main.getManagementController().findAllIngredients());
         }
 
-        textFieldIngredientName.setText("");
         closeAction(actionEvent);
     }
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
 
+        selectedIngredient = null;
         textFieldIngredientName.setText("");
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    public void setObservableList(ObservableList<Ingredient> observableList) {
-        this.observableList = observableList;
+    @Override
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
     }
 
-    public void setIngredient(Ingredient selectedItem) {
-        selectedIngredient = selectedItem;
-        textFieldIngredientName.setText(selectedItem.getIngredientName());
+    @Override
+    public void setValueForEditing(Ingredient valueForEditing) {
+        selectedIngredient = valueForEditing;
+        textFieldIngredientName.setText(valueForEditing.getIngredientName());
+    }
+
+    @Override
+    public void init(ObservableList<Ingredient> observableList) {
+        this.observableList = observableList;
     }
 }

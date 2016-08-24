@@ -14,7 +14,7 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 /**
  * Created by Alex Korneyko on 08.08.2016 12:21.
  */
-public class PostAddEditDialogueWindowController implements AddEditController {
+public class PostAddEditDialogueWindowController implements AddEditController<EmployeePost> {
 
     @FXML
     public TextField textFieldEmployeePostName;
@@ -47,12 +47,23 @@ public class PostAddEditDialogueWindowController implements AddEditController {
         window.hide();
     }
 
+    @Override
+    public void setMainStage(Stage mainStage) {
+
+    }
+
+    @Override
+    public void setValueForEditing(EmployeePost valueForEditing) {
+        employeePost = valueForEditing;
+        textFieldEmployeePostName.setText(valueForEditing == null ? "" : valueForEditing.getPostName());
+    }
+
     public void setEmployeePost(EmployeePost post) {
         employeePost = post;
         textFieldEmployeePostName.setText(post == null ? "" : post.getPostName());
     }
 
-    public void setObservableList(ObservableList observableList) {
+    public void init(ObservableList observableList) {
         this.observableList = observableList;
     }
 }

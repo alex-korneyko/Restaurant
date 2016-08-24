@@ -59,7 +59,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabIngredients(ActionEvent actionEvent) throws IOException {
+    public void createTabIngredients(ActionEvent actionEvent) throws Exception {
 
         if(findTab("ingredients")) return;
 
@@ -70,7 +70,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabDishes(ActionEvent actionEvent) throws IOException {
+    public void createTabDishes(ActionEvent actionEvent) throws Exception {
 
         if(findTab("dishes")) return;
 

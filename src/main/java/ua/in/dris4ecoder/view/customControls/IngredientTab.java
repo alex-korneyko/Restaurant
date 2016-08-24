@@ -23,7 +23,7 @@ public class IngredientTab extends Tab {
         setId(id);
     }
 
-    public void init(Stage mainStage) throws IOException {
+    public void init(Stage mainStage) throws Exception {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientTab.fxml"));
         ObservableList<Ingredient> observableList = FXCollections.observableArrayList();

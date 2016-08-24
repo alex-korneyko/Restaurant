@@ -123,8 +123,8 @@ public class StaffTab<T> extends Tab {
                 postAddEditDialogueWindowController = (PostAddEditDialogueWindowController) initLoader("/fxml/emPostAddEditDialogueWindow.fxml");
                 emPostAddEditStage = createAddEditWindow("Добавить должность");
             }
-            postAddEditDialogueWindowController.setEmployeePost(null);
-            postAddEditDialogueWindowController.setObservableList(observableList);
+            postAddEditDialogueWindowController.setValueForEditing(null);
+            postAddEditDialogueWindowController.init(observableList);
             emPostAddEditStage.showAndWait();
         }
 
@@ -133,8 +133,8 @@ public class StaffTab<T> extends Tab {
                 employeeAddEditDialogueWindowController = (EmployeeAddEditDialogueWindowController) initLoader("/fxml/emAddEditDialogueWindow.fxml");
                 emAddEditStage = createAddEditWindow("Добавить сотрудника");
 //            }
-            employeeAddEditDialogueWindowController.setEmployee(null);
-            employeeAddEditDialogueWindowController.setObservableList(observableList);
+            employeeAddEditDialogueWindowController.setValueForEditing(null);
+            employeeAddEditDialogueWindowController.init(observableList);
             employeeAddEditDialogueWindowController.setOwner(this);
             emAddEditStage.showAndWait();
             getAllAction(actionEvent);
@@ -167,7 +167,7 @@ public class StaffTab<T> extends Tab {
                 employeeAddEditDialogueWindowController = (EmployeeAddEditDialogueWindowController) initLoader("/fxml/emAddEditDialogueWindow.fxml");
                 emAddEditStage = createAddEditWindow("Изменить сотрудника");
             }
-            employeeAddEditDialogueWindowController.setEmployee(selectedItem);
+            employeeAddEditDialogueWindowController.setValueForEditing(selectedItem);
             employeeAddEditDialogueWindowController.setOwner(this);
             emAddEditStage.showAndWait();
             getAllAction(actionEvent);
@@ -226,7 +226,7 @@ public class StaffTab<T> extends Tab {
         try {
             fxmlLoader.setLocation(getClass().getResource(resource));
             emPostAddEditParent = fxmlLoader.load();
-            return fxmlLoader.getController();
+            return  fxmlLoader.getController();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
