@@ -1,19 +1,12 @@
 package ua.in.dris4ecoder.controllers.fxControllers;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-
-//import static ua.in.dris4ecoder.Main.dialogueWindows;
 
 /**
  * Created by Alex Korneyko on 16.08.2016 12:44.
@@ -33,5 +26,8 @@ public class ServiceClass {
         tableView.getColumns().add(tableColumn);
     }
 
-
+    public static <T> void setColumns(TableView<T> tableView, String columnName, String propertyName, int width) {
+        setColumns(tableView, columnName, propertyName);
+        tableView.getColumns().get(tableView.getColumns().size() - 1).setPrefWidth(width);
+    }
 }

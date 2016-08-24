@@ -7,11 +7,9 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.AddEditController;
 import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
@@ -131,7 +129,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         comboBoxEmployeePost.setValue(employeePosts.get(employeePosts.size() - 1));
     }
 
-    public void init(ObservableList observableList) {
+    public void init(ObservableList observableList, Stage stage) {
         this.observableList = observableList;
     }
 

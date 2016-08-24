@@ -11,6 +11,7 @@ import ua.in.dris4ecoder.controllers.fxControllers.MainWindowController;
  * Created by Alex Korneyko on 04.08.2016 13:22.
  */
 public class SimpleMainWindow extends Application implements MainWindow {
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 

@@ -11,8 +11,6 @@ import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.controllers.fxControllers.tabControllers.DishTabController;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 
-import java.io.IOException;
-
 /**
  * Created by Alex Korneyko on 17.08.2016 19:48.
  */
@@ -34,7 +32,7 @@ public class DishTab extends Tab {
 
         TableView<Dish> tableView = ServiceClass.getTableView(this);
         ServiceClass.setColumns(tableView, "id", "idProp");
-        ServiceClass.setColumns(tableView, "Название", "dishNameProp");
+        ServiceClass.setColumns(tableView, "Название", "dishNameProp", 200);
         ServiceClass.setColumns(tableView, "Категория", "dishCategoryProp");
         ServiceClass.setColumns(tableView, "Цена", "priceProp");
         ServiceClass.setColumns(tableView, "Вес", "weightProp");

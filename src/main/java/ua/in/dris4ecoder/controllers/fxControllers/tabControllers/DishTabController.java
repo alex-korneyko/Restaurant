@@ -1,7 +1,6 @@
 package ua.in.dris4ecoder.controllers.fxControllers.tabControllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
@@ -11,7 +10,6 @@ import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,20 +29,20 @@ public class DishTabController {
         }
     }
 
-    public void addAction(ActionEvent actionEvent) {
+    public void addAction() {
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Создать");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(null);
         DialogueWindows.getStage("dishAddEditStage").showAndWait();
     }
 
-    public void deleteAction(ActionEvent actionEvent) {
+    public void deleteAction() {
         final Dish selectedItem = tableView.getSelectionModel().getSelectedItem();
         Main.getManagementController().removeDish(selectedItem.getId());
-        getAllAction(actionEvent);
+        getAllAction();
     }
 
-    public void editAction(ActionEvent actionEvent) {
+    public void editAction() {
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Изменить");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
@@ -52,7 +50,7 @@ public class DishTabController {
 
     }
 
-    public void getAllAction(ActionEvent actionEvent) {
+    public void getAllAction() {
 
         observableList.clear();
         final List<Dish> allDishes = Main.getManagementController().findAllDishes();
@@ -64,7 +62,7 @@ public class DishTabController {
         this.tableView = tableView;
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-                editAction(new ActionEvent());
+                editAction();
             }
         });
     }

@@ -58,7 +58,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     }
 
     @Override
-    public void init(ObservableList<Ingredient> observableList) {
+    public void init(ObservableList<Ingredient> observableList, Stage stage) {
         this.observableList = observableList;
     }
 }

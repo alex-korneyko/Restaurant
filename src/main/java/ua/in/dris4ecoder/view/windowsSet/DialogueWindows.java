@@ -35,7 +35,7 @@ public class DialogueWindows {
         stage.initOwner(mainStage);
         stage.setScene(new Scene(fxmlLoader.load()));
         AddEditController<E> addEditController = fxmlLoader.getController();
-        addEditController.init(observableList);
+        addEditController.init(observableList, stage);
 
         dialogueWindowsControllers.put(stageKey, addEditController);
         dialogueWindows.put(stageKey, stage);

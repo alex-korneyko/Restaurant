@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
@@ -11,6 +12,7 @@ import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,16 +27,23 @@ public class IngredientListDialogueWindowController implements AddEditController
     private ObservableList<Ingredient> ingredientsFullList = FXCollections.observableArrayList();
     private ObservableList<Ingredient> selectedIngredientsList;
     private Stage mainStage;
+    private Stage controlledStage;
 
 
     public void createNewIngredientAction() {
 
+        final Stage ingredientAddEditStage = DialogueWindows.getStage("ingredientAddEditStage");
+        ingredientAddEditStage.setTitle("Создать");
+        ingredientAddEditStage.showAndWait();
+        ingredientsFullList.clear();
+        ingredientsFullList.addAll(Main.getManagementController().findAllIngredients());
     }
 
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        selectedIngredientsList.addAll(tableViewIngredientsList.getSelectionModel().getSelectedItems());
+        final ObservableList<Ingredient> selectedItems = tableViewIngredientsList.getSelectionModel().getSelectedItems();
+        selectedIngredientsList.addAll(selectedItems);
         closeAction(actionEvent);
     }
 
@@ -50,13 +59,20 @@ public class IngredientListDialogueWindowController implements AddEditController
         this.mainStage = mainStage;
     }
 
-    public void init(ObservableList<Ingredient> selectedIngredientsList) {
+    public void init(ObservableList<Ingredient> selectedIngredientsList, Stage stage) throws Exception {
         this.selectedIngredientsList = selectedIngredientsList;
+        this.controlledStage = stage;
+
         ServiceClass.setColumns(tableViewIngredientsList, "id", "idProp");
         ServiceClass.setColumns(tableViewIngredientsList, "Название", "ingredientNameProp");
         tableViewIngredientsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ingredientsFullList.addAll(Main.getManagementController().findAllIngredients());
         tableViewIngredientsList.setItems(ingredientsFullList);
+
+        if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
+            DialogueWindows.createStage("ingredientAddEditStage", controlledStage, fxmlLoader, ingredientsFullList);
+        }
     }
 
     @Override

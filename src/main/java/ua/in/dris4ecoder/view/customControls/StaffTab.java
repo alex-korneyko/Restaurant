@@ -124,7 +124,7 @@ public class StaffTab<T> extends Tab {
                 emPostAddEditStage = createAddEditWindow("Добавить должность");
             }
             postAddEditDialogueWindowController.setValueForEditing(null);
-            postAddEditDialogueWindowController.init(observableList);
+            postAddEditDialogueWindowController.init(observableList, mainStage);
             emPostAddEditStage.showAndWait();
         }
 
@@ -134,7 +134,7 @@ public class StaffTab<T> extends Tab {
                 emAddEditStage = createAddEditWindow("Добавить сотрудника");
 //            }
             employeeAddEditDialogueWindowController.setValueForEditing(null);
-            employeeAddEditDialogueWindowController.init(observableList);
+            employeeAddEditDialogueWindowController.init(observableList, mainStage);
             employeeAddEditDialogueWindowController.setOwner(this);
             emAddEditStage.showAndWait();
             getAllAction(actionEvent);

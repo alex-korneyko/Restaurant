@@ -42,6 +42,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
     private ObservableList<Ingredient> ingredientObservableList;
     private Dish dish;
     private Stage mainStage;
+    private Stage controlledStage;
 
     public DishAddEditDialogueWindowController() {
     }
@@ -97,8 +98,9 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
     }
 
     @Override
-    public void init(ObservableList<Dish> observableList) throws Exception {
+    public void init(ObservableList<Dish> observableList, Stage stage) throws Exception {
         this.dishObservableList = observableList;
+        this.controlledStage = stage;
 
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
         this.dishObservableList = observableList;
@@ -113,7 +115,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
 
         if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientSelectList.fxml"));
-            DialogueWindows.createStage("ingredientsListStage", mainStage, fxmlLoader, ingredientObservableList);
+            DialogueWindows.createStage("ingredientsListStage", controlledStage, fxmlLoader, ingredientObservableList);
         }
     }
 

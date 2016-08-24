@@ -63,7 +63,7 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
         textFieldEmployeePostName.setText(post == null ? "" : post.getPostName());
     }
 
-    public void init(ObservableList observableList) {
+    public void init(ObservableList observableList, Stage stage) {
         this.observableList = observableList;
     }
 }
