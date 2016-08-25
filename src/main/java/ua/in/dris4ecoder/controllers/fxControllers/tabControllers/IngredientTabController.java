@@ -17,21 +17,14 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 16.08.2016 19:01.
  */
-public class IngredientTabController {
+public class IngredientTabController implements TabController<Ingredient> {
 
     private ObservableList<Ingredient> observableList;
+
+    @FXML
     private TableView<Ingredient> tableView;
 
-    public IngredientTabController(ObservableList<Ingredient> observableList, Stage mainStage) throws Exception {
-
-        this.observableList = observableList;
-
-        if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
-            DialogueWindows.createStage("ingredientAddEditStage", mainStage, fxmlLoader, observableList);
-        }
-    }
-
+    @Override
     @FXML
     public void addAction(ActionEvent actionEvent) throws IOException {
 
@@ -41,6 +34,7 @@ public class IngredientTabController {
 
     }
 
+    @Override
     @FXML
     public void editAction(ActionEvent actionEvent) {
 
@@ -51,6 +45,7 @@ public class IngredientTabController {
         DialogueWindows.getStage("ingredientAddEditStage").showAndWait();
     }
 
+    @Override
     @FXML
     public void deleteAction(ActionEvent actionEvent) {
 
@@ -59,6 +54,7 @@ public class IngredientTabController {
         getAllAction(actionEvent);
     }
 
+    @Override
     @FXML
     public void getAllAction(ActionEvent actionEvent) {
 
@@ -67,9 +63,17 @@ public class IngredientTabController {
         observableList.addAll(allIngredients);
     }
 
-    public void init(TableView<Ingredient> tableView) {
+    @Override
+    public void init(Stage mainStage, TableView<Ingredient> tableView) throws Exception {
 
         this.tableView = tableView;
+        this.observableList = tableView.getItems();
+
+        if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
+            DialogueWindows.createStage("ingredientAddEditStage", mainStage, fxmlLoader, observableList);
+        }
+
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
                 editAction(new ActionEvent());

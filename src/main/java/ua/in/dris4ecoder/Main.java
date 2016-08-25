@@ -1,22 +1,11 @@
 package ua.in.dris4ecoder;
 
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
-import ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.AddEditController;
-import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Alex Korneyko on 28.07.2016 13:28.

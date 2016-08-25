@@ -94,26 +94,6 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         employee = selectedItem;
     }
 
-//    @Transactional
-//    public void setEmployee(Employee selectedItem) {
-//
-//        employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
-//
-//        comboBoxEmployeePost.getItems().clear();
-//        comboBoxEmployeePost.setItems(employeePosts);
-//
-//        if (selectedItem != null) {
-//            textFieldLastName.setText(selectedItem.getLastName());
-//            textFieldFirstName.setText(selectedItem.getFirstName());
-//            comboBoxEmployeePost.setValue(selectedItem.getEmployeePost().getPostName());
-//            textFieldPhone.setText(selectedItem.getTelephone());
-//            textFieldSalary.setText(String.valueOf(selectedItem.getSalary()));
-//            datePickerDayOfBirth.setValue(selectedItem.getDateOfBirth());
-//        }
-//
-//        employee = selectedItem;
-//    }
-
     public void setOwner(StaffTab owner) {
         this.owner = owner;
     }

@@ -1,6 +1,7 @@
 package ua.in.dris4ecoder.controllers.fxControllers.tabControllers;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TableView;
@@ -15,34 +16,28 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 17.08.2016 19:54.
  */
-public class DishTabController {
+public class DishTabController implements TabController<Dish> {
 
     @FXML private TableView<Dish> tableView;
     private ObservableList<Dish> observableList;
 
-    public DishTabController(ObservableList<Dish> observableList, Stage mainStage) throws Exception {
-
-        this.observableList = observableList;
-        if(DialogueWindows.getStage("dishAddEditStage") == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
-            DialogueWindows.createStage("dishAddEditStage", mainStage, fxmlLoader, observableList);
-        }
-    }
-
-    public void addAction() {
+    @Override
+    public void addAction(ActionEvent actionEvent) {
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Создать");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(null);
         DialogueWindows.getStage("dishAddEditStage").showAndWait();
     }
 
-    public void deleteAction() {
+    @Override
+    public void deleteAction(ActionEvent actionEvent) {
         final Dish selectedItem = tableView.getSelectionModel().getSelectedItem();
         Main.getManagementController().removeDish(selectedItem.getId());
-        getAllAction();
+        getAllAction(actionEvent);
     }
 
-    public void editAction() {
+    @Override
+    public void editAction(ActionEvent actionEvent) {
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Изменить");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
@@ -50,20 +45,29 @@ public class DishTabController {
 
     }
 
-    public void getAllAction() {
+    @Override
+    public void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();
         final List<Dish> allDishes = Main.getManagementController().findAllDishes();
         observableList.addAll(allDishes);
     }
 
-    public void init(TableView<Dish> tableView) {
+    @Override
+    public void init(Stage mainStage, TableView<Dish> tableView) throws Exception {
 
         this.tableView = tableView;
+        this.observableList = tableView.getItems();
+
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-                editAction();
+                editAction(new ActionEvent());
             }
         });
+
+        if(DialogueWindows.getStage("dishAddEditStage") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
+            DialogueWindows.createStage("dishAddEditStage", mainStage, fxmlLoader, observableList);
+        }
     }
 }

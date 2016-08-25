@@ -1,20 +1,21 @@
 package ua.in.dris4ecoder.controllers.fxControllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.view.customControls.DishTab;
-import ua.in.dris4ecoder.view.customControls.IngredientTab;
-import ua.in.dris4ecoder.view.customControls.SettingsTab;
-import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
+import ua.in.dris4ecoder.view.CustomColumn;
+import ua.in.dris4ecoder.view.CustomTabGenerator;
+import ua.in.dris4ecoder.view.customControls.SettingsTab;
+import ua.in.dris4ecoder.view.customControls.StaffTab;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Alex Korneyko on 04.08.2016 14:49.
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class MainWindowController {
 
     @FXML public MenuItem menuItemCreateTabPosts;
-    public TabPane tabPaneDbManagement;
+    @FXML public TabPane tabPaneDbManagement;
     private Stage mainStage;
     private SingleSelectionModel<Tab> selectionModel;
 
@@ -34,7 +35,7 @@ public class MainWindowController {
         this.mainStage = mainStage;
     }
 
-    public void createTabPosts(ActionEvent actionEvent) {
+    public void createTabPosts() {
 
         if(findTab("posts")) return;
 
@@ -47,7 +48,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabEmployees(ActionEvent actionEvent) {
+    public void createTabEmployees() {
 
         if(findTab("employees")) return;
 
@@ -59,29 +60,34 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabIngredients(ActionEvent actionEvent) throws Exception {
+    public void createTabIngredients() throws Exception {
 
         if(findTab("ingredients")) return;
 
-        IngredientTab ingredientTab = new IngredientTab("Ингредиенты", "ingredients");
-        ingredientTab.init(mainStage);
-
-        tabPaneDbManagement.getTabs().add(ingredientTab);
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp"),
+                new CustomColumn("Название", "ingredientNameProp", 200)
+        );
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/ingredientTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabDishes(ActionEvent actionEvent) throws Exception {
+    public void createTabDishes() throws Exception {
 
         if(findTab("dishes")) return;
 
-        DishTab dishTab = new DishTab("Блюда", "dishes");
-        dishTab.init(mainStage);
-
-        tabPaneDbManagement.getTabs().add(dishTab);
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp"),
+                new CustomColumn("Название", "dishNameProp", 200),
+                new CustomColumn("Категория", "dishCategoryProp"),
+                new CustomColumn("Цена", "priceProp"),
+                new CustomColumn("Вес", "weightProp")
+        );
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/dishTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabSettings(ActionEvent actionEvent) throws IOException {
+    public void createTabSettings() throws IOException {
 
         if(findTab("settings")) return;
 
@@ -89,7 +95,6 @@ public class MainWindowController {
         settingsTab.init(mainStage);
         tabPaneDbManagement.getTabs().add(settingsTab);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
-
     }
 
     private boolean findTab(String id) {

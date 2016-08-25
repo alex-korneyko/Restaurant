@@ -5,11 +5,11 @@ import javafx.collections.ObservableList;
 /**
  * Created by Alex Korneyko on 16.08.2016 19:22.
  */
-public class StaffTabController {
+public class EmployeeTabController {
 
     ObservableList observableList;
 
-    public StaffTabController(ObservableList observableList) {
+    public EmployeeTabController(ObservableList observableList) {
         this.observableList = observableList;
     }
 

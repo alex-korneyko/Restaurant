@@ -6,6 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import ua.in.dris4ecoder.view.CustomColumn;
 
 
 /**
@@ -29,5 +30,13 @@ public class ServiceClass {
     public static <T> void setColumns(TableView<T> tableView, String columnName, String propertyName, int width) {
         setColumns(tableView, columnName, propertyName);
         tableView.getColumns().get(tableView.getColumns().size() - 1).setPrefWidth(width);
+    }
+
+    public static <T> void setColumns(TableView<T> tableView, CustomColumn customColumn) {
+
+        if (customColumn.getColumnWidth() == 0)
+            setColumns(tableView, customColumn.getColumnName(), customColumn.getColumnProperty());
+        else
+            setColumns(tableView, customColumn.getColumnName(), customColumn.getColumnProperty(), customColumn.getColumnWidth());
     }
 }
