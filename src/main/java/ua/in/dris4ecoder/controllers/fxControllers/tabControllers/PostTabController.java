@@ -58,6 +58,11 @@ public class PostTabController implements TabController<EmployeePost> {
         observableList.addAll(employeePosts);
     }
 
+    public void closeTabAction(ActionEvent actionEvent) {
+        System.out.println("Close tab");
+        // TODO: 27.08.2016
+    }
+
     @Override
     public void init(Stage mainStage, TableView<EmployeePost> tableView) throws Exception {
 

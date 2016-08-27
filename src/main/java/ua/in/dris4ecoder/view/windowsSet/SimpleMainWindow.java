@@ -23,7 +23,7 @@ public class SimpleMainWindow extends Application implements MainWindow {
         primaryStage.setTitle("Ресторан");
         primaryStage.setScene(new Scene(fxmlParent));
         primaryStage.setMinHeight(665);
-        primaryStage.setMinWidth(720);
+        primaryStage.setMinWidth(1000);
         primaryStage.show();
 
     }

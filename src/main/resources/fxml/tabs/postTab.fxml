@@ -5,8 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" text="Должности" id="posts"
-fx:controller="ua.in.dris4ecoder.controllers.fxControllers.tabControllers.PostTabController">
+<fx:root id="posts" text="Должности" type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.tabControllers.PostTabController">
    <content>
       <AnchorPane>
          <children>
@@ -88,7 +87,7 @@ fx:controller="ua.in.dris4ecoder.controllers.fxControllers.tabControllers.PostTa
    <contextMenu>
       <ContextMenu>
         <items>
-          <MenuItem mnemonicParsing="false" text="Закрыть" />
+          <MenuItem mnemonicParsing="false" onAction="#closeTabAction" text="Закрыть" />
         </items>
       </ContextMenu>
    </contextMenu>

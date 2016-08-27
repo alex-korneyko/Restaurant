@@ -54,7 +54,7 @@ public class MainWindowController {
                 new CustomColumn("id", "id", 30),
                 new CustomColumn("Фамилия", "lastName", 120),
                 new CustomColumn("Имя", "firstName", 120),
-                new CustomColumn("Телефон", "telephone"),
+                new CustomColumn("Телефон", "telephone", 120),
                 new CustomColumn("Дата рождения", "dateOfBirthPrpt"),
                 new CustomColumn("Должность", "employeePost", 120),
                 new CustomColumn("Оклад", "salary", 70)

@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
@@ -34,8 +33,8 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
     private ObservableList<String> employeePosts = FXCollections.observableArrayList();
 
     private Employee employee;
-    private ObservableList<BusinessObject> observableList;
-    private Stage thisStage;
+    private ObservableList<Employee> observableList;
+    private Stage controlledStage;
     private Stage mainStage;
 
     @Override
@@ -116,13 +115,13 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         comboBoxEmployeePost.setItems(employeePosts);
     }
 
-    public void init(ObservableList observableList, Stage thisStage) throws Exception {
+    public void init(ObservableList<Employee> observableList, Stage thisStage) throws Exception {
         this.observableList = observableList;
-        this.thisStage = thisStage;
+        this.controlledStage = thisStage;
 
         if(DialogueWindows.getStage("postAddEditStage") == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/emPostAddEditDialogueWindow.fxml"));
-            DialogueWindows.createStage("postAddEditStage", thisStage, fxmlLoader, observableList);
+            DialogueWindows.createStage("postAddEditStage", controlledStage, fxmlLoader, this.observableList);
         }
     }
 }
