@@ -6,12 +6,9 @@ import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.model.businessObjects.Employee;
-import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.view.CustomColumn;
 import ua.in.dris4ecoder.view.CustomTabGenerator;
 import ua.in.dris4ecoder.view.customControls.SettingsTab;
-import ua.in.dris4ecoder.view.customControls.StaffTab;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,28 +32,36 @@ public class MainWindowController {
         this.mainStage = mainStage;
     }
 
-    public void createTabPosts() {
+    public void createTabPosts() throws Exception {
 
         if(findTab("posts")) return;
 
-        StaffTab<EmployeePost> tabPosts = new StaffTab<>("Должности", "posts", mainStage);
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "id"),
+                new CustomColumn("Название", "postName", 200)
+        );
 
-        tabPosts.setDisableSearchByDataRange(true);
-        tabPosts.setColumnsByClass(EmployeePost.class, "id", "Название");
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/postTab.fxml", customColumns));
 
-        tabPaneDbManagement.getTabs().add(tabPosts);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabEmployees() {
+    public void createTabEmployees() throws Exception {
 
         if(findTab("employees")) return;
 
-        StaffTab<Employee> tabEmployees = new StaffTab<>("Сотрудники", "employees", mainStage);
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "id", 30),
+                new CustomColumn("Фамилия", "lastName", 120),
+                new CustomColumn("Имя", "firstName", 120),
+                new CustomColumn("Телефон", "telephone"),
+                new CustomColumn("Дата рождения", "dateOfBirthPrpt"),
+                new CustomColumn("Должность", "employeePost", 120),
+                new CustomColumn("Оклад", "salary", 70)
+        );
 
-        tabEmployees.setColumnsByClass(Employee.class, "Id", "Фамилия", "Имя", "Телефон", "Дата рождения", "Должность", "Оклад");
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/employeeTab.fxml", customColumns));
 
-        tabPaneDbManagement.getTabs().add(tabEmployees);
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
@@ -68,7 +73,7 @@ public class MainWindowController {
                 new CustomColumn("id", "idProp"),
                 new CustomColumn("Название", "ingredientNameProp", 200)
         );
-        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/ingredientTab.fxml", customColumns));
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/ingredientTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
@@ -83,7 +88,7 @@ public class MainWindowController {
                 new CustomColumn("Цена", "priceProp"),
                 new CustomColumn("Вес", "weightProp")
         );
-        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/dishTab.fxml", customColumns));
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/dishTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 

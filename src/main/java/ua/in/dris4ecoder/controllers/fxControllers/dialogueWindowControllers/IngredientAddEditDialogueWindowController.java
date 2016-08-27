@@ -46,7 +46,6 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    @Override
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
@@ -58,7 +57,12 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     }
 
     @Override
-    public void init(ObservableList<Ingredient> observableList, Stage stage) {
+    public Ingredient getNewValue() {
+        return this.selectedIngredient;
+    }
+
+    @Override
+    public void init(ObservableList<Ingredient> observableList, Stage thisStage) {
         this.observableList = observableList;
     }
 }

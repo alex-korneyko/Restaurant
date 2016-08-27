@@ -19,7 +19,7 @@ public class SettingsTab extends Tab {
 
     public void init(Stage mainStage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/settingsTab.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/tabs/settingsTab.fxml"));
         SettingsTabController settingsTabController = new SettingsTabController();
         fxmlLoader.setController(settingsTabController);
         fxmlLoader.setRoot(this);

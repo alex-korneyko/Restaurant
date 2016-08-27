@@ -31,6 +31,7 @@ public class EmployeePost implements BusinessObject {
         this.id.set(id);
     }
 
+
     public String getPostName() {
         return postName.get();
     }

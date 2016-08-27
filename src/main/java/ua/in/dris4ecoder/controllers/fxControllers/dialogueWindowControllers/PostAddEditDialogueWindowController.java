@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 
 /**
@@ -20,7 +19,7 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
     public TextField textFieldEmployeePostName;
 
     private EmployeePost employeePost;
-    private ObservableList<BusinessObject> observableList;
+    private ObservableList<EmployeePost> observableList;
 
     @Override
     @Transactional
@@ -33,7 +32,8 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
             } else {
                 if (observableList != null) {
                     Main.getStaffController().addEmployeePost(textFieldEmployeePostName.getText());
-                    observableList.add(Main.getStaffController().findEmployeePost(textFieldEmployeePostName.getText()).get(0));
+                    this.employeePost = Main.getStaffController().findEmployeePost(textFieldEmployeePostName.getText()).get(0);
+                    observableList.add(this.employeePost);
                 }
             }
         }
@@ -42,12 +42,10 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
-        final Node source = (Node) actionEvent.getSource();
-        final Stage window = (Stage) source.getScene().getWindow();
-        window.hide();
+
+        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    @Override
     public void setMainStage(Stage mainStage) {
 
     }
@@ -58,12 +56,13 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
         textFieldEmployeePostName.setText(valueForEditing == null ? "" : valueForEditing.getPostName());
     }
 
-    public void setEmployeePost(EmployeePost post) {
-        employeePost = post;
-        textFieldEmployeePostName.setText(post == null ? "" : post.getPostName());
+    @Override
+    public EmployeePost getNewValue() {
+        return this.employeePost;
     }
 
-    public void init(ObservableList observableList, Stage stage) {
+    @Override
+    public void init(ObservableList<EmployeePost> observableList, Stage thisStage) {
         this.observableList = observableList;
     }
 }

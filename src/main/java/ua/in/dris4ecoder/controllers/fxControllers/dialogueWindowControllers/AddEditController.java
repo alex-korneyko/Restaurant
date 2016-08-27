@@ -15,7 +15,9 @@ public interface AddEditController<T> {
 
     void setMainStage(Stage mainStage);
 
-    void init(ObservableList<T> observableList, Stage stage) throws Exception;
+    void init(ObservableList<T> observableList, Stage thisStage) throws Exception;
 
     void setValueForEditing(T valueForEditing);
+
+    T getNewValue();
 }

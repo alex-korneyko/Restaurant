@@ -53,15 +53,14 @@ public class IngredientListDialogueWindowController implements AddEditController
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    @Override
     public void setMainStage(Stage mainStage) {
 
         this.mainStage = mainStage;
     }
 
-    public void init(ObservableList<Ingredient> selectedIngredientsList, Stage stage) throws Exception {
+    public void init(ObservableList<Ingredient> selectedIngredientsList, Stage thisStage) throws Exception {
         this.selectedIngredientsList = selectedIngredientsList;
-        this.controlledStage = stage;
+        this.controlledStage = thisStage;
 
         ServiceClass.setColumns(tableViewIngredientsList, "id", "idProp");
         ServiceClass.setColumns(tableViewIngredientsList, "Название", "ingredientNameProp");
@@ -70,7 +69,7 @@ public class IngredientListDialogueWindowController implements AddEditController
         tableViewIngredientsList.setItems(ingredientsFullList);
 
         if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientAddEditDialogueWindow.fxml"));
             DialogueWindows.createStage("ingredientAddEditStage", controlledStage, fxmlLoader, ingredientsFullList);
         }
     }
@@ -78,6 +77,11 @@ public class IngredientListDialogueWindowController implements AddEditController
     @Override
     public void setValueForEditing(Ingredient valueForEditing) {
 
+    }
+
+    @Override
+    public Ingredient getNewValue() {
+        return null;
     }
 
     public void keyReleasedAction() {

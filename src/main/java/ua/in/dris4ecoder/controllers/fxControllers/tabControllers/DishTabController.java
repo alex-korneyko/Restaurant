@@ -66,7 +66,7 @@ public class DishTabController implements TabController<Dish> {
         });
 
         if(DialogueWindows.getStage("dishAddEditStage") == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dishAddEditDialogueWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/dishAddEditDialogueWindow.fxml"));
             DialogueWindows.createStage("dishAddEditStage", mainStage, fxmlLoader, observableList);
         }
     }

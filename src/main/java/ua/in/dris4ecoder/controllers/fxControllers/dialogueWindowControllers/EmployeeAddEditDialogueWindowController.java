@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -10,12 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.view.customControls.StaffTab;
 import ua.in.dris4ecoder.model.businessObjects.BusinessObject;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
+import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 /**
@@ -32,16 +32,17 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
     public DatePicker datePickerDayOfBirth;
 
     private ObservableList<String> employeePosts = FXCollections.observableArrayList();
-    private StaffTab owner;
 
-    Employee employee;
+    private Employee employee;
     private ObservableList<BusinessObject> observableList;
+    private Stage thisStage;
+    private Stage mainStage;
 
     @Override
     @Transactional
     public void saveAction(ActionEvent actionEvent) {
 
-        if(employee == null) {
+        if (employee == null) {
             employee = new Employee();
             fillEmployee();
             Main.getStaffController().addEmployee(employee);
@@ -54,6 +55,25 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         closeAction(actionEvent);
     }
 
+    @Override
+    public void closeAction(ActionEvent actionEvent) {
+        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+    }
+
+    public void addNewEmPost() {
+
+        Stage postAddEditStage = DialogueWindows.getStage("postAddEditStage");
+        postAddEditStage.setTitle("Создать");
+        DialogueWindows.getController("postAddEditStage").setValueForEditing(null);
+        postAddEditStage.showAndWait();
+
+        final EmployeePost employeePost = (EmployeePost) DialogueWindows.getController("postAddEditStage").getNewValue();
+        if (employeePost != null) {
+            refreshEmployeePosts();
+            comboBoxEmployeePost.setValue(employeePost.getPostName());
+        }
+    }
+
     @Transactional
     private void fillEmployee() {
         employee.setFirstName(textFieldFirstName.getText());
@@ -64,53 +84,45 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         employee.setDateOfBirth(datePickerDayOfBirth.getValue());
     }
 
-    @Override
-    public void closeAction(ActionEvent actionEvent) {
-        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
-    }
-
-    @Override
     public void setMainStage(Stage mainStage) {
 
+        this.mainStage = mainStage;
     }
 
     @Override
     @Transactional
     public void setValueForEditing(Employee selectedItem) {
-        employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
+        refreshEmployeePosts();
 
-        comboBoxEmployeePost.getItems().clear();
-        comboBoxEmployeePost.setItems(employeePosts);
-
-        if (selectedItem != null) {
-            textFieldLastName.setText(selectedItem.getLastName());
-            textFieldFirstName.setText(selectedItem.getFirstName());
-            comboBoxEmployeePost.setValue(selectedItem.getEmployeePost().getPostName());
-            textFieldPhone.setText(selectedItem.getTelephone());
-            textFieldSalary.setText(String.valueOf(selectedItem.getSalary()));
-            datePickerDayOfBirth.setValue(selectedItem.getDateOfBirth());
-        }
+        textFieldLastName.setText(selectedItem != null ? selectedItem.getLastName() : "");
+        textFieldFirstName.setText(selectedItem != null ? selectedItem.getFirstName() : "");
+        comboBoxEmployeePost.setValue(selectedItem != null ? selectedItem.getEmployeePost().getPostName() : "");
+        textFieldPhone.setText(selectedItem != null ? selectedItem.getTelephone() : "");
+        textFieldSalary.setText(selectedItem != null ? String.valueOf(selectedItem.getSalary()) : "");
+        datePickerDayOfBirth.setValue(selectedItem != null ? selectedItem.getDateOfBirth() : null);
 
         employee = selectedItem;
     }
 
-    public void setOwner(StaffTab owner) {
-        this.owner = owner;
+    @Override
+    public Employee getNewValue() {
+
+        return this.employee;
     }
 
-    @Transactional
-    public void addNewEmPost(ActionEvent actionEvent) throws IOException {
-        System.out.println(owner.getId());
-        owner.setId("posts");
-        owner.addAction(actionEvent);
-        owner.setId("employees");
+    private void refreshEmployeePosts() {
         employeePosts.clear();
         employeePosts.addAll(Main.getStaffController().getAllEmployeePosts().stream().map(EmployeePost::getPostName).collect(Collectors.toList()));
-        comboBoxEmployeePost.setValue(employeePosts.get(employeePosts.size() - 1));
+        comboBoxEmployeePost.setItems(employeePosts);
     }
 
-    public void init(ObservableList observableList, Stage stage) {
+    public void init(ObservableList observableList, Stage thisStage) throws Exception {
         this.observableList = observableList;
-    }
+        this.thisStage = thisStage;
 
+        if(DialogueWindows.getStage("postAddEditStage") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/emPostAddEditDialogueWindow.fxml"));
+            DialogueWindows.createStage("postAddEditStage", thisStage, fxmlLoader, observableList);
+        }
+    }
 }

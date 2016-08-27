@@ -38,11 +38,12 @@ public class IngredientTabController implements TabController<Ingredient> {
     @FXML
     public void editAction(ActionEvent actionEvent) {
 
-        DialogueWindows.getStage("ingredientAddEditStage").setTitle("Изменить");
+        final Stage ingredientAddEditStage = DialogueWindows.getStage("ingredientAddEditStage");
+        ingredientAddEditStage.setTitle("Изменить");
         Ingredient selectedItem = tableView.getSelectionModel().getSelectedItem();
         if(selectedItem == null) return;
         DialogueWindows.getController("ingredientAddEditStage").setValueForEditing(selectedItem);
-        DialogueWindows.getStage("ingredientAddEditStage").showAndWait();
+        ingredientAddEditStage.showAndWait();
     }
 
     @Override
@@ -70,7 +71,7 @@ public class IngredientTabController implements TabController<Ingredient> {
         this.observableList = tableView.getItems();
 
         if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientAddEditDialogueWindow.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientAddEditDialogueWindow.fxml"));
             DialogueWindows.createStage("ingredientAddEditStage", mainStage, fxmlLoader, observableList);
         }
 

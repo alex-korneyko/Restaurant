@@ -92,15 +92,14 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
-    @Override
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
     }
 
     @Override
-    public void init(ObservableList<Dish> observableList, Stage stage) throws Exception {
+    public void init(ObservableList<Dish> observableList, Stage thisStage) throws Exception {
         this.dishObservableList = observableList;
-        this.controlledStage = stage;
+        this.controlledStage = thisStage;
 
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
         this.dishObservableList = observableList;
@@ -114,7 +113,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         tableViewIngredients.setItems(ingredientObservableList);
 
         if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ingredientSelectList.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectList.fxml"));
             DialogueWindows.createStage("ingredientsListStage", controlledStage, fxmlLoader, ingredientObservableList);
         }
     }
@@ -139,6 +138,11 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
             List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
             ingredientObservableList.addAll(ingredients);
         }
+    }
+
+    @Override
+    public Dish getNewValue() {
+        return this.dish;
     }
 
     private void fillDish() {
