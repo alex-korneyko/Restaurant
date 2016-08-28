@@ -1,44 +1,82 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /**
  * Created by Alex Korneyko on 29.07.2016 18:15.
  */
+@Entity
+@Table(name = "employees")
 public class Employee implements BusinessObject {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     public int id;
-    public SimpleStringProperty lastName = new SimpleStringProperty();
-    public SimpleStringProperty firstName = new SimpleStringProperty();
-    public SimpleStringProperty telephone = new SimpleStringProperty();
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "telephone")
+    private String phoneNumber;
+
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-    public SimpleStringProperty dateOfBirthPrpt = new SimpleStringProperty();
 
-    public EmployeePost employeePost;
-    public SimpleDoubleProperty salary = new SimpleDoubleProperty();
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private EmployeePost employeePost;
 
-    private JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
+    @Column(name = "salary")
+    private double salary;
+
+    @Transient
+    private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
+    @Transient
+    private SimpleStringProperty lastNameProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty firstNameProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty phoneNumberProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty dateOfBirthProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty employeePostProp = new SimpleStringProperty();
+    @Transient
+    private SimpleDoubleProperty salaryProp = new SimpleDoubleProperty();
 
     public Employee(){}
 
     public Employee(String lastName, String firstName, EmployeePost employeePost) {
-        this.lastName.set(lastName);
-        this.firstName.set(firstName);
+        this.lastName = lastName;
+        this.lastNameProp.set(lastName);
+        this.firstName = firstName;
+        this.firstNameProp.set(firstName);
         this.employeePost = employeePost;
+        this.employeePostProp.set(employeePost.toString());
     }
 
     public Employee(int id, String lastName, String firstName, LocalDate dateOfBirth, String telephone, EmployeePost employeePost, double salary) {
 
         this(lastName, firstName, employeePost);
         this.id = id;
+        this.idProp.set(id);
         this.dateOfBirth = dateOfBirth;
-        this.dateOfBirthPrpt.set(String.valueOf(dateOfBirth));
-        this.telephone.set(telephone);
-        this.salary.setValue(salary);
+        this.dateOfBirthProp.set(dateOfBirth.toString());
+        this.phoneNumber = telephone;
+        this.phoneNumberProp.set(telephone);
+        this.salary = salary;
+        this.salaryProp.setValue(salary);
     }
 
     public int getId() {
@@ -47,22 +85,25 @@ public class Employee implements BusinessObject {
 
     public void setId(int id) {
         this.id = id;
+        this.idProp.set(id);
     }
 
     public String getLastName() {
-        return lastName.get();
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName.set(lastName);
+        this.lastName = lastName;
+        this.lastNameProp.set(lastName);
     }
 
     public String getFirstName() {
-        return firstName.get();
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName.set(firstName);
+        this.firstName = firstName;
+        this.firstNameProp.set(firstName);
     }
 
     public LocalDate getDateOfBirth() {
@@ -71,23 +112,16 @@ public class Employee implements BusinessObject {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        this.dateOfBirthPrpt.setValue(String.valueOf(this.dateOfBirth));
+        this.dateOfBirthProp.set(dateOfBirth.toString());
     }
 
-    public String getDateOfBirthPrpt() {
-        return dateOfBirthPrpt.get();
+    public String getPhoneNumb() {
+        return this.phoneNumber;
     }
 
-    public SimpleStringProperty dateOfBirthPrptProperty() {
-        return dateOfBirthPrpt;
-    }
-
-    public String getTelephone() {
-        return telephone.get();
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone.set(telephone);
+    public void setPhoneNumber(String telephone) {
+        this.phoneNumber = telephone;
+        this.phoneNumberProp.set(telephone);
     }
 
     public EmployeePost getEmployeePost() {
@@ -99,39 +133,88 @@ public class Employee implements BusinessObject {
     }
 
     public double getSalary() {
-        return salary.get();
+        return salary;
     }
 
     public void setSalary(double salary) {
-        this.salary.setValue(salary);
+        this.salary = salary;
+        this.salaryProp.setValue(salary);
     }
+
+    //-----------------------------------
+
+    public SimpleIntegerProperty idPropProperty() {
+        idProp.set(id);
+        return idProp;
+    }
+
+    public SimpleStringProperty lastNamePropProperty() {
+        lastNameProp.set(lastName);
+        return lastNameProp;
+    }
+
+    public SimpleStringProperty firstNamePropProperty() {
+        firstNameProp.set(firstName);
+        return firstNameProp;
+    }
+
+    public SimpleStringProperty phoneNumberPropProperty() {
+        phoneNumberProp.set(phoneNumber);
+        return phoneNumberProp;
+    }
+
+    public SimpleStringProperty dateOfBirthPropProperty() {
+        dateOfBirthProp.set(dateOfBirth.toString());
+        return dateOfBirthProp;
+    }
+
+    public SimpleStringProperty employeePostPropProperty() {
+        employeePostProp.set(employeePost.toString());
+        return employeePostProp;
+    }
+
+    public SimpleDoubleProperty salaryPropProperty() {
+        salaryProp.setValue(salary);
+        return salaryProp;
+    }
+
+
+    //-----------------------------------
 
     @Override
     public String toString() {
         return "Employee{" +
                 "id=" + id +
-                ", lastName='" + lastName + '\'' +
+                ", lastNameProp='" + lastNameProp + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", telephone='" + telephone + '\'' +
+                ", telephone='" + phoneNumber + '\'' +
                 ", postId=" + employeePost.getPostName() +
                 ", salary=" + salary +
                 '}';
     }
 
-    public SimpleStringProperty lastNameProperty() {
-        return lastName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+
+        Employee employee = (Employee) o;
+
+        if (lastName != null ? !lastName.equals(employee.lastName) : employee.lastName != null) return false;
+        if (firstName != null ? !firstName.equals(employee.firstName) : employee.firstName != null) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(employee.phoneNumber) : employee.phoneNumber != null)
+            return false;
+        return dateOfBirth != null ? dateOfBirth.equals(employee.dateOfBirth) : employee.dateOfBirth == null;
+
     }
 
-    public SimpleStringProperty firstNameProperty() {
-        return firstName;
-    }
-
-    public SimpleStringProperty telephoneProperty() {
-        return telephone;
-    }
-
-    public SimpleDoubleProperty salaryProperty() {
-        return salary;
+    @Override
+    public int hashCode() {
+        int result = lastName != null ? lastName.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        return result;
     }
 }

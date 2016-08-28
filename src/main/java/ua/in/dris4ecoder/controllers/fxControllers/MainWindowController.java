@@ -1,13 +1,14 @@
 package ua.in.dris4ecoder.controllers.fxControllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.view.CustomColumn;
-import ua.in.dris4ecoder.view.CustomTabGenerator;
+import ua.in.dris4ecoder.view.customControls.CustomColumn;
+import ua.in.dris4ecoder.view.customControls.CustomTabGenerator;
 import ua.in.dris4ecoder.view.customControls.SettingsTab;
 
 import java.io.IOException;
@@ -51,17 +52,45 @@ public class MainWindowController {
         if(findTab("employees")) return;
 
         List<CustomColumn> customColumns = Arrays.asList(
-                new CustomColumn("id", "id", 30),
-                new CustomColumn("Фамилия", "lastName", 120),
-                new CustomColumn("Имя", "firstName", 120),
-                new CustomColumn("Телефон", "telephone", 120),
-                new CustomColumn("Дата рождения", "dateOfBirthPrpt"),
-                new CustomColumn("Должность", "employeePost", 120),
-                new CustomColumn("Оклад", "salary", 70)
+                new CustomColumn("id", "idProp", 30),
+                new CustomColumn("Фамилия", "lastNameProp", 120),
+                new CustomColumn("Имя", "firstNameProp", 120),
+                new CustomColumn("Телефон", "phoneNumberProp", 120),
+                new CustomColumn("Дата рождения", "dateOfBirthProp"),
+                new CustomColumn("Должность", "employeePostProp", 120),
+                new CustomColumn("Оклад", "salaryProp", 70)
         );
 
         tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/employeeTab.fxml", customColumns));
 
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabOrders(ActionEvent actionEvent) throws Exception {
+
+        if(findTab("orders")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp", 50),
+                new CustomColumn("Оффициант", "employeeNameProp", 200),
+                new CustomColumn("Столик", "deskProp", 50),
+                new CustomColumn("Статус заказа", "statusProp", 100),
+                new CustomColumn("Дата", "dateProp", 100)
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/orderTab.fxml", customColumns));
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabKitchen(ActionEvent actionEvent) throws Exception {
+
+        if(findTab("kitchen")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/kitchenProcessTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 

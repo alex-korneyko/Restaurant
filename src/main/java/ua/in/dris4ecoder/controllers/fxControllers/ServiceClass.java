@@ -6,7 +6,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import ua.in.dris4ecoder.view.CustomColumn;
+import ua.in.dris4ecoder.view.customControls.CustomColumn;
 
 
 /**

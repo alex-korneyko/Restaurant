@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.view;
+package ua.in.dris4ecoder.view.customControls;
 
 /**
  * Created by Alex Korneyko on 25.08.2016 18:03.

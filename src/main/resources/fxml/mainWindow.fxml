@@ -38,8 +38,8 @@
                   </MenuButton>
                   <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Обслуживание">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Заказы" />
-                      <MenuItem mnemonicParsing="false" text="Кухня" />
+                      <MenuItem mnemonicParsing="false" onAction="#createTabOrders" text="Заказы" />
+                      <MenuItem mnemonicParsing="false" onAction="#createTabKitchen" text="Кухня" />
                     </items>
                   </MenuButton>
                   <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Менджмент">

@@ -15,6 +15,7 @@ import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
+import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -78,7 +79,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         employee.setFirstName(textFieldFirstName.getText());
         employee.setLastName(textFieldLastName.getText());
         employee.setEmployeePost(Main.getStaffController().findEmployeePost(comboBoxEmployeePost.getValue()).get(0));
-        employee.setTelephone(textFieldPhone.getText());
+        employee.setPhoneNumber(textFieldPhone.getText());
         employee.setSalary(Double.parseDouble(textFieldSalary.getText()));
         employee.setDateOfBirth(datePickerDayOfBirth.getValue());
     }
@@ -96,7 +97,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         textFieldLastName.setText(selectedItem != null ? selectedItem.getLastName() : "");
         textFieldFirstName.setText(selectedItem != null ? selectedItem.getFirstName() : "");
         comboBoxEmployeePost.setValue(selectedItem != null ? selectedItem.getEmployeePost().getPostName() : "");
-        textFieldPhone.setText(selectedItem != null ? selectedItem.getTelephone() : "");
+        textFieldPhone.setText(selectedItem != null ? selectedItem.getPhoneNumb() : "");
         textFieldSalary.setText(selectedItem != null ? String.valueOf(selectedItem.getSalary()) : "");
         datePickerDayOfBirth.setValue(selectedItem != null ? selectedItem.getDateOfBirth() : null);
 

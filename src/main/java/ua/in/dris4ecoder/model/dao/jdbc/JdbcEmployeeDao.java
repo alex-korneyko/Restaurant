@@ -3,7 +3,6 @@ package ua.in.dris4ecoder.model.dao.jdbc;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
-import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
@@ -33,7 +32,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
             statement.setString(1, item.getLastName());
             statement.setString(2, item.getFirstName());
             statement.setDate(3, Date.valueOf(item.getDateOfBirth()));
-            statement.setString(4, item.getTelephone());
+            statement.setString(4, item.getPhoneNumb());
             statement.setInt(5, item.getEmployeePost().getId());
             statement.setDouble(6, item.getSalary());
             statement.execute();
@@ -69,7 +68,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
             statement.setString(1, changedItem.getLastName());
             statement.setString(2, changedItem.getFirstName());
             statement.setDate(3, Date.valueOf(changedItem.getDateOfBirth()));
-            statement.setString(4, changedItem.getTelephone());
+            statement.setString(4, changedItem.getPhoneNumb());
             statement.setInt(5, changedItem.getEmployeePost().getId());
             statement.setDouble(6, changedItem.getSalary());
             statement.setInt(7, id);

@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.view;
+package ua.in.dris4ecoder.view.customControls;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
