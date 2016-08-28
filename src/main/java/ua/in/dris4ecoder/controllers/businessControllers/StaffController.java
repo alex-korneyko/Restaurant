@@ -1,6 +1,7 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
 
+import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -42,7 +43,7 @@ public class StaffController implements BusinessController {
 
 
     public void addEmployee(String lastName, String firstName, int postId) {
-        employeeDao.addItem(new Employee(lastName, firstName, new EmployeePost(postId)));
+        employeeDao.addItem(new Employee(lastName, firstName, Main.getStaffController().findEmployeePostById(postId)));
     }
 
     public void addEmployee(Employee employee) {
