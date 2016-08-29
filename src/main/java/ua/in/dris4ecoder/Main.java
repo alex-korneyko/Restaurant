@@ -29,7 +29,6 @@ public class Main {
     private void start(String[] args) {
 
         mainWindow.runMainWindow(args);
-
     }
 
     public static StaffController getStaffController() {
@@ -38,6 +37,10 @@ public class Main {
 
     public static ManagementController getManagementController() {
         return managementController;
+    }
+
+    public static ServiceController getServiceController() {
+        return serviceController;
     }
 
     public void setStaffController(StaffController staffController) {

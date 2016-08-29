@@ -6,14 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import ua.in.dris4ecoder.model.businessObjects.Dish;
-import ua.in.dris4ecoder.model.businessObjects.Ingredient;
-import ua.in.dris4ecoder.model.businessObjects.Menu;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateDishDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateIngredientDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateMenuDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateOrderDao;
+import ua.in.dris4ecoder.model.dao.hibernate.*;
 
 import java.util.Properties;
 
@@ -64,10 +59,17 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao hibernateOrderDao(SessionFactory sessionFactory) {
+    RestaurantDao<Order> hibernateOrderDao(SessionFactory sessionFactory) {
         HibernateOrderDao orderDao = new HibernateOrderDao();
         orderDao.setSessionFactory(sessionFactory);
         return orderDao;
+    }
+
+    @Bean
+    RestaurantDao<KitchenProcess> hibernateKitchenDao(SessionFactory sessionFactory) {
+        HibernateKitchenDao hibernateKitchenDao = new HibernateKitchenDao();
+        hibernateKitchenDao.setSessionFactory(sessionFactory);
+        return hibernateKitchenDao;
     }
 
     @Bean

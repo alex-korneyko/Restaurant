@@ -18,6 +18,7 @@ import java.util.List;
 public class JdbcEmployeeDao implements RestaurantDao<Employee> {
 
     private DataSource dataSource;
+    private RestaurantDao<EmployeePost> employeePostDao;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -28,7 +29,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(
-                             "INSERT INTO service.employees (last_name, first_name, date_of_birth, telephone, post_id, salary) VALUES (?, ?, ?, ?, ?, ?)")) {
+                     "INSERT INTO service.employees (last_name, first_name, date_of_birth, telephone, post_id, salary) VALUES (?, ?, ?, ?, ?, ?)")) {
             statement.setString(1, item.getLastName());
             statement.setString(2, item.getFirstName());
             statement.setDate(3, Date.valueOf(item.getDateOfBirth()));
@@ -46,7 +47,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     public void removeItemById(int id) {
 
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM service.employees WHERE id = ?")) {
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM service.employees WHERE id = ?")) {
             statement.setInt(1, id);
             statement.execute();
         } catch (SQLException e) {
@@ -63,8 +64,8 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     public void editItem(int id, Employee changedItem) {
 
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement(
-                "UPDATE service.employees SET last_name = ?, first_name = ?, date_of_birth = ?, telephone = ?, post_id = ?, salary = ? WHERE id = ?")) {
+             PreparedStatement statement = connection.prepareStatement(
+                     "UPDATE service.employees SET last_name = ?, first_name = ?, date_of_birth = ?, telephone = ?, post_id = ?, salary = ? WHERE id = ?")) {
             statement.setString(1, changedItem.getLastName());
             statement.setString(2, changedItem.getFirstName());
             statement.setDate(3, Date.valueOf(changedItem.getDateOfBirth()));
@@ -83,7 +84,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
 
         ResultSet resultSet;
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE id = ?")){
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE id = ?")) {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             resultSet.next();
@@ -99,7 +100,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
         List<Employee> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE employees.first_name LIKE ? OR employees.last_name LIKE ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE employees.first_name LIKE ? OR employees.last_name LIKE ?")) {
             statement.setString(1, name);
             statement.setString(2, name);
             ResultSet resultSet = statement.executeQuery();
@@ -129,7 +130,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
         List<Employee> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE date_of_birth > ? AND date_of_birth < ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM service.employees WHERE date_of_birth > ? AND date_of_birth < ?")) {
             statement.setDate(1, java.sql.Date.valueOf(startPeriod));
             statement.setDate(2, java.sql.Date.valueOf(endPeriod));
             ResultSet resultSet = statement.executeQuery();
@@ -147,7 +148,7 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     public List<Employee> findAll() {
         List<Employee> employees = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-        Statement statement = connection.createStatement()) {
+             Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM service.employees INNER JOIN service.employee_posts ON employees.post_id = employee_posts.id");
 
             while (resultSet.next()) {
@@ -160,7 +161,21 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     }
 
     private Employee createEmployee(ResultSet resultSet) throws SQLException {
-        return new Employee(resultSet.getInt("id"), resultSet.getString("last_name"), resultSet.getString("first_name"),
-                resultSet.getDate("date_of_birth").toLocalDate(), resultSet.getString("telephone"), new EmployeePost(resultSet.getString("post_name")), resultSet.getDouble("salary"));
+
+        final int id = resultSet.getInt("id");
+        final String last_name = resultSet.getString("last_name");
+        final String first_name = resultSet.getString("first_name");
+        final Date date_of_birth = resultSet.getDate("date_of_birth");
+        final String telephone = resultSet.getString("telephone");
+        final int postId = resultSet.getInt("post_id");
+        final double salary = resultSet.getDouble("salary");
+
+        EmployeePost employeePost = employeePostDao.findItemById(postId);
+
+        return new Employee(id, last_name, first_name, date_of_birth.toLocalDate(), telephone, employeePost, salary);
+    }
+
+    public void setEmployeePostDao(RestaurantDao<EmployeePost> employeePostDao) {
+        this.employeePostDao = employeePostDao;
     }
 }

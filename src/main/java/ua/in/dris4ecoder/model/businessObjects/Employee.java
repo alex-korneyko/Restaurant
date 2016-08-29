@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * Created by Alex Korneyko on 29.07.2016 18:15.
  */
 @Entity
-@Table(name = "employees")
+@Table(name = "service.employees")
 public class Employee implements BusinessObject {
 
     @Id
@@ -185,7 +185,7 @@ public class Employee implements BusinessObject {
     public String toString() {
         return "Employee{" +
                 "id=" + id +
-                ", lastNameProp='" + lastNameProp + '\'' +
+                ", lastNameProp='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
                 ", telephone='" + phoneNumber + '\'' +

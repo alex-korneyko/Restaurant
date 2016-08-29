@@ -32,8 +32,15 @@ public class ServiceController implements BusinessController {
     }
 
     @Transactional
+    public void removeOrder(int id) {
+        removeOrder(findOrder(id));
+    }
+
+    @Transactional
     public Order findOrder(int id) {
-        return ordersDao.findItemById(id);
+        final Order order = ordersDao.findItemById(id);
+        if (order != null) return order;
+        else throw new IllegalArgumentException("order not found");
     }
 
     @Transactional
@@ -54,8 +61,6 @@ public class ServiceController implements BusinessController {
             throw new RuntimeException("Order already " + order.getStatus().toString());
         }
     }
-
-
 
 
     public void setOrdersDao(RestaurantDao<Order> ordersDao) {

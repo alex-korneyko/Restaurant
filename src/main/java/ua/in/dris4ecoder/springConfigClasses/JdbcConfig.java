@@ -7,7 +7,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeeDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcKitchenProcessDao;
-import ua.in.dris4ecoder.model.dao.jdbc.JdbcOrderDao;
 
 /**
  * Created by Alex Korneyko on 15.08.2016 11:26.
@@ -23,24 +22,11 @@ public class JdbcConfig {
     }
 
     @Bean
-    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource comboPooledDataSource) {
+    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource comboPooledDataSource, JdbcEmployeePostsDao jdbcEmployeePostsDao) {
         final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
         jdbcEmployeeDao.setDataSource(comboPooledDataSource);
+        jdbcEmployeeDao.setEmployeePostDao(jdbcEmployeePostsDao);
         return jdbcEmployeeDao;
-    }
-
-    @Bean
-    JdbcOrderDao jdbcOrderDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcOrderDao jdbcOrderDao = new JdbcOrderDao();
-        jdbcOrderDao.setDataSource(comboPooledDataSource);
-        return jdbcOrderDao;
-    }
-
-    @Bean
-    JdbcKitchenProcessDao jdbcKitchenProcessDao(ComboPooledDataSource comboPooledDataSource) {
-        final JdbcKitchenProcessDao jdbcKitchenProcessDao = new JdbcKitchenProcessDao();
-        jdbcKitchenProcessDao.setDataSource(comboPooledDataSource);
-        return jdbcKitchenProcessDao;
     }
 
     @Bean

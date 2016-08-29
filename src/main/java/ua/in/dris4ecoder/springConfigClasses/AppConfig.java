@@ -97,12 +97,12 @@ public class AppConfig {
     }
 
     @Bean
-    ServiceController serviceController(RestaurantDao<Order> jdbcOrderDao,
-                                        RestaurantDao<KitchenProcess> jdbcKitchenProcessDao) {
+    ServiceController serviceController(RestaurantDao<Order> hibernateOrderDao,
+                                        RestaurantDao<KitchenProcess> hibernateKitchenDao) {
 
         final ServiceController serviceController = new ServiceController();
-        serviceController.setOrdersDao(jdbcOrderDao);
-        serviceController.setKitchenProcessDao(jdbcKitchenProcessDao);
+        serviceController.setOrdersDao(hibernateOrderDao);
+        serviceController.setKitchenProcessDao(hibernateKitchenDao);
 
         return serviceController;
     }

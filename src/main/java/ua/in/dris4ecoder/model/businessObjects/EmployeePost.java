@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by Alex Korneyko on 29.07.2016 19:12.
  */
 @Entity
-@Table(name = "employee_posts")
+@Table(name = "service.employee_posts")
 public class EmployeePost implements BusinessObject {
 
     @Id
@@ -29,6 +29,9 @@ public class EmployeePost implements BusinessObject {
 
     @Transient
     private SimpleStringProperty postNameProp = new SimpleStringProperty();
+
+    public EmployeePost() {
+    }
 
     public EmployeePost(String postName) {
         this.postName = postName;

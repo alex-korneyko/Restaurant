@@ -41,7 +41,7 @@ public class Order {
     @ManyToMany
     @Fetch(FetchMode.JOIN)
     @JoinTable(
-            name = "order_composition",
+            name = "service.order_composition",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
@@ -57,6 +57,9 @@ public class Order {
     private SimpleStringProperty statusProp = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty dateProp = new SimpleStringProperty();
+
+    public Order() {
+    }
 
     public Order(Employee employee, int desk) {
         this.employee = employee;
