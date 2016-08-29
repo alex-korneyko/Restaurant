@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.OrderAddEditDialogueWindowController">
    <children>
       <GridPane>
         <columnConstraints>
@@ -51,22 +51,22 @@
             <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="200.0" />
             <HBox>
                <children>
-                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDishAction" prefWidth="70.0" text="Добавить">
+                  <Button fx:id="buttonAddDish" mnemonicParsing="false" onAction="#addDishToOrderAction" prefWidth="70.0" text="Добавить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonEditIngredient" disable="true" mnemonicParsing="false" onAction="#editIngredientWeightInDishAction" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditDishCount" disable="true" mnemonicParsing="false" onAction="#editDishCountInOrderAction" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" onAction="#removeIngredientFromDishAction" prefWidth="70.0" text="Удалить">
+                  <Button fx:id="buttonRemoveDish" mnemonicParsing="false" onAction="#removeDishFromOrderAction" prefWidth="70.0" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" onAction="#clearIngredientListFromDishAction" prefWidth="70.0" text="Очистить">
+                  <Button fx:id="buttonClearDishList" mnemonicParsing="false" onAction="#clearDishListInOrderAction" prefWidth="70.0" text="Очистить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

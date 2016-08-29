@@ -7,6 +7,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class Order {
     private OrderDishStatus status;
 
     @Column(name = "order_date")
-    private Date dateOfCreation;
+    private LocalDate dateOfCreation;
 
     @ManyToMany
     @Fetch(FetchMode.JOIN)
@@ -62,7 +63,7 @@ public class Order {
         this.desk = desk;
 
         status = OrderDishStatus.IN_QUEUE;
-        dateOfCreation = new Date();
+        dateOfCreation = LocalDate.now();
     }
 
     public int getId() {
@@ -102,11 +103,11 @@ public class Order {
         statusProp.set(status.toString());
     }
 
-    public Date getDateOfCreation() {
+    public LocalDate getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(Date dateOfCreation) {
+    public void setDateOfCreation(LocalDate dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
         dateProp.set(dateOfCreation.toString());
     }

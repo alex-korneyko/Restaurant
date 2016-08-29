@@ -1,8 +1,13 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.Order;
+import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Alex Korneyko on 04.08.2016 10:55.
@@ -11,6 +16,47 @@ public class ServiceController implements BusinessController {
 
     private RestaurantDao<Order> ordersDao;
     private RestaurantDao<KitchenProcess> kitchenProcessDao;
+
+    @Transactional
+    public void addOrder(Order order) {
+        ordersDao.addItem(order);
+    }
+
+    @Transactional
+    public void removeOrder(Order order) {
+        if (order.getStatus() == OrderDishStatus.IN_QUEUE) {
+            ordersDao.removeItemById(order.getId());
+        } else {
+            throw new RuntimeException("Order already " + order.getStatus().toString());
+        }
+    }
+
+    @Transactional
+    public Order findOrder(int id) {
+        return ordersDao.findItemById(id);
+    }
+
+    @Transactional
+    public List<Order> findOrder(OrderDishStatus orderDishStatus) {
+        return ordersDao.findItem(orderDishStatus);
+    }
+
+    @Transactional
+    public List<Order> findOrder(LocalDate start, LocalDate end) {
+        return ordersDao.findItem(start, end);
+    }
+
+    @Transactional
+    public void editOrder(Order order) {
+        if (order.getStatus() == OrderDishStatus.IN_QUEUE) {
+            ordersDao.editItem(order.getId(), order);
+        } else {
+            throw new RuntimeException("Order already " + order.getStatus().toString());
+        }
+    }
+
+
+
 
     public void setOrdersDao(RestaurantDao<Order> ordersDao) {
         this.ordersDao = ordersDao;

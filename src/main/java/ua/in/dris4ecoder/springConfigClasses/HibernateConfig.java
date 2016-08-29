@@ -13,6 +13,7 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.hibernate.HibernateDishDao;
 import ua.in.dris4ecoder.model.dao.hibernate.HibernateIngredientDao;
 import ua.in.dris4ecoder.model.dao.hibernate.HibernateMenuDao;
+import ua.in.dris4ecoder.model.dao.hibernate.HibernateOrderDao;
 
 import java.util.Properties;
 
@@ -60,6 +61,13 @@ public class HibernateConfig {
         menuDao.setSessionFactory(sessionFactory);
 
         return menuDao;
+    }
+
+    @Bean
+    RestaurantDao hibernateOrderDao(SessionFactory sessionFactory) {
+        HibernateOrderDao orderDao = new HibernateOrderDao();
+        orderDao.setSessionFactory(sessionFactory);
+        return orderDao;
     }
 
     @Bean

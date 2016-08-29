@@ -18,7 +18,8 @@ import java.util.List;
  */
 public class DishTabController implements TabController<Dish> {
 
-    @FXML private TableView<Dish> tableView;
+    @FXML
+    private TableView<Dish> tableView;
     private ObservableList<Dish> observableList;
 
     @Override
@@ -38,6 +39,8 @@ public class DishTabController implements TabController<Dish> {
 
     @Override
     public void editAction(ActionEvent actionEvent) {
+
+        if (tableView.getSelectionModel().getSelectedItem() == null) return;
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Изменить");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
@@ -65,7 +68,7 @@ public class DishTabController implements TabController<Dish> {
             }
         });
 
-        if(DialogueWindows.getStage("dishAddEditStage") == null) {
+        if (DialogueWindows.getStage("dishAddEditStage") == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/dishAddEditDialogueWindow.fxml"));
             DialogueWindows.createStage("dishAddEditStage", mainStage, fxmlLoader, observableList);
         }
