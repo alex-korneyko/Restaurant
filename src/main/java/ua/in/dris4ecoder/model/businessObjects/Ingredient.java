@@ -19,14 +19,19 @@ public class Ingredient {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
 
-    @Transient
-    private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
-
     @Column(name = "ingredient_name")
     private String ingredientName;
 
+    @ManyToOne
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
+
+    @Transient
+    private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
     @Transient
     private SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty unitNameProperty = new SimpleStringProperty();
 
     public Ingredient() {
     }
@@ -54,6 +59,14 @@ public class Ingredient {
         ingredientNameProp.set(ingredientName);
     }
 
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
     public SimpleIntegerProperty idPropProperty() {
         idProp.set(this.id);
         return idProp;
@@ -62,6 +75,11 @@ public class Ingredient {
     public SimpleStringProperty ingredientNamePropProperty() {
         ingredientNameProp.set(this.ingredientName);
         return ingredientNameProp;
+    }
+
+    public SimpleStringProperty unitNamePropertyProperty() {
+        unitNameProperty.set(unit.getUnitName());
+        return unitNameProperty;
     }
 
     @Override

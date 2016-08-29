@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeeDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
-import ua.in.dris4ecoder.model.dao.jdbc.JdbcKitchenProcessDao;
 
 /**
  * Created by Alex Korneyko on 15.08.2016 11:26.

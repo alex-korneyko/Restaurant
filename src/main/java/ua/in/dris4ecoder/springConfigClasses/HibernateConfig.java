@@ -73,6 +73,13 @@ public class HibernateConfig {
     }
 
     @Bean
+    RestaurantDao<Unit> hibernateUnitDao(SessionFactory sessionFactory) {
+        HibernateUnitsDao hibernateUnitsDao = new HibernateUnitsDao();
+        hibernateUnitsDao.setSessionFactory(sessionFactory);
+        return hibernateUnitsDao;
+    }
+
+    @Bean
     HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
 
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();

@@ -86,12 +86,14 @@ public class AppConfig {
     @Bean
     ManagementController managementController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
                                               @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
-                                              @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao) {
+                                              @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
+                                              @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao) {
 
         ManagementController managementController = new ManagementController();
         managementController.setIngredientRestaurantDao(ingredientRestaurantDao);
         managementController.setDishRestaurantDao(dishRestaurantDao);
         managementController.setMenuRestaurantDao(menuRestaurantDao);
+        managementController.setUnitRestaurantDao(unitRestaurantDao);
 
         return managementController;
     }

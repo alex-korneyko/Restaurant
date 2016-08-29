@@ -1,19 +1,24 @@
 package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 
+import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+
+import java.util.stream.Collectors;
 
 /**
  * Created by Alex Korneyko on 16.08.2016 19:47.
  */
 public class IngredientAddEditDialogueWindowController implements AddEditController<Ingredient> {
 
+    public ComboBox<String> comboBoxUnits;
     private ObservableList<Ingredient> observableList;
     private Ingredient selectedIngredient;
     private Stage mainStage;
@@ -26,7 +31,9 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
 
         if (selectedIngredient == null) {
             if (!textFieldIngredientName.getText().isEmpty()) {
-                Main.getManagementController().addIngredient(textFieldIngredientName.getText());
+                Ingredient ingredient = new Ingredient(textFieldIngredientName.getText());
+                ingredient.setUnit(Main.getManagementController().findUnit(comboBoxUnits.getValue()).get(0));
+                Main.getManagementController().addIngredient(ingredient);
                 observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
             }
         } else {
@@ -43,6 +50,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
 
         selectedIngredient = null;
         textFieldIngredientName.setText("");
+        this.comboBoxUnits.setValue(comboBoxUnits.getItems().get(0));
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
@@ -54,6 +62,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     public void setValueForEditing(Ingredient valueForEditing) {
         selectedIngredient = valueForEditing;
         textFieldIngredientName.setText(valueForEditing.getIngredientName());
+        comboBoxUnits.setValue(valueForEditing.getUnit().getUnitName());
     }
 
     @Override
@@ -64,5 +73,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     @Override
     public void init(ObservableList<Ingredient> observableList, Stage thisStage) {
         this.observableList = observableList;
+        this.comboBoxUnits.setItems(new ObservableListWrapper(Main.getManagementController().findAllUnits().stream().map(unit -> unit.getUnitName()).collect(Collectors.toList())));
+        this.comboBoxUnits.setValue(comboBoxUnits.getItems().get(0));
     }
 }

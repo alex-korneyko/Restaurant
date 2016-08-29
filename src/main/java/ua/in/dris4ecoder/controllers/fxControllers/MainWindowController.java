@@ -100,7 +100,8 @@ public class MainWindowController {
 
         List<CustomColumn> customColumns = Arrays.asList(
                 new CustomColumn("id", "idProp"),
-                new CustomColumn("Название", "ingredientNameProp", 200)
+                new CustomColumn("Название", "ingredientNameProp", 200),
+                new CustomColumn("Еденица", "unitNameProperty", 60)
         );
         tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/ingredientTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);

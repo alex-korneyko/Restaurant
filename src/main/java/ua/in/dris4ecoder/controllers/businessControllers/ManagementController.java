@@ -1,10 +1,7 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
 import org.springframework.transaction.annotation.Transactional;
-import ua.in.dris4ecoder.model.businessObjects.Dish;
-import ua.in.dris4ecoder.model.businessObjects.DishCategory;
-import ua.in.dris4ecoder.model.businessObjects.Ingredient;
-import ua.in.dris4ecoder.model.businessObjects.Menu;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.util.List;
@@ -15,12 +12,18 @@ import java.util.List;
 public class ManagementController implements BusinessController {
 
     private RestaurantDao<Ingredient> ingredientRestaurantDao;
+    private RestaurantDao<Unit> unitRestaurantDao;
     private RestaurantDao<Dish> dishRestaurantDao;
     private RestaurantDao<Menu> menuRestaurantDao;
 
     @Transactional
     public void addIngredient(String name) {
-        ingredientRestaurantDao.addItem(new Ingredient(name));
+        addIngredient(new Ingredient(name));
+    }
+
+    @Transactional
+    public void addIngredient(Ingredient ingredient) {
+        ingredientRestaurantDao.addItem(ingredient);
     }
 
     @Transactional
@@ -107,6 +110,16 @@ public class ManagementController implements BusinessController {
         return dishRestaurantDao.findAll();
     }
 
+    @Transactional
+    public List<Unit> findUnit(String value) {
+        return unitRestaurantDao.findItem(value);
+    }
+
+    @Transactional
+    public List<Unit> findAllUnits() {
+        return unitRestaurantDao.findAll();
+    }
+
     //Setters
     public void setIngredientRestaurantDao(RestaurantDao<Ingredient> ingredientRestaurantDao) {
         this.ingredientRestaurantDao = ingredientRestaurantDao;
@@ -119,5 +132,10 @@ public class ManagementController implements BusinessController {
     public void setMenuRestaurantDao(RestaurantDao<Menu> menuRestaurantDao) {
         this.menuRestaurantDao = menuRestaurantDao;
     }
+
+    public void setUnitRestaurantDao(RestaurantDao<Unit> unitRestaurantDao) {
+        this.unitRestaurantDao = unitRestaurantDao;
+    }
+
     //end Setters
 }
