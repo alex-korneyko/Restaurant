@@ -29,6 +29,7 @@ public class AppConfig {
     Main main(StaffController staffController,
               InstrumentsController instrumentsController,
               ServiceController serviceController,
+              ManagementController managementController,
               MainWindow mainWindow) {
 
         Main mainObject = new Main();
@@ -36,6 +37,7 @@ public class AppConfig {
         mainObject.setStaffController(staffController);
         mainObject.setInstrumentsController(instrumentsController);
         mainObject.setServiceController(serviceController);
+        mainObject.setManagementController(managementController);
         mainObject.setMainWindow(mainWindow);
 
         return mainObject;
@@ -100,12 +102,12 @@ public class AppConfig {
     }
 
     @Bean
-    ManagementController managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Supplier> supplierRestaurantDao,
+    ManagementController managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Contractor> supplierRestaurantDao,
                                               @Qualifier("hibernatePurchaseInvoiceDao") RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao,
                                               @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao) {
 
         ManagementController managementController = new ManagementController();
-        managementController.setSupplierRestaurantDao(supplierRestaurantDao);
+        managementController.setContractorRestaurantDao(supplierRestaurantDao);
         managementController.setPurchaseInvoiceRestaurantDao(purchaseInvoiceRestaurantDao);
         managementController.setSalesInvoiceRestaurantDao(salesInvoiceRestaurantDao);
         return managementController;

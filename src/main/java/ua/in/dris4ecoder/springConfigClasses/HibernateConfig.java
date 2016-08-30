@@ -80,10 +80,10 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<Supplier> hibernateSupplierDao(SessionFactory sessionFactory) {
-        HibernateSuppliersDao hibernateSuppliersDao = new HibernateSuppliersDao();
-        hibernateSuppliersDao.setSessionFactory(sessionFactory);
-        return hibernateSuppliersDao;
+    RestaurantDao<Contractor> hibernateSupplierDao(SessionFactory sessionFactory) {
+        HibernateContractorsDao hibernateContractorsDao = new HibernateContractorsDao();
+        hibernateContractorsDao.setSessionFactory(sessionFactory);
+        return hibernateContractorsDao;
     }
 
     @Bean

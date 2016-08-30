@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class PurchaseInvoice extends Invoice {
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
+    @JoinColumn(name = "contractor_id")
+    private Contractor contractor;
 
     @Column(name = "amount_invoice")
     private double amountOfInvoice;
@@ -28,17 +28,17 @@ public class PurchaseInvoice extends Invoice {
     public PurchaseInvoice() {
     }
 
-    public PurchaseInvoice(Supplier supplier) {
-        this.supplier = supplier;
+    public PurchaseInvoice(Contractor contractor) {
+        this.contractor = contractor;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public Contractor getContractor() {
+        return contractor;
     }
 
-    public void setSupplier(Supplier supplier) {
-        supplierProp.set(supplier.getSupplierName());
-        this.supplier = supplier;
+    public void setContractor(Contractor contractor) {
+        supplierProp.set(contractor.getContractorName());
+        this.contractor = contractor;
     }
 
     public double getAmountOfInvoice() {
@@ -51,7 +51,7 @@ public class PurchaseInvoice extends Invoice {
     }
 
     public SimpleStringProperty supplierPropProperty() {
-        supplierProp.set(supplier.getSupplierName());
+        supplierProp.set(contractor.getContractorName());
         return supplierProp;
     }
 

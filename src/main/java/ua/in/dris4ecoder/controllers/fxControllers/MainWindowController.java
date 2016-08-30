@@ -137,16 +137,16 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabSuppliers(ActionEvent actionEvent) throws Exception {
+    public void createTabContractor(ActionEvent actionEvent) throws Exception {
 
-        if(findTab("suppliers")) return;
+        if(findTab("contractors")) return;
 
         List<CustomColumn> customColumns = Arrays.asList(
                 new CustomColumn("id", "idProp"),
-                new CustomColumn("Название", "supplierNameProp", 300)
+                new CustomColumn("Название", "contractorNameProp", 300)
         );
 
-        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/suppliersTab.fxml", customColumns));
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/contractorsTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 

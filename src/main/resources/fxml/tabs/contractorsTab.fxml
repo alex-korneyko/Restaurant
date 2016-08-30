@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<fx:root id="suppliers" text="Поставщики" type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.tabControllers.SuppliersTabController">
+<fx:root id="contractors" text="Контрагенты" type="javafx.scene.control.Tab" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.tabControllers.ContractorsTabController">
    <content>
       <AnchorPane>
          <children>
