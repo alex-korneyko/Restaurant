@@ -39,7 +39,7 @@ public class Order {
     private LocalDate dateOfCreation;
 
     @ManyToMany
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "service.order_composition",
             joinColumns = @JoinColumn(name = "order_id"),

@@ -32,14 +32,14 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
         if (selectedIngredient == null) {
             if (!textFieldIngredientName.getText().isEmpty()) {
                 Ingredient ingredient = new Ingredient(textFieldIngredientName.getText());
-                ingredient.setUnit(Main.getManagementController().findUnit(comboBoxUnits.getValue()).get(0));
-                Main.getManagementController().addIngredient(ingredient);
-                observableList.add(Main.getManagementController().findIngredient(textFieldIngredientName.getText()).get(0));
+                ingredient.setUnit(Main.getInstrumentsController().findUnit(comboBoxUnits.getValue()).get(0));
+                Main.getInstrumentsController().addIngredient(ingredient);
+                observableList.add(Main.getInstrumentsController().findIngredient(textFieldIngredientName.getText()).get(0));
             }
         } else {
-            Main.getManagementController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));
+            Main.getInstrumentsController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));
             observableList.clear();
-            observableList.addAll(Main.getManagementController().findAllIngredients());
+            observableList.addAll(Main.getInstrumentsController().findAllIngredients());
         }
 
         closeAction(actionEvent);
@@ -73,7 +73,7 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
     @Override
     public void init(ObservableList<Ingredient> observableList, Stage thisStage) {
         this.observableList = observableList;
-        this.comboBoxUnits.setItems(new ObservableListWrapper(Main.getManagementController().findAllUnits().stream().map(unit -> unit.getUnitName()).collect(Collectors.toList())));
+        this.comboBoxUnits.setItems(new ObservableListWrapper(Main.getInstrumentsController().findAllUnits().stream().map(unit -> unit.getUnitName()).collect(Collectors.toList())));
         this.comboBoxUnits.setValue(comboBoxUnits.getItems().get(0));
     }
 }

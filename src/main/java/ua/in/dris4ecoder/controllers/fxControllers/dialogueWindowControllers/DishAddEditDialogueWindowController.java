@@ -75,14 +75,14 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         if(dish == null) {
             dish = new Dish();
             fillDish();
-            Main.getManagementController().addDish(dish);
+            Main.getInstrumentsController().addDish(dish);
         } else {
             fillDish();
-            Main.getManagementController().editDish(dish.getId(), dish);
+            Main.getInstrumentsController().editDish(dish.getId(), dish);
         }
 
         dishObservableList.clear();
-        dishObservableList.addAll(Main.getManagementController().findAllDishes());
+        dishObservableList.addAll(Main.getInstrumentsController().findAllDishes());
         dish = null;
         closeAction(actionEvent);
     }
@@ -135,7 +135,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
             textFieldWeight.setText(String.valueOf(dish.getWeight()));
             comboBoxCategory.setValue(dish.getDishCategory().toString());
             ingredientObservableList.clear();
-            List<Ingredient> ingredients = new ArrayList<>(Main.getManagementController().findDish(dish.getId()).getIngredients());
+            List<Ingredient> ingredients = new ArrayList<>(Main.getInstrumentsController().findDish(dish.getId()).getIngredients());
             ingredientObservableList.addAll(ingredients);
         }
     }

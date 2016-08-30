@@ -3,14 +3,14 @@ package ua.in.dris4ecoder.controllers.fxControllers.tabControllers;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import ua.in.dris4ecoder.model.businessObjects.Invoice;
+import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
 
 import java.io.IOException;
 
 /**
- * Created by Alex Korneyko on 30.08.2016 11:56.
+ * Created by Alex Korneyko on 30.08.2016 13:30.
  */
-public class WarehouseTabController implements TabController<Invoice> {
+public class PurchaseInvoicesTabController implements TabController<PurchaseInvoice>{
 
     @Override
     public void addAction(ActionEvent actionEvent) throws IOException {
@@ -33,7 +33,7 @@ public class WarehouseTabController implements TabController<Invoice> {
     }
 
     @Override
-    public void init(Stage mainStage, TableView<Invoice> tableView) throws Exception {
+    public void init(Stage mainStage, TableView<PurchaseInvoice> tableView) throws Exception {
 
     }
 }

@@ -51,7 +51,7 @@ public class IngredientTabController implements TabController<Ingredient> {
     public void deleteAction(ActionEvent actionEvent) {
 
         final Ingredient selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getManagementController().removeIngredient(selectedItem.getId());
+        Main.getInstrumentsController().removeIngredient(selectedItem.getId());
         getAllAction(actionEvent);
     }
 
@@ -60,7 +60,7 @@ public class IngredientTabController implements TabController<Ingredient> {
     public void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();
-        final List<Ingredient> allIngredients = Main.getManagementController().findAllIngredients();
+        final List<Ingredient> allIngredients = Main.getInstrumentsController().findAllIngredients();
         observableList.addAll(allIngredients);
     }
 

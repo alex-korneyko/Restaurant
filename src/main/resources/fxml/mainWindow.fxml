@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="625.0" minWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.MainWindowController">
    <children>
       <MenuBar>
@@ -30,33 +27,34 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Персонал" wrapText="true">
+                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Персонал" textAlignment="CENTER" wrapText="true">
                     <items>
                       <MenuItem fx:id="menuItemCreateTabPosts" mnemonicParsing="false" onAction="#createTabPosts" text="Должности" />
                         <MenuItem mnemonicParsing="false" onAction="#createTabEmployees" text="Сотрудники" />
                     </items>
                   </MenuButton>
-                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Обслуживание">
+                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Обслужи- вание" textAlignment="CENTER" wrapText="true">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#createTabOrders" text="Заказы" />
                       <MenuItem mnemonicParsing="false" onAction="#createTabKitchen" text="Кухня" />
                     </items>
                   </MenuButton>
-                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Менджмент">
+                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Инстру- менты" textAlignment="CENTER" wrapText="true">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#createTabIngredients" text="Ингредиенты" />
                         <MenuItem mnemonicParsing="false" onAction="#createTabDishes" text="Блюда" />
                         <MenuItem mnemonicParsing="false" text="Меню" />
                     </items>
                   </MenuButton>
-                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Бухгалтерия">
+                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Менедж- мент" textAlignment="CENTER" wrapText="true">
                     <items>
-                      <MenuItem disable="true" mnemonicParsing="false" text="Приход" />
+                      <MenuItem mnemonicParsing="false" onAction="#createTabPurchaseInvoices" text="Приход" />
                       <MenuItem disable="true" mnemonicParsing="false" text="Расход" />
+                        <MenuItem mnemonicParsing="false" onAction="#createTabSuppliers" text="Поставщики" />
                         <MenuItem mnemonicParsing="false" text="Склад" />
                     </items>
                   </MenuButton>
-                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Отчёты">
+                  <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Отчёты" textAlignment="CENTER">
                     <items>
                       <MenuItem disable="true" mnemonicParsing="false" text="Приход/расход" />
                       <MenuItem disable="true" mnemonicParsing="false" text="Финансы" />

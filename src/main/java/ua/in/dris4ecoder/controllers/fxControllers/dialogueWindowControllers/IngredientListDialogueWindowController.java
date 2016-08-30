@@ -36,7 +36,7 @@ public class IngredientListDialogueWindowController implements AddEditController
         ingredientAddEditStage.setTitle("Создать");
         ingredientAddEditStage.showAndWait();
         ingredientsFullList.clear();
-        ingredientsFullList.addAll(Main.getManagementController().findAllIngredients());
+        ingredientsFullList.addAll(Main.getInstrumentsController().findAllIngredients());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class IngredientListDialogueWindowController implements AddEditController
         ServiceClass.setColumns(tableViewIngredientsList, "id", "idProp");
         ServiceClass.setColumns(tableViewIngredientsList, "Название", "ingredientNameProp");
         tableViewIngredientsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        ingredientsFullList.addAll(Main.getManagementController().findAllIngredients());
+        ingredientsFullList.addAll(Main.getInstrumentsController().findAllIngredients());
         tableViewIngredientsList.setItems(ingredientsFullList);
 
         if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
@@ -87,7 +87,7 @@ public class IngredientListDialogueWindowController implements AddEditController
     public void keyReleasedAction() {
         CharSequence mask = textFieldFilter.getText();
         List<Ingredient> filteredIngredients =
-                Main.getManagementController().findAllIngredients().stream().filter(ingredient -> ingredient.getIngredientName().contains(mask)).collect(Collectors.toList());
+                Main.getInstrumentsController().findAllIngredients().stream().filter(ingredient -> ingredient.getIngredientName().contains(mask)).collect(Collectors.toList());
         ingredientsFullList.clear();
         ingredientsFullList.addAll(filteredIngredients);
     }

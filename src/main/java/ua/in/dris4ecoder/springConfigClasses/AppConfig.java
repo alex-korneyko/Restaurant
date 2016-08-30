@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ua.in.dris4ecoder.Main;
+import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
@@ -26,14 +27,14 @@ public class AppConfig {
 
     @Bean
     Main main(StaffController staffController,
-              ManagementController managementController,
+              InstrumentsController instrumentsController,
               ServiceController serviceController,
               MainWindow mainWindow) {
 
         Main mainObject = new Main();
 
         mainObject.setStaffController(staffController);
-        mainObject.setManagementController(managementController);
+        mainObject.setInstrumentsController(instrumentsController);
         mainObject.setServiceController(serviceController);
         mainObject.setMainWindow(mainWindow);
 
@@ -84,17 +85,29 @@ public class AppConfig {
     }
 
     @Bean
-    ManagementController managementController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
-                                              @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
-                                              @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
-                                              @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao) {
+    InstrumentsController instrumentsController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
+                                                @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
+                                                @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
+                                                @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao) {
+
+        InstrumentsController instrumentsController = new InstrumentsController();
+        instrumentsController.setIngredientRestaurantDao(ingredientRestaurantDao);
+        instrumentsController.setDishRestaurantDao(dishRestaurantDao);
+        instrumentsController.setMenuRestaurantDao(menuRestaurantDao);
+        instrumentsController.setUnitRestaurantDao(unitRestaurantDao);
+
+        return instrumentsController;
+    }
+
+    @Bean
+    ManagementController managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Supplier> supplierRestaurantDao,
+                                              @Qualifier("hibernatePurchaseInvoiceDao") RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao,
+                                              @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao) {
 
         ManagementController managementController = new ManagementController();
-        managementController.setIngredientRestaurantDao(ingredientRestaurantDao);
-        managementController.setDishRestaurantDao(dishRestaurantDao);
-        managementController.setMenuRestaurantDao(menuRestaurantDao);
-        managementController.setUnitRestaurantDao(unitRestaurantDao);
-
+        managementController.setSupplierRestaurantDao(supplierRestaurantDao);
+        managementController.setPurchaseInvoiceRestaurantDao(purchaseInvoiceRestaurantDao);
+        managementController.setSalesInvoiceRestaurantDao(salesInvoiceRestaurantDao);
         return managementController;
     }
 

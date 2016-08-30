@@ -122,6 +122,34 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
+    public void createTabPurchaseInvoices(ActionEvent actionEvent) throws Exception {
+
+        if(findTab("purchaseInvoices")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp"),
+                new CustomColumn("Дата", "invoiceDateProp"),
+                new CustomColumn("Поставщик", "supplierProp", 300),
+                new CustomColumn("Сумма", "amountOfInvoiceProp")
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/purchaseInvoicesTab.fxml", customColumns));
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabSuppliers(ActionEvent actionEvent) throws Exception {
+
+        if(findTab("suppliers")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp"),
+                new CustomColumn("Название", "supplierNameProp", 300)
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/suppliersTab.fxml", customColumns));
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
     public void createTabSettings() throws IOException {
 
         if(findTab("settings")) return;

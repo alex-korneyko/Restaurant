@@ -27,7 +27,7 @@ public abstract class Invoice implements BusinessObject {
     private LocalDate invoiceDate;
 
     @ManyToMany
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     @JoinTable(
             name = "service.invoices_compositions",
             joinColumns = @JoinColumn(name = "invoice_id"),

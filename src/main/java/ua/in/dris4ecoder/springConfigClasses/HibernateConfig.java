@@ -80,6 +80,27 @@ public class HibernateConfig {
     }
 
     @Bean
+    RestaurantDao<Supplier> hibernateSupplierDao(SessionFactory sessionFactory) {
+        HibernateSuppliersDao hibernateSuppliersDao = new HibernateSuppliersDao();
+        hibernateSuppliersDao.setSessionFactory(sessionFactory);
+        return hibernateSuppliersDao;
+    }
+
+    @Bean
+    RestaurantDao<PurchaseInvoice> hibernatePurchaseInvoiceDao(SessionFactory sessionFactory) {
+        HibernatePurchaseInvoiceDao hibernatePurchaseInvoiceDao = new HibernatePurchaseInvoiceDao();
+        hibernatePurchaseInvoiceDao.setSessionFactory(sessionFactory);
+        return hibernatePurchaseInvoiceDao;
+    }
+
+    @Bean
+    RestaurantDao<SalesInvoice> hibernateSalesInvoiceDao(SessionFactory sessionFactory) {
+        HibernateSalesInvoiceDao hibernateSalesInvoiceDao = new HibernateSalesInvoiceDao();
+        hibernateSalesInvoiceDao.setSessionFactory(sessionFactory);
+        return hibernateSalesInvoiceDao;
+    }
+
+    @Bean
     HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
 
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();

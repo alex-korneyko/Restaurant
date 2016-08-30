@@ -33,7 +33,7 @@ public class DishTabController implements TabController<Dish> {
     @Override
     public void deleteAction(ActionEvent actionEvent) {
         final Dish selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getManagementController().removeDish(selectedItem.getId());
+        Main.getInstrumentsController().removeDish(selectedItem.getId());
         getAllAction(actionEvent);
     }
 
@@ -52,7 +52,7 @@ public class DishTabController implements TabController<Dish> {
     public void getAllAction(ActionEvent actionEvent) {
 
         observableList.clear();
-        final List<Dish> allDishes = Main.getManagementController().findAllDishes();
+        final List<Dish> allDishes = Main.getInstrumentsController().findAllDishes();
         observableList.addAll(allDishes);
     }
 

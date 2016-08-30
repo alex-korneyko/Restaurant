@@ -61,4 +61,28 @@ public class Supplier {
         supplierNameProp.set(supplierName);
         return supplierNameProp;
     }
+
+    @Override
+    public String toString() {
+        return "Supplier{" +
+                "id=" + id +
+                ", supplierName='" + supplierName + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Supplier)) return false;
+
+        Supplier supplier = (Supplier) o;
+
+        return supplierName != null ? supplierName.equals(supplier.supplierName) : supplier.supplierName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return supplierName != null ? supplierName.hashCode() : 0;
+    }
 }

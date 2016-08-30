@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.persistence.*;
@@ -16,8 +17,13 @@ public class PurchaseInvoice extends Invoice {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
+    @Column(name = "amount_invoice")
+    private double amountOfInvoice;
+
     @Transient
     private SimpleStringProperty supplierProp = new SimpleStringProperty();
+    @Transient
+    private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
 
     public PurchaseInvoice() {
     }
@@ -35,8 +41,22 @@ public class PurchaseInvoice extends Invoice {
         this.supplier = supplier;
     }
 
+    public double getAmountOfInvoice() {
+        return amountOfInvoice;
+    }
+
+    public void setAmountOfInvoice(double amountOfInvoice) {
+        amountOfInvoiceProp.setValue(amountOfInvoice);
+        this.amountOfInvoice = amountOfInvoice;
+    }
+
     public SimpleStringProperty supplierPropProperty() {
         supplierProp.set(supplier.getSupplierName());
         return supplierProp;
+    }
+
+    public SimpleDoubleProperty amountOfInvoicePropProperty() {
+        amountOfInvoiceProp.set(amountOfInvoice);
+        return amountOfInvoiceProp;
     }
 }
