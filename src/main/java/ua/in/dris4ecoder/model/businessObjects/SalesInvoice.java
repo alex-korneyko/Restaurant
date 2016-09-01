@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -25,12 +26,17 @@ public class SalesInvoice extends Invoice {
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;
 
+    @Column(name = "amount_invoice")
+    private double amountOfInvoice;
+
     @Transient
     private SimpleIntegerProperty orderIdProp = new SimpleIntegerProperty();
     @Transient
     private SimpleStringProperty employeeProp = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty contractorProp = new SimpleStringProperty();
+    @Transient
+    private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
 
     public SalesInvoice() {
     }
@@ -67,6 +73,15 @@ public class SalesInvoice extends Invoice {
         this.contractor = contractor;
     }
 
+    public double getAmountOfInvoice() {
+        return amountOfInvoice;
+    }
+
+    public void setAmountOfInvoice(double amountOfInvoice) {
+        amountOfInvoiceProp.set(amountOfInvoice);
+        this.amountOfInvoice = amountOfInvoice;
+    }
+
     public SimpleIntegerProperty orderIdPropProperty() {
         orderIdProp.set(order.getId());
         return orderIdProp;
@@ -80,5 +95,10 @@ public class SalesInvoice extends Invoice {
     public SimpleStringProperty contractorPropProperty() {
         contractorProp.set(contractor.getContractorName());
         return contractorProp;
+    }
+
+    public SimpleDoubleProperty amountOfInvoicePropProperty() {
+        amountOfInvoiceProp.set(amountOfInvoice);
+        return amountOfInvoiceProp;
     }
 }

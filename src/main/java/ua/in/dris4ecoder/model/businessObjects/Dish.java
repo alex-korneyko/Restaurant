@@ -8,7 +8,10 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:14.
@@ -37,13 +40,27 @@ public class Dish {
     private double weight;
 
     @ManyToMany
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "service.dish_composition",
             joinColumns = @JoinColumn(name = "dish_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
+    private List<Ingredient> ingredients = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "service.dish_composition_weight")
+    @Column(name = "ingredient_weight")
+    @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
-    private List<Ingredient> ingredients;
+    private Map<Ingredient, Double> ingredientWeightPerDish = new HashMap<>();
+
+    @ElementCollection
+    @CollectionTable(name = "service.dish_composition_price")
+    @Column(name = "ingredient_price")
+    @MapKeyJoinColumn(name = "ingredient_id")
+    @Fetch(FetchMode.JOIN)
+    private Map<Ingredient, Double> ingredientCostPerDish = new HashMap<>();
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
@@ -124,18 +141,23 @@ public class Dish {
     }
 
     public List<Ingredient> getIngredients() {
+        fillWeightAndCostInIngredients();
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        ingredients.forEach(ingredient -> {
+            ingredientWeightPerDish.put(ingredient, ingredient.getIngredientWeight());
+            ingredientCostPerDish.put(ingredient, ingredient.getIngredientPrice());
+        });
     }
-
 
     public SimpleIntegerProperty idPropProperty() {
         idProp.set(id);
         return idProp;
     }
+
 
     public SimpleStringProperty dishNamePropProperty() {
         dishNameProp.set(this.dishName);
@@ -155,6 +177,13 @@ public class Dish {
     public SimpleDoubleProperty weightPropProperty() {
         weightProp.setValue(weight);
         return weightProp;
+    }
+
+    private void fillWeightAndCostInIngredients() {
+        ingredients.forEach(ingredient -> {
+            ingredient.setIngredientWeight(ingredientWeightPerDish.get(ingredient));
+            ingredient.setIngredientPrice(ingredientCostPerDish.get(ingredient));
+        });
     }
 
     @Override

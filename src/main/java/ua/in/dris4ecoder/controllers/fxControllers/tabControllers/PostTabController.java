@@ -46,6 +46,7 @@ public class PostTabController implements TabController<EmployeePost> {
     public void deleteAction(ActionEvent actionEvent) {
 
         final EmployeePost selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) return;
         Main.getStaffController().removeEmployeePost(selectedItem.getId());
         getAllAction(actionEvent);
     }

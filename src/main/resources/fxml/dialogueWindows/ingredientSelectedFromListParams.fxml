@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.IngredientParamsDialogueWindowController">
+   <children>
+      <Label fx:id="labelIngredientName" text="Label" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label prefWidth="70.0" text="Цена/ед." />
+            <TextField fx:id="textFieldPrice" prefWidth="70.0" />
+            <VBox>
+               <children>
+                  <Label fx:id="labelLastPrice" prefWidth="50.0" text="0.0" textFill="BLUE">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Последняя закупочная">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
+                  </Label>
+                  <Label fx:id="labelAveragePrice" prefWidth="50.0" text="0.0" textFill="BLUE">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Средняя за полгода">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets left="10.0" />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label prefWidth="70.0" text="Количество" />
+            <TextField fx:id="textFieldAmount" prefWidth="70.0" />
+            <Label fx:id="labelUnit" text="Unit">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox>
+         <children>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#saveAction" prefWidth="100.0" text="Ok">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#closeAction" prefWidth="100.0" text="Cancel">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

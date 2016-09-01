@@ -42,6 +42,22 @@ public class ManagementController implements BusinessController {
         contractorRestaurantDao.editItem(id, contractor);
     }
 
+    @Transactional
+    public void removeContractor(int id) {
+        contractorRestaurantDao.removeItemById(id);
+    }
+
+    @Transactional
+    public void removeContractor(String name) {
+        final List<Contractor> item = contractorRestaurantDao.findItem(name);
+        item.forEach(contractor -> removeContractor(contractor.getId()));
+    }
+
+    @Transactional
+    public void removeContractor(Contractor contractor) {
+        removeContractor(contractor.getId());
+    }
+
     public void setContractorRestaurantDao(RestaurantDao<Contractor> contractorRestaurantDao) {
         this.contractorRestaurantDao = contractorRestaurantDao;
     }

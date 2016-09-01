@@ -93,7 +93,9 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
 
     @Override
     public List<Dish> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("select i from Dish i").list();
+        final Query<Dish> query = sessionFactory.getCurrentSession().createQuery("select i from Dish i");
+        final List<Dish> list = query.list();
+        return list;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

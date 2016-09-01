@@ -21,14 +21,14 @@ import java.util.stream.Collectors;
  * Created by Alex Korneyko on 18.08.2016 17:58.
  */
 public class IngredientListDialogueWindowController implements AddEditController<Ingredient> {
-    public TableView<Ingredient> tableViewIngredientsList;
+    public TableView<Ingredient> tableViewAllIngredientsList;
     public TextField textFieldFilter;
 
     private ObservableList<Ingredient> ingredientsFullList = FXCollections.observableArrayList();
-    private ObservableList<Ingredient> selectedIngredientsList;
+    private ObservableList<Ingredient> ingredientsInCurrentDish;
     private Stage mainStage;
     private Stage controlledStage;
-
+    private Ingredient ingredient;
 
     public void createNewIngredientAction() {
 
@@ -42,8 +42,9 @@ public class IngredientListDialogueWindowController implements AddEditController
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        final ObservableList<Ingredient> selectedItems = tableViewIngredientsList.getSelectionModel().getSelectedItems();
-        selectedIngredientsList.addAll(selectedItems);
+        final Ingredient selectedItem = tableViewAllIngredientsList.getSelectionModel().getSelectedItem();
+//        ingredientsInCurrentDish.add(selectedItem);
+        ingredient = selectedItem;
         closeAction(actionEvent);
     }
 
@@ -59,14 +60,14 @@ public class IngredientListDialogueWindowController implements AddEditController
     }
 
     public void init(ObservableList<Ingredient> selectedIngredientsList, Stage thisStage) throws Exception {
-        this.selectedIngredientsList = selectedIngredientsList;
+        this.ingredientsInCurrentDish = selectedIngredientsList;
         this.controlledStage = thisStage;
 
-        ServiceClass.setColumns(tableViewIngredientsList, "id", "idProp");
-        ServiceClass.setColumns(tableViewIngredientsList, "Название", "ingredientNameProp");
-        tableViewIngredientsList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ServiceClass.setColumns(tableViewAllIngredientsList, "id", "idProp");
+        ServiceClass.setColumns(tableViewAllIngredientsList, "Название", "ingredientNameProp");
+        tableViewAllIngredientsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ingredientsFullList.addAll(Main.getInstrumentsController().findAllIngredients());
-        tableViewIngredientsList.setItems(ingredientsFullList);
+        tableViewAllIngredientsList.setItems(ingredientsFullList);
 
         if(DialogueWindows.getStage("ingredientAddEditStage") == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientAddEditDialogueWindow.fxml"));
@@ -81,7 +82,7 @@ public class IngredientListDialogueWindowController implements AddEditController
 
     @Override
     public Ingredient getNewValue() {
-        return null;
+        return ingredient;
     }
 
     public void keyReleasedAction() {

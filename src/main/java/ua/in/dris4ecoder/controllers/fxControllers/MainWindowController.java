@@ -25,14 +25,6 @@ public class MainWindowController {
     private Stage mainStage;
     private SingleSelectionModel<Tab> selectionModel;
 
-    @FXML private void initialize() {
-        selectionModel = tabPaneDbManagement.getSelectionModel();
-    }
-
-    public void setMainStage(Stage mainStage) {
-        this.mainStage = mainStage;
-    }
-
     public void createTabPosts() throws Exception {
 
         if(findTab("posts")) return;
@@ -129,11 +121,27 @@ public class MainWindowController {
         List<CustomColumn> customColumns = Arrays.asList(
                 new CustomColumn("id", "idProp"),
                 new CustomColumn("Дата", "invoiceDateProp"),
-                new CustomColumn("Поставщик", "supplierProp", 300),
+                new CustomColumn("Контрагент", "contractorProp", 300),
                 new CustomColumn("Сумма", "amountOfInvoiceProp")
         );
 
         tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/purchaseInvoicesTab.fxml", customColumns));
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabSalesInvoices(ActionEvent actionEvent) throws Exception {
+
+        if(findTab("salesInvoices")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp"),
+                new CustomColumn("Дата", "invoiceDateProp"),
+                new CustomColumn("Контрагент", "contractorProp", 300),
+                new CustomColumn("Ордер", "orderIdProp"),
+                new CustomColumn("Сумма", "amountOfInvoiceProp")
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/salesInvoicesTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
@@ -169,5 +177,13 @@ public class MainWindowController {
             }
         }
         return false;
+    }
+
+    @FXML private void initialize() {
+        selectionModel = tabPaneDbManagement.getSelectionModel();
+    }
+
+    public void setMainStage(Stage mainStage) {
+        this.mainStage = mainStage;
     }
 }

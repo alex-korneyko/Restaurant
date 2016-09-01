@@ -7,7 +7,7 @@
 
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.IngredientListDialogueWindowController">
    <children>
-      <TableView fx:id="tableViewIngredientsList" prefHeight="200.0" prefWidth="200.0">
+      <TableView fx:id="tableViewAllIngredientsList" prefHeight="200.0" prefWidth="200.0">
          <VBox.margin>
             <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>

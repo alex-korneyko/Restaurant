@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
@@ -26,12 +27,22 @@ public class Ingredient {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
+    @Column(name = "ingredient_price")
+    private Double ingredientPrice = 0.0;
+
+    @Column(name = "ingredient_weight")
+    private Double ingredientWeight = 0.0;
+
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
     @Transient
     private SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty unitNameProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleDoubleProperty ingredientPriceProp = new SimpleDoubleProperty();
+    @Transient
+    private SimpleDoubleProperty ingredientWeightProp = new SimpleDoubleProperty();
 
     public Ingredient() {
     }
@@ -67,6 +78,24 @@ public class Ingredient {
         this.unit = unit;
     }
 
+    public Double getIngredientPrice() {
+        return ingredientPrice;
+    }
+
+    public void setIngredientPrice(double ingredientPrice) {
+        ingredientPriceProp.set(ingredientPrice);
+        this.ingredientPrice = ingredientPrice;
+    }
+
+    public Double getIngredientWeight() {
+        return ingredientWeight;
+    }
+
+    public void setIngredientWeight(double ingredientWeight) {
+        ingredientWeightProp.set(ingredientWeight);
+        this.ingredientWeight = ingredientWeight;
+    }
+
     public SimpleIntegerProperty idPropProperty() {
         idProp.set(this.id);
         return idProp;
@@ -82,11 +111,24 @@ public class Ingredient {
         return unitNameProperty;
     }
 
+    public SimpleDoubleProperty ingredientPricePropProperty() {
+        ingredientPriceProp.set(ingredientPrice);
+        return ingredientPriceProp;
+    }
+
+    public SimpleDoubleProperty ingredientWeightPropProperty() {
+        ingredientWeightProp.set(ingredientWeight);
+        return ingredientWeightProp;
+    }
+
     @Override
     public String toString() {
         return "Ingredient{" +
                 "id=" + id +
                 ", ingredientName='" + ingredientName + '\'' +
+                ", unit=" + unit +
+                ", ingredientPrice=" + ingredientPrice +
+                ", ingredientWeight=" + ingredientWeight +
                 '}';
     }
 

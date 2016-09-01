@@ -39,7 +39,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
     public Button buttonCancel;
 
     private ObservableList<Dish> dishObservableList;
-    private ObservableList<Ingredient> ingredientObservableList;
+    private ObservableList<Ingredient> ingredientsInCurrentDishObservableList;
     private Dish dish;
     private Stage mainStage;
     private Stage controlledStage;
@@ -51,16 +51,21 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
 
         DialogueWindows.getStage("ingredientsListStage").setTitle("Ингредиенты");
         DialogueWindows.getStage("ingredientsListStage").showAndWait();
+        final Ingredient ingredient = (Ingredient) DialogueWindows.getController("ingredientsListStage").getNewValue();
+
+        DialogueWindows.getStage("ingredientParams").setTitle("Параметры");
+        DialogueWindows.getController("ingredientParams").setValueForEditing(ingredient);
+        DialogueWindows.getStage("ingredientParams").showAndWait();
     }
 
     public void removeIngredientFromDishAction() {
 
         final Ingredient selectedItem = tableViewIngredients.getSelectionModel().getSelectedItem();
-        ingredientObservableList.remove(selectedItem);
+        ingredientsInCurrentDishObservableList.remove(selectedItem);
     }
 
     public void clearIngredientListFromDishAction() {
-        ingredientObservableList.clear();
+        ingredientsInCurrentDishObservableList.clear();
     }
 
     public void editIngredientWeightInDishAction() {
@@ -103,18 +108,22 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
 
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
         this.dishObservableList = observableList;
-        ingredientObservableList = FXCollections.observableArrayList();
-        ServiceClass.setColumns(tableViewIngredients, "id", "idProp");
-        ServiceClass.setColumns(tableViewIngredients, "Ингредиент", "ingredientNameProp");
-        ServiceClass.setColumns(tableViewIngredients, "Вес", "");
-        tableViewIngredients.getColumns().get(0).setPrefWidth(50);
-        tableViewIngredients.getColumns().get(1).setPrefWidth(200);
+        ingredientsInCurrentDishObservableList = FXCollections.observableArrayList();
+        ServiceClass.setColumns(tableViewIngredients, "id", "idProp", 50);
+        ServiceClass.setColumns(tableViewIngredients, "Ингредиент", "ingredientNameProp", 200);
+        ServiceClass.setColumns(tableViewIngredients, "Вес", "ingredientWeightProp", 50);
+        ServiceClass.setColumns(tableViewIngredients, "Стоимость", "ingredientPriceProp", 50);
         tableViewIngredients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        tableViewIngredients.setItems(ingredientObservableList);
+        tableViewIngredients.setItems(ingredientsInCurrentDishObservableList);
 
         if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectList.fxml"));
-            DialogueWindows.createStage("ingredientsListStage", controlledStage, fxmlLoader, ingredientObservableList);
+            DialogueWindows.createStage("ingredientsListStage", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
+        }
+
+        if (DialogueWindows.getStage("ingredientParams") == null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectedFromListParams.fxml"));
+            DialogueWindows.createStage("ingredientParams", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
         }
     }
 
@@ -128,15 +137,15 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
             textFieldPrice.setText("0.0");
             textFieldWeight.setText("0.0");
             comboBoxCategory.setValue(comboBoxCategory.getItems().get(0));
-            ingredientObservableList.clear();
+            ingredientsInCurrentDishObservableList.clear();
         } else {
             textFieldName.setText(dish.getDishName());
             textFieldPrice.setText(String.valueOf(dish.getPrice()));
             textFieldWeight.setText(String.valueOf(dish.getWeight()));
             comboBoxCategory.setValue(dish.getDishCategory().toString());
-            ingredientObservableList.clear();
+            ingredientsInCurrentDishObservableList.clear();
             List<Ingredient> ingredients = new ArrayList<>(Main.getInstrumentsController().findDish(dish.getId()).getIngredients());
-            ingredientObservableList.addAll(ingredients);
+            ingredientsInCurrentDishObservableList.addAll(ingredients);
         }
     }
 

@@ -33,7 +33,7 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     @Override
     public void removeItemById(int id) {
         final Session currentSession = sessionFactory.getCurrentSession();
-        final Query query = currentSession.createQuery("delete from Supplier s where s.id = :id");
+        final Query query = currentSession.createQuery("delete from Contractor c where c.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();
     }

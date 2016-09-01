@@ -30,12 +30,21 @@ public class ContractorsTabController implements TabController<Contractor> {
 
     @Override
     public void editAction(ActionEvent actionEvent) {
+        Contractor contractor = tableView.getSelectionModel().getSelectedItem();
+        if (contractor == null) return;
 
+        final Stage contractorAddEditStage = DialogueWindows.getStage("contractorAddEditStage");
+        contractorAddEditStage.setTitle("Изменить");
+        DialogueWindows.getController("contractorAddEditStage").setValueForEditing(contractor);
+        contractorAddEditStage.showAndWait();
     }
 
     @Override
     public void deleteAction(ActionEvent actionEvent) {
-
+        final Contractor selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) return;
+        Main.getManagementController().removeContractor(selectedItem);
+        observableList.removeIf(contractor -> contractor.getId() == selectedItem.getId());
     }
 
     @Override
