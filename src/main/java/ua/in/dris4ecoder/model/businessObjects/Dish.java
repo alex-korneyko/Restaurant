@@ -49,14 +49,14 @@ public class Dish {
     private List<Ingredient> ingredients = new ArrayList<>();
 
     @ElementCollection
-    @CollectionTable(name = "service.dish_composition_weight")
+    @CollectionTable(name = "service.dish_parameters")
     @Column(name = "ingredient_weight")
     @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
     private Map<Ingredient, Double> ingredientWeightPerDish = new HashMap<>();
 
     @ElementCollection
-    @CollectionTable(name = "service.dish_composition_price")
+    @CollectionTable(name = "service.dish_parameters")
     @Column(name = "ingredient_price")
     @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
@@ -147,6 +147,8 @@ public class Dish {
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        ingredientWeightPerDish.clear();
+        ingredientCostPerDish.clear();
         ingredients.forEach(ingredient -> {
             ingredientWeightPerDish.put(ingredient, ingredient.getIngredientWeight());
             ingredientCostPerDish.put(ingredient, ingredient.getIngredientPrice());

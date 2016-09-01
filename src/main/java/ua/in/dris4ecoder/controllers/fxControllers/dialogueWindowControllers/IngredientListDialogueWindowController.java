@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
@@ -43,15 +44,14 @@ public class IngredientListDialogueWindowController implements AddEditController
     public void saveAction(ActionEvent actionEvent) {
 
         final Ingredient selectedItem = tableViewAllIngredientsList.getSelectionModel().getSelectedItem();
-//        ingredientsInCurrentDish.add(selectedItem);
         ingredient = selectedItem;
-        closeAction(actionEvent);
+        controlledStage.hide();
     }
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
-
-        ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        ingredient = null;
+        controlledStage.hide();
     }
 
     public void setMainStage(Stage mainStage) {
@@ -73,6 +73,12 @@ public class IngredientListDialogueWindowController implements AddEditController
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientAddEditDialogueWindow.fxml"));
             DialogueWindows.createStage("ingredientAddEditStage", controlledStage, fxmlLoader, ingredientsFullList);
         }
+
+        tableViewAllIngredientsList.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+                saveAction(new ActionEvent());
+            }
+        });
     }
 
     @Override

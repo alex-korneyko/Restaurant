@@ -34,6 +34,9 @@ public class Ingredient {
     private Double ingredientWeight = 0.0;
 
     @Transient
+    private Double ingredientPriceOfWeight = ingredientWeight * ingredientPrice;
+
+    @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
     @Transient
     private SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
@@ -43,6 +46,8 @@ public class Ingredient {
     private SimpleDoubleProperty ingredientPriceProp = new SimpleDoubleProperty();
     @Transient
     private SimpleDoubleProperty ingredientWeightProp = new SimpleDoubleProperty();
+    @Transient
+    private SimpleDoubleProperty ingredientPriceOfWeightProp = new SimpleDoubleProperty();
 
     public Ingredient() {
     }
@@ -84,6 +89,7 @@ public class Ingredient {
 
     public void setIngredientPrice(double ingredientPrice) {
         ingredientPriceProp.set(ingredientPrice);
+        ingredientPriceOfWeight = ingredientWeight * ingredientPrice;
         this.ingredientPrice = ingredientPrice;
     }
 
@@ -93,7 +99,13 @@ public class Ingredient {
 
     public void setIngredientWeight(double ingredientWeight) {
         ingredientWeightProp.set(ingredientWeight);
+        ingredientPriceOfWeight = ingredientWeight * ingredientPrice;
         this.ingredientWeight = ingredientWeight;
+    }
+
+    public Double getIngredientPriceOfWeight() {
+//        ingredientPriceOfWeight = ingredientWeight * ingredientWeight;
+        return ingredientPriceOfWeight;
     }
 
     public SimpleIntegerProperty idPropProperty() {
@@ -119,6 +131,11 @@ public class Ingredient {
     public SimpleDoubleProperty ingredientWeightPropProperty() {
         ingredientWeightProp.set(ingredientWeight);
         return ingredientWeightProp;
+    }
+
+    public SimpleDoubleProperty ingredientPriceOfWeightPropProperty() {
+        ingredientPriceOfWeightProp.set(getIngredientPriceOfWeight());
+        return ingredientPriceOfWeightProp;
     }
 
     @Override

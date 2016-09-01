@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController">
    <children>
       <GridPane>
@@ -25,17 +28,17 @@
                </GridPane.margin>
             </Label>
             <Label text="Цена" GridPane.rowIndex="2" />
-            <TextField id="textFieldName" fx:id="textFieldName" maxWidth="220.0" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <TextField id="textFieldName" fx:id="textFieldName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" />
             <TextField id="textFieldPrice" fx:id="textFieldPrice" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Вес" GridPane.rowIndex="3" />
             <TextField id="textFieldWeight" fx:id="textFieldWeight" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox id="checkBoxAutoWeight" fx:id="checkBoxAutoWeight" disable="true" mnemonicParsing="false" prefWidth="49.0" text="Авто" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <CheckBox id="checkBoxAutoWeight" fx:id="checkBoxAutoWeight" mnemonicParsing="false" onAction="#checkBoxAutoWeightAction" prefWidth="49.0" text="Авто" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </CheckBox>
             <ComboBox id="comboBoxCategory" fx:id="comboBoxCategory" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-            <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoPrice" disable="true" mnemonicParsing="false" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoPrice" mnemonicParsing="false" onAction="#checkBoxAutoPriceAction" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
@@ -47,16 +50,19 @@
       </GridPane>
       <VBox alignment="TOP_CENTER">
          <children>
-            <Label text="Ингредиенты" />
-            <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="200.0" />
-            <HBox>
+            <Label text="Ингредиенты">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="400.0" />
+            <HBox alignment="CENTER">
                <children>
                   <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDishAction" prefWidth="70.0" text="Добавить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonEditIngredient" disable="true" mnemonicParsing="false" onAction="#editIngredientWeightInDishAction" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" onAction="#editIngredientWeightInDishAction" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

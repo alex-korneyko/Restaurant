@@ -53,23 +53,36 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         DialogueWindows.getStage("ingredientsListStage").showAndWait();
         final Ingredient ingredient = (Ingredient) DialogueWindows.getController("ingredientsListStage").getNewValue();
 
-        DialogueWindows.getStage("ingredientParams").setTitle("Параметры");
-        DialogueWindows.getController("ingredientParams").setValueForEditing(ingredient);
-        DialogueWindows.getStage("ingredientParams").showAndWait();
+        if (ingredient != null) {
+            DialogueWindows.getStage("ingredientParams").setTitle("Параметры");
+            DialogueWindows.getController("ingredientParams").setValueForEditing(ingredient);
+            DialogueWindows.getStage("ingredientParams").showAndWait();
+        }
+
+        autoPrice();
+        autoWeight();
     }
 
     public void removeIngredientFromDishAction() {
 
         final Ingredient selectedItem = tableViewIngredients.getSelectionModel().getSelectedItem();
         ingredientsInCurrentDishObservableList.remove(selectedItem);
+        autoPrice();
+        autoWeight();
     }
 
     public void clearIngredientListFromDishAction() {
         ingredientsInCurrentDishObservableList.clear();
+        autoPrice();
+        autoWeight();
     }
 
     public void editIngredientWeightInDishAction() {
         // TODO: 18.08.2016
+
+
+        autoPrice();
+        autoWeight();
     }
 
     @Override
@@ -112,9 +125,14 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         ServiceClass.setColumns(tableViewIngredients, "id", "idProp", 50);
         ServiceClass.setColumns(tableViewIngredients, "Ингредиент", "ingredientNameProp", 200);
         ServiceClass.setColumns(tableViewIngredients, "Вес", "ingredientWeightProp", 50);
-        ServiceClass.setColumns(tableViewIngredients, "Стоимость", "ingredientPriceProp", 50);
+        ServiceClass.setColumns(tableViewIngredients, "Цена", "ingredientPriceProp", 50);
+        ServiceClass.setColumns(tableViewIngredients, "Сумма", "ingredientPriceOfWeightProp", 50);
         tableViewIngredients.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         tableViewIngredients.setItems(ingredientsInCurrentDishObservableList);
+
+        if (checkBoxAutoPrice.isSelected()) {
+            textFieldPrice.setEditable(false);
+        }
 
         if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectList.fxml"));
@@ -154,11 +172,43 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         return this.dish;
     }
 
+    private void autoPrice() {
+        if (checkBoxAutoPrice.isSelected()) {
+            textFieldPrice.setText(String.valueOf(ingredientsInCurrentDishObservableList.stream().mapToDouble(Ingredient::getIngredientPriceOfWeight).sum()));
+        }
+    }
+
+    private void autoWeight() {
+        if (checkBoxAutoWeight.isSelected()) {
+            textFieldWeight.setText(String.valueOf(ingredientsInCurrentDishObservableList.stream().mapToDouble(Ingredient::getIngredientWeight).sum()));
+        }
+    }
+
     private void fillDish() {
         dish.setDishName(textFieldName.getText());
         dish.setDishCategory(DishCategory.getValueByStringName(comboBoxCategory.getValue()));
         dish.setIngredients(tableViewIngredients.getItems());
         dish.setPrice(Double.parseDouble(textFieldPrice.getText()));
         dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
+    }
+
+    public void checkBoxAutoPriceAction(ActionEvent actionEvent) {
+        if (checkBoxAutoPrice.isSelected()) {
+            textFieldPrice.setEditable(false);
+            autoPrice();
+        } else {
+            textFieldPrice.setEditable(true);
+            textFieldPrice.setText("0.0");
+        }
+    }
+
+    public void checkBoxAutoWeightAction(ActionEvent actionEvent) {
+        if (checkBoxAutoWeight.isSelected()) {
+            textFieldWeight.setEditable(false);
+            autoWeight();
+        } else {
+            textFieldWeight.setEditable(true);
+            textFieldWeight.setText("0.0");
+        }
     }
 }
