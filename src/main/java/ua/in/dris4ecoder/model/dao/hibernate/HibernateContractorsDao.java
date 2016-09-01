@@ -44,6 +44,11 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     }
 
     @Override
+    public void removeItem(Contractor item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, Contractor changedItem) {
         sessionFactory.getCurrentSession().update(changedItem);
     }

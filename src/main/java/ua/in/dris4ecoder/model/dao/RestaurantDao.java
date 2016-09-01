@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.dao;
 
+import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
@@ -17,6 +18,8 @@ public interface RestaurantDao<T> {
     void removeItemById(int id);
 
     void removeItemByName(String name);
+
+    void removeItem(T item);
 
     void editItem(int id, T changedItem);
 

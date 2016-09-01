@@ -34,6 +34,11 @@ public class HibernateUnitsDao implements RestaurantDao<Unit> {
     }
 
     @Override
+    public void removeItem(Unit item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, Unit changedItem) {
 
     }

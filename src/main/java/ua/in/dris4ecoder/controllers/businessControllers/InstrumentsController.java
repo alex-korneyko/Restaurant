@@ -86,6 +86,11 @@ public class InstrumentsController implements BusinessController {
     }
 
     @Transactional
+    public void removeDish(Dish dish) {
+        dishRestaurantDao.removeItem(dish);
+    }
+
+    @Transactional
     public void editDish(int id, Dish newDish) {
         dishRestaurantDao.editItem(id, newDish);
     }

@@ -31,6 +31,11 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
     }
 
     @Override
+    public void removeItem(SalesInvoice item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, SalesInvoice changedItem) {
 
     }

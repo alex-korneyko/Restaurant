@@ -61,6 +61,11 @@ public class JdbcEmployeeDao implements RestaurantDao<Employee> {
     }
 
     @Override
+    public void removeItem(Employee item) {
+
+    }
+
+    @Override
     public void editItem(int id, Employee changedItem) {
 
         try (Connection connection = dataSource.getConnection();

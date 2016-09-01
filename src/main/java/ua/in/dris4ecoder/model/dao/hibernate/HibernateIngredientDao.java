@@ -51,6 +51,11 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
     }
 
     @Override
+    public void removeItem(Ingredient item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, Ingredient changedItem) {
 
         final Session session = sessionFactory.getCurrentSession();

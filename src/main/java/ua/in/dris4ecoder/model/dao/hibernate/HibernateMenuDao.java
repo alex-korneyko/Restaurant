@@ -32,6 +32,11 @@ public class HibernateMenuDao implements RestaurantDao<Menu> {
     }
 
     @Override
+    public void removeItem(Menu item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, Menu changedItem) {
 
     }

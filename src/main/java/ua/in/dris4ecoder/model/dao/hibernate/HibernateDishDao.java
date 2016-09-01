@@ -51,6 +51,11 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     }
 
     @Override
+    public void removeItem(Dish item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, Dish changedItem) {
 
         final Session currentSession = sessionFactory.getCurrentSession();

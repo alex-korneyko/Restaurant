@@ -33,7 +33,7 @@ public class DishTabController implements TabController<Dish> {
     @Override
     public void deleteAction(ActionEvent actionEvent) {
         final Dish selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getInstrumentsController().removeDish(selectedItem.getId());
+        Main.getInstrumentsController().removeDish(selectedItem);
         getAllAction(actionEvent);
     }
 

@@ -31,6 +31,11 @@ public class HibernateKitchenDao implements RestaurantDao<KitchenProcess> {
     }
 
     @Override
+    public void removeItem(KitchenProcess item) {
+        sessionFactory.getCurrentSession().remove(item);
+    }
+
+    @Override
     public void editItem(int id, KitchenProcess changedItem) {
 
     }
