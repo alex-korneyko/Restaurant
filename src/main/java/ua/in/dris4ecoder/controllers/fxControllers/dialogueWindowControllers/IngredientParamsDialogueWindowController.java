@@ -26,13 +26,18 @@ public class IngredientParamsDialogueWindowController implements AddEditControll
     public void saveAction(ActionEvent actionEvent) {
         ingredient.setIngredientPrice(Double.parseDouble(textFieldPrice.getText().replace(',', '.')));
         ingredient.setIngredientWeight(Double.parseDouble(textFieldAmount.getText().replace(',', '.')));
-        observableList.add(ingredient);
+
+        if(observableList.contains(ingredient)) {
+            observableList.set(observableList.indexOf(ingredient), ingredient);
+        } else {
+            observableList.add(ingredient);
+        }
+
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
-        observableList.removeIf(ingredient1 -> ingredient1.equals(this.ingredient));
         ((Node) actionEvent.getSource()).getScene().getWindow().hide();
     }
 

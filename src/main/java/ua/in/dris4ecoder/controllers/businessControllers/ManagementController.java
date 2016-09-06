@@ -2,6 +2,7 @@ package ua.in.dris4ecoder.controllers.businessControllers;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
+import ua.in.dris4ecoder.model.businessObjects.Invoice;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
 import ua.in.dris4ecoder.model.businessObjects.SalesInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -57,6 +58,35 @@ public class ManagementController implements BusinessController {
     public void removeContractor(Contractor contractor) {
         removeContractor(contractor.getId());
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    @Transactional
+    public void addPurchaseInvoice(PurchaseInvoice purchaseInvoice) {
+        purchaseInvoiceRestaurantDao.addItem(purchaseInvoice);
+    }
+
+    @Transactional
+    public void editPurchaseInvoice(PurchaseInvoice newPurchaseInvoice) {
+        purchaseInvoiceRestaurantDao.editItem(newPurchaseInvoice.getId(), newPurchaseInvoice);
+    }
+
+    @Transactional
+    public PurchaseInvoice findPurchaseInvoice(int id) {
+        return  purchaseInvoiceRestaurantDao.findItemById(id);
+    }
+
+    @Transactional
+    public List<PurchaseInvoice> findAllPurchaseInvoices() {
+        return purchaseInvoiceRestaurantDao.findAll();
+    }
+
+    @Transactional
+    public void removePurchaseInvoice(PurchaseInvoice selectedItem) {
+        purchaseInvoiceRestaurantDao.removeItem(selectedItem);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     public void setContractorRestaurantDao(RestaurantDao<Contractor> contractorRestaurantDao) {
         this.contractorRestaurantDao = contractorRestaurantDao;

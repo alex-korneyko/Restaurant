@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
@@ -49,14 +50,14 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
 
     public void addIngredientsToDishAction() throws IOException {
 
-        DialogueWindows.getStage("ingredientsListStage").setTitle("Ингредиенты");
-        DialogueWindows.getStage("ingredientsListStage").showAndWait();
-        final Ingredient ingredient = (Ingredient) DialogueWindows.getController("ingredientsListStage").getNewValue();
+        DialogueWindows.getStage("DishIngredientsListStage").setTitle("Ингредиенты");
+        DialogueWindows.getStage("DishIngredientsListStage").showAndWait();
+        final Ingredient ingredient = (Ingredient) DialogueWindows.getController("DishIngredientsListStage").getNewValue();
 
         if (ingredient != null) {
-            DialogueWindows.getStage("ingredientParams").setTitle("Параметры");
-            DialogueWindows.getController("ingredientParams").setValueForEditing(ingredient);
-            DialogueWindows.getStage("ingredientParams").showAndWait();
+            DialogueWindows.getStage("DishIngredientParams").setTitle("Параметры");
+            DialogueWindows.getController("DishIngredientParams").setValueForEditing(ingredient);
+            DialogueWindows.getStage("DishIngredientParams").showAndWait();
         }
 
         autoPrice();
@@ -77,9 +78,14 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         autoWeight();
     }
 
-    public void editIngredientWeightInDishAction() {
-        // TODO: 18.08.2016
+    public void editIngredientInDishAction() {
 
+        final Ingredient ingredient = tableViewIngredients.getSelectionModel().getSelectedItem();
+        if (ingredient != null) {
+            DialogueWindows.getStage("DishIngredientParams").setTitle("Параметры");
+            DialogueWindows.getController("DishIngredientParams").setValueForEditing(ingredient);
+            DialogueWindows.getStage("DishIngredientParams").showAndWait();
+        }
 
         autoPrice();
         autoWeight();
@@ -120,7 +126,6 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         this.controlledStage = thisStage;
 
         comboBoxCategory.setItems(new ObservableListWrapper<>(DishCategory.stringValues()));
-        this.dishObservableList = observableList;
         ingredientsInCurrentDishObservableList = FXCollections.observableArrayList();
         ServiceClass.setColumns(tableViewIngredients, "id", "idProp", 50);
         ServiceClass.setColumns(tableViewIngredients, "Ингредиент", "ingredientNameProp", 200);
@@ -134,15 +139,21 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
             textFieldPrice.setEditable(false);
         }
 
-        if ((DialogueWindows.getStage("ingredientsListStage") == null)) {
+        if ((DialogueWindows.getStage("DishIngredientsListStage") == null)) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectList.fxml"));
-            DialogueWindows.createStage("ingredientsListStage", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
+            DialogueWindows.createStage("DishIngredientsListStage", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
         }
 
-        if (DialogueWindows.getStage("ingredientParams") == null) {
+        if (DialogueWindows.getStage("DishIngredientParams") == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/dialogueWindows/ingredientSelectedFromListParams.fxml"));
-            DialogueWindows.createStage("ingredientParams", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
+            DialogueWindows.createStage("DishIngredientParams", controlledStage, fxmlLoader, ingredientsInCurrentDishObservableList);
         }
+
+        tableViewIngredients.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+                editIngredientInDishAction();
+            }
+        });
     }
 
     @Override
@@ -192,7 +203,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         dish.setWeight(Double.parseDouble(textFieldWeight.getText()));
     }
 
-    public void checkBoxAutoPriceAction(ActionEvent actionEvent) {
+    public void checkBoxAutoPriceAction() {
         if (checkBoxAutoPrice.isSelected()) {
             textFieldPrice.setEditable(false);
             autoPrice();
@@ -202,7 +213,7 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
         }
     }
 
-    public void checkBoxAutoWeightAction(ActionEvent actionEvent) {
+    public void checkBoxAutoWeightAction() {
         if (checkBoxAutoWeight.isSelected()) {
             textFieldWeight.setEditable(false);
             autoWeight();

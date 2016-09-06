@@ -6,11 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.DishAddEditDialogueWindowController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.PurchaseInvoiceAddEditDialogueWindowController">
    <children>
       <GridPane>
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" />
+          <ColumnConstraints />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
         </columnConstraints>
@@ -21,28 +21,26 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Название" />
-            <Label text="Категория" GridPane.rowIndex="1">
+            <Label text="Контрагент" />
+            <Label text="Дата" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets right="10.0" />
+                  <Insets />
                </GridPane.margin>
             </Label>
-            <Label text="Цена" GridPane.rowIndex="2" />
-            <TextField id="textFieldName" fx:id="textFieldName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.columnSpan="2" />
-            <TextField id="textFieldPrice" fx:id="textFieldPrice" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Вес" GridPane.rowIndex="3" />
-            <TextField id="textFieldWeight" fx:id="textFieldWeight" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <CheckBox id="checkBoxAutoWeight" fx:id="checkBoxAutoWeight" mnemonicParsing="false" onAction="#checkBoxAutoWeightAction" prefWidth="49.0" text="Авто" textOverrun="CLIP" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Label text="Сумма" GridPane.rowIndex="2" />
+            <TextField id="textFieldContractor" fx:id="textFieldContractor" editable="false" maxWidth="1.7976931348623157E308" onMouseClicked="#selectContractorAction" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+            <TextField id="textFieldPrice" fx:id="textFieldAmount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Накладная поставщ." GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin></Label>
+            <TextField id="textFieldWeight" fx:id="textFieldIdFromContractor" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoAmount" mnemonicParsing="false" onAction="#checkBoxAutoPriceAction" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </CheckBox>
-            <ComboBox id="comboBoxCategory" fx:id="comboBoxCategory" prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-            <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoPrice" mnemonicParsing="false" onAction="#checkBoxAutoPriceAction" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="5.0" />
-               </GridPane.margin>
-            </CheckBox>
+            <DatePicker fx:id="datePickerInvoiceDate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -57,22 +55,22 @@
             <TableView fx:id="tableViewIngredients" prefHeight="200.0" prefWidth="400.0" />
             <HBox alignment="CENTER">
                <children>
-                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToDishAction" prefWidth="70.0" text="Добавить">
+                  <Button fx:id="buttonAddIngredient" mnemonicParsing="false" onAction="#addIngredientsToInvoiceAction" prefWidth="70.0" text="Добавить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" onAction="#editIngredientInDishAction" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" onAction="#editIngredientInInvoiceAction" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" onAction="#removeIngredientFromDishAction" prefWidth="70.0" text="Удалить">
+                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" onAction="#removeIngredientFromInvoiceAction" prefWidth="70.0" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" onAction="#clearIngredientListFromDishAction" prefWidth="70.0" text="Очистить">
+                  <Button fx:id="buttonClearTabIngredients" mnemonicParsing="false" onAction="#clearIngredientListFromInvoiceAction" prefWidth="70.0" text="Очистить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

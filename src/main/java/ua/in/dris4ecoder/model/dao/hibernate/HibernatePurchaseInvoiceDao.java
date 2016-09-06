@@ -1,6 +1,7 @@
 package ua.in.dris4ecoder.model.dao.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -18,6 +19,7 @@ public class HibernatePurchaseInvoiceDao implements RestaurantDao<PurchaseInvoic
     @Override
     public void addItem(PurchaseInvoice item) {
 
+        sessionFactory.getCurrentSession().save(item);
     }
 
     @Override
@@ -38,11 +40,13 @@ public class HibernatePurchaseInvoiceDao implements RestaurantDao<PurchaseInvoic
     @Override
     public void editItem(int id, PurchaseInvoice changedItem) {
 
+        sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @Override
     public PurchaseInvoice findItemById(int id) {
-        return null;
+        final PurchaseInvoice purchaseInvoice = sessionFactory.getCurrentSession().find(PurchaseInvoice.class, id);
+        return purchaseInvoice;
     }
 
     @Override
@@ -66,8 +70,11 @@ public class HibernatePurchaseInvoiceDao implements RestaurantDao<PurchaseInvoic
     }
 
     @Override
+    @SuppressWarnings("JpaQlInspection")
     public List<PurchaseInvoice> findAll() {
-        return null;
+        final Query<PurchaseInvoice> query = sessionFactory.getCurrentSession().createQuery("select pi from PurchaseInvoice pi");
+        final List<PurchaseInvoice> list = query.list();
+        return list;
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

@@ -27,7 +27,6 @@ public class IngredientListDialogueWindowController implements AddEditController
 
     private ObservableList<Ingredient> ingredientsFullList = FXCollections.observableArrayList();
     private ObservableList<Ingredient> ingredientsInCurrentDish;
-    private Stage mainStage;
     private Stage controlledStage;
     private Ingredient ingredient;
 
@@ -43,20 +42,19 @@ public class IngredientListDialogueWindowController implements AddEditController
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        final Ingredient selectedItem = tableViewAllIngredientsList.getSelectionModel().getSelectedItem();
-        ingredient = selectedItem;
-        controlledStage.hide();
+        ingredient = tableViewAllIngredientsList.getSelectionModel().getSelectedItem();
+
+        controlledStage.close();
     }
 
     @Override
     public void closeAction(ActionEvent actionEvent) {
         ingredient = null;
-        controlledStage.hide();
+        controlledStage.close();
     }
 
     public void setMainStage(Stage mainStage) {
 
-        this.mainStage = mainStage;
     }
 
     public void init(ObservableList<Ingredient> selectedIngredientsList, Stage thisStage) throws Exception {

@@ -1,20 +1,23 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Alex Korneyko on 30.08.2016 11:58.
  */
 @Entity
 @Table(name = "service.invoices")
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Invoice implements BusinessObject {
 
     @Id
@@ -26,22 +29,44 @@ public abstract class Invoice implements BusinessObject {
     @Column(name = "date_of_waybill")
     private LocalDate invoiceDate;
 
-    @ManyToMany
-    @Fetch(FetchMode.SELECT)
+    @Column(name = "amount_of_invoice")
+    private double amountOfInvoice;
+
+    @ManyToMany()
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "service.invoices_compositions",
             joinColumns = @JoinColumn(name = "invoice_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    private List<Ingredient> ingredients;
+    protected List<Ingredient> ingredients = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "service.invoice_parameters")
+    @Column(name = "ingredient_weight")
+    @MapKeyJoinColumn(name = "ingredient_id", referencedColumnName = "id")
+    @Fetch(FetchMode.JOIN)
+    private Map<Ingredient, Double> ingredientWeightPerInvoice = new HashMap<>();
+
+
+    @ElementCollection
+    @CollectionTable(name = "service.invoice_parameters")
+    @Column(name = "ingredient_price")
+    @MapKeyJoinColumn(name = "ingredient_id")
+    @Fetch(FetchMode.JOIN)
+    private Map<Ingredient, Double> ingredientCostPerInvoice = new HashMap<>();
+
+    @Column(name = "is_auto_price")
+    private boolean autoPrice;
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
     @Transient
     private SimpleStringProperty invoiceDateProp = new SimpleStringProperty();
+    @Transient
+    private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
 
     public Invoice() {
-        invoiceDate = LocalDate.now();
     }
 
     public int getId() {
@@ -62,12 +87,53 @@ public abstract class Invoice implements BusinessObject {
         this.invoiceDate = invoiceDate;
     }
 
+    public double getAmountOfInvoice() {
+        return amountOfInvoice;
+    }
+
+    public void setAmountOfInvoice(double amountOfInvoice) {
+        amountOfInvoiceProp.set(amountOfInvoice);
+        this.amountOfInvoice = amountOfInvoice;
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
+        ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
+        ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
+    }
+
     public List<Ingredient> getIngredients() {
+
+        Set<Ingredient> set = new HashSet<>();
+        ingredients.forEach(set::add);
+        ingredients.clear();
+        set.forEach(ingredients::add);
+
+        ingredients.forEach(ingredient -> {
+            ingredient.setIngredientWeight(ingredientWeightPerInvoice.get(ingredient));
+            ingredient.setIngredientPrice(ingredientCostPerInvoice.get(ingredient));
+        });
+
+
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
+        ingredientWeightPerInvoice.clear();
+        ingredientCostPerInvoice.clear();
+        ingredients.forEach(ingredient -> {
+            ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
+            ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
+        });
+    }
+
+    public boolean isAutoPrice() {
+        return autoPrice;
+    }
+
+    public void setAutoPrice(boolean autoPrice) {
+        this.autoPrice = autoPrice;
     }
 
     public SimpleIntegerProperty idPropProperty() {
@@ -78,5 +144,43 @@ public abstract class Invoice implements BusinessObject {
     public SimpleStringProperty invoiceDatePropProperty() {
         invoiceDateProp.set(invoiceDate.toString());
         return invoiceDateProp;
+    }
+
+    public SimpleDoubleProperty amountOfInvoicePropProperty() {
+        amountOfInvoiceProp.set(amountOfInvoice);
+        return amountOfInvoiceProp;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "id=" + id +
+                ", invoiceDate=" + invoiceDate +
+                ", amountOfInvoice=" + amountOfInvoice +
+                ", ingredients=" + ingredients +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Invoice)) return false;
+
+        Invoice invoice = (Invoice) o;
+
+        if (Double.compare(invoice.amountOfInvoice, amountOfInvoice) != 0) return false;
+        return invoiceDate != null ? invoiceDate.equals(invoice.invoiceDate) : invoice.invoiceDate == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = invoiceDate != null ? invoiceDate.hashCode() : 0;
+        temp = Double.doubleToLongBits(amountOfInvoice);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }

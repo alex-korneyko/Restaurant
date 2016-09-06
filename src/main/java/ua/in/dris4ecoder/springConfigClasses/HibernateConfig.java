@@ -101,6 +101,13 @@ public class HibernateConfig {
     }
 
     @Bean
+    RestaurantDao<Ingredient> hibernateWarehouseDao(SessionFactory sessionFactory) {
+        HibernateWarehouseDao hibernateWarehouseDao = new HibernateWarehouseDao();
+        hibernateWarehouseDao.setSessionFactory(sessionFactory);
+        return hibernateWarehouseDao;
+    }
+
+    @Bean
     HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
 
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();

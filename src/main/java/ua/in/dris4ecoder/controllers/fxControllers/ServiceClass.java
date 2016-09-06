@@ -39,4 +39,6 @@ public class ServiceClass {
         else
             setColumns(tableView, customColumn.getColumnName(), customColumn.getColumnProperty(), customColumn.getColumnWidth());
     }
+
+
 }

@@ -23,7 +23,7 @@ public class DialogueWindows {
     }
 
     public static AddEditController getController(String stageKey) {
-        return dialogueWindowsControllers.get(stageKey);
+        return  dialogueWindowsControllers.get(stageKey);
     }
 
     public static <E> void createStage(String stageKey, Stage mainStage, FXMLLoader fxmlLoader, ObservableList<E> observableList) throws Exception {

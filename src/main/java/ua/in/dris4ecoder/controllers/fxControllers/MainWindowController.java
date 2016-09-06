@@ -122,6 +122,7 @@ public class MainWindowController {
                 new CustomColumn("id", "idProp"),
                 new CustomColumn("Дата", "invoiceDateProp"),
                 new CustomColumn("Контрагент", "contractorProp", 300),
+                new CustomColumn("Накладная пост.", "invoiceIdFromContractorProp"),
                 new CustomColumn("Сумма", "amountOfInvoiceProp")
         );
 

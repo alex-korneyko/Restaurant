@@ -2,8 +2,14 @@ package ua.in.dris4ecoder.model.businessObjects;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Alex Korneyko on 30.08.2016 12:46.
@@ -17,13 +23,13 @@ public class PurchaseInvoice extends Invoice {
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;
 
-    @Column(name = "amount_invoice")
-    private double amountOfInvoice;
+    @Column(name = "invoice_id_from_contractor")
+    private String invoiceIdFromContractor;
 
     @Transient
-    private SimpleStringProperty supplierProp = new SimpleStringProperty();
+    private SimpleStringProperty contractorProp = new SimpleStringProperty();
     @Transient
-    private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
+    private SimpleStringProperty invoiceIdFromContractorProp = new SimpleStringProperty();
 
     public PurchaseInvoice() {
     }
@@ -37,26 +43,55 @@ public class PurchaseInvoice extends Invoice {
     }
 
     public void setContractor(Contractor contractor) {
-        supplierProp.set(contractor.getContractorName());
+        contractorProp.set(contractor.getContractorName());
         this.contractor = contractor;
     }
 
-    public double getAmountOfInvoice() {
-        return amountOfInvoice;
+    public String getInvoiceIdFromContractor() {
+        return invoiceIdFromContractor;
     }
 
-    public void setAmountOfInvoice(double amountOfInvoice) {
-        amountOfInvoiceProp.setValue(amountOfInvoice);
-        this.amountOfInvoice = amountOfInvoice;
+    public void setInvoiceIdFromContractor(String invoiceIdFromContractor) {
+        invoiceIdFromContractorProp.set(invoiceIdFromContractor);
+        this.invoiceIdFromContractor = invoiceIdFromContractor;
     }
 
-    public SimpleStringProperty supplierPropProperty() {
-        supplierProp.set(contractor.getContractorName());
-        return supplierProp;
+    public SimpleStringProperty contractorPropProperty() {
+        contractorProp.set(contractor.getContractorName());
+        return contractorProp;
     }
 
-    public SimpleDoubleProperty amountOfInvoicePropProperty() {
-        amountOfInvoiceProp.set(amountOfInvoice);
-        return amountOfInvoiceProp;
+    public SimpleStringProperty invoiceIdFromContractorPropProperty() {
+        invoiceIdFromContractorProp.set(invoiceIdFromContractor);
+        return invoiceIdFromContractorProp;
+    }
+
+    @Override
+    public String toString() {
+        return "PurchaseInvoice{" +
+                "contractor=" + contractor +
+                ", invoiceIdFromContractor='" + invoiceIdFromContractor + '\'' +
+                "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PurchaseInvoice)) return false;
+        if (!super.equals(o)) return false;
+
+        PurchaseInvoice that = (PurchaseInvoice) o;
+
+        if (contractor != null ? !contractor.equals(that.contractor) : that.contractor != null) return false;
+        return invoiceIdFromContractor != null ? invoiceIdFromContractor.equals(that.invoiceIdFromContractor) : that.invoiceIdFromContractor == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (contractor != null ? contractor.hashCode() : 0);
+        result = 31 * result + (invoiceIdFromContractor != null ? invoiceIdFromContractor.hashCode() : 0);
+        return result;
     }
 }
