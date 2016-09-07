@@ -36,6 +36,9 @@ public class WarehousePosition implements BusinessObject {
     @Transient
     private SimpleDoubleProperty ingredientWeightProp = new SimpleDoubleProperty();
 
+    @Transient
+    private SimpleStringProperty ingredientUnitProp = new SimpleStringProperty();
+
     public WarehousePosition() {
     }
 
@@ -83,6 +86,11 @@ public class WarehousePosition implements BusinessObject {
     public SimpleDoubleProperty ingredientWeightPropProperty() {
         ingredientWeightProp.set(ingredientAmount);
         return ingredientWeightProp;
+    }
+
+    public SimpleStringProperty ingredientUnitPropProperty() {
+        ingredientUnitProp.set(ingredient.getUnit().getUnitName());
+        return ingredientUnitProp;
     }
 
     @Override

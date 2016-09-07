@@ -175,9 +175,10 @@ public class ManagementController implements BusinessController {
         return warehousePositions.get(0).getIngredient().getIngredientWeight();
     }
 
-    public List<Ingredient> findAllPositions() {
+    @Transactional
+    public List<WarehousePosition> findAllPositions() {
 
-        return warehousePositionRestaurantDao.findAll().stream().map(WarehousePosition::getIngredient).collect(Collectors.toList());
+        return warehousePositionRestaurantDao.findAll();
     }
 
     //------------------------------------------------------------------------------------------------------------------

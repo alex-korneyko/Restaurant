@@ -114,7 +114,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabPurchaseInvoices(ActionEvent actionEvent) throws Exception {
+    public void createTabPurchaseInvoices() throws Exception {
 
         if(findTab("purchaseInvoices")) return;
 
@@ -130,7 +130,7 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabSalesInvoices(ActionEvent actionEvent) throws Exception {
+    public void createTabSalesInvoices() throws Exception {
 
         if(findTab("salesInvoices")) return;
 
@@ -146,9 +146,9 @@ public class MainWindowController {
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
-    public void createTabContractor(ActionEvent actionEvent) throws Exception {
+    public void createTabContractor() throws Exception {
 
-        if(findTab("contractors")) return;
+        if (findTab("contractors")) return;
 
         List<CustomColumn> customColumns = Arrays.asList(
                 new CustomColumn("id", "idProp"),
@@ -156,6 +156,21 @@ public class MainWindowController {
         );
 
         tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/contractorsTab.fxml", customColumns));
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+    }
+
+    public void createTabWarehouse() throws Exception {
+
+        if (findTab("warehouse")) return;
+
+        List<CustomColumn> customColumns = Arrays.asList(
+                new CustomColumn("id", "idProp", 40),
+                new CustomColumn("Ингредиент", "ingredientNameProp", 300),
+                new CustomColumn("Количество", "ingredientWeightProp", 100),
+                new CustomColumn("Единицы", "ingredientUnitProp", 100)
+        );
+
+        tabPaneDbManagement.getTabs().add(CustomTabGenerator.generate(mainStage, "/fxml/tabs/warehouseTab.fxml", customColumns));
         selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
     }
 
