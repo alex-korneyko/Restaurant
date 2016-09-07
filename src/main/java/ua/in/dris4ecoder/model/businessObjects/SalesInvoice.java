@@ -1,6 +1,5 @@
 package ua.in.dris4ecoder.model.businessObjects;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -19,28 +18,20 @@ public class SalesInvoice extends Invoice {
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-    @ManyToOne
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;
 
     @Transient
     private SimpleIntegerProperty orderIdProp = new SimpleIntegerProperty();
     @Transient
-    private SimpleStringProperty employeeProp = new SimpleStringProperty();
-    @Transient
     private SimpleStringProperty contractorProp = new SimpleStringProperty();
-    @Transient
-    private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
 
     public SalesInvoice() {
     }
 
-    public SalesInvoice(Order order, Employee employee) {
+    public SalesInvoice(Order order, Contractor contractor) {
         this.order = order;
-        this.employee = employee;
+        this.contractor = contractor;
     }
 
     public Order getOrder() {
@@ -50,15 +41,6 @@ public class SalesInvoice extends Invoice {
     public void setOrder(Order order) {
         orderIdProp.set(order.getId());
         this.order = order;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        employeeProp.set(employee.getFirstName() + " " + employee.getLastName());
-        this.employee = employee;
     }
 
     public Contractor getContractor() {
@@ -75,13 +57,37 @@ public class SalesInvoice extends Invoice {
         return orderIdProp;
     }
 
-    public SimpleStringProperty employeePropProperty() {
-        employeeProp.set(employee.getFirstName() + " " + employee.getLastName());
-        return employeeProp;
-    }
-
     public SimpleStringProperty contractorPropProperty() {
         contractorProp.set(contractor.getContractorName());
         return contractorProp;
+    }
+
+    @Override
+    public String toString() {
+        return "SalesInvoice{" +
+                "order=" + order +
+                ", contractor=" + contractor +
+                "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SalesInvoice)) return false;
+        if (!super.equals(o)) return false;
+
+        SalesInvoice that = (SalesInvoice) o;
+
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        return contractor != null ? contractor.equals(that.contractor) : that.contractor == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (contractor != null ? contractor.hashCode() : 0);
+        return result;
     }
 }

@@ -18,6 +18,7 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
     @Override
     public void addItem(SalesInvoice item) {
 
+        sessionFactory.getCurrentSession().save(item);
     }
 
     @Override
@@ -37,12 +38,12 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
 
     @Override
     public void editItem(int id, SalesInvoice changedItem) {
-
+        sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @Override
     public SalesInvoice findItemById(int id) {
-        return null;
+        return sessionFactory.getCurrentSession().find(SalesInvoice.class, id);
     }
 
     @Override
@@ -65,9 +66,11 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
         return null;
     }
 
+    @SuppressWarnings("JpaQlInspection")
     @Override
     public List<SalesInvoice> findAll() {
-        return null;
+
+        return sessionFactory.getCurrentSession().createQuery("select si from SalesInvoice si").list();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

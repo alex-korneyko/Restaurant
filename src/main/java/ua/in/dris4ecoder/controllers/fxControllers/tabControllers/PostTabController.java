@@ -61,7 +61,7 @@ public class PostTabController implements TabController<EmployeePost> {
 
     public void closeTabAction(ActionEvent actionEvent) {
         System.out.println("Close tab");
-        // TODO: 27.08.2016
+        // TODO: 27.08.2016 Close tab action(till i don't now how do it)
     }
 
     @Override

@@ -101,7 +101,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<Ingredient> hibernateWarehouseDao(SessionFactory sessionFactory) {
+    RestaurantDao<WarehousePosition> hibernateWarehouseDao(SessionFactory sessionFactory) {
         HibernateWarehouseDao hibernateWarehouseDao = new HibernateWarehouseDao();
         hibernateWarehouseDao.setSessionFactory(sessionFactory);
         return hibernateWarehouseDao;

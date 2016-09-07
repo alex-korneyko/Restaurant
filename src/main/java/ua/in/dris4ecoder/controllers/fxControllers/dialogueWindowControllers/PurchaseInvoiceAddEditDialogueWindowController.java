@@ -103,7 +103,13 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
 
     public void removeIngredientFromInvoiceAction(ActionEvent actionEvent) {
 
-        // TODO: 06.09.2016
+        final Ingredient ingredient = tableViewIngredients.getSelectionModel().getSelectedItem();
+        if (ingredient != null) {
+            ingredientsInCurrentInvoiceObservableList.remove(ingredient);
+            purchaseInvoice.getIngredients().remove(ingredient);
+        }
+
+        autoPrice();
     }
 
     public void clearIngredientListFromInvoiceAction(ActionEvent actionEvent) {
@@ -153,11 +159,12 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
             DialogueWindows.createStage("purchaseIngredientParams", controlledStage, fxmlLoader, ingredientsInCurrentInvoiceObservableList);
         }
 
-        tableViewIngredients.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-                editIngredientInInvoiceAction(new ActionEvent());
-            }
-        });
+        // TODO: 07.09.2016 Opening window for editing invoice by double click. Editing currently not work properly
+//        tableViewIngredients.setOnMouseClicked(event -> {
+//            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+//                editIngredientInInvoiceAction(new ActionEvent());
+//            }
+//        });
     }
 
     public void checkBoxAutoPriceAction() {

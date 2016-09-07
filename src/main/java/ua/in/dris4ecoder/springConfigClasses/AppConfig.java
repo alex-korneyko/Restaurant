@@ -104,12 +104,14 @@ public class AppConfig {
     @Bean
     ManagementController managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Contractor> supplierRestaurantDao,
                                               @Qualifier("hibernatePurchaseInvoiceDao") RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao,
-                                              @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao) {
+                                              @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao,
+                                              @Qualifier("hibernateWarehouseDao") RestaurantDao<WarehousePosition> warehousePositionRestaurantDao) {
 
         ManagementController managementController = new ManagementController();
         managementController.setContractorRestaurantDao(supplierRestaurantDao);
         managementController.setPurchaseInvoiceRestaurantDao(purchaseInvoiceRestaurantDao);
         managementController.setSalesInvoiceRestaurantDao(salesInvoiceRestaurantDao);
+        managementController.setWarehousePositionRestaurantDao(warehousePositionRestaurantDao);
         return managementController;
     }
 

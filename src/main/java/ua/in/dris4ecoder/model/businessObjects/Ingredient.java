@@ -12,7 +12,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "service.ingredients")
-public class Ingredient {
+public class Ingredient implements Cloneable {
 
     @Id
     @Column(name = "id")
@@ -163,5 +163,16 @@ public class Ingredient {
     @Override
     public int hashCode() {
         return ingredientName != null ? ingredientName.hashCode() : 0;
+    }
+
+    @Override
+    public Ingredient clone(){
+
+        Ingredient newIngredient = new Ingredient(this.ingredientName);
+        newIngredient.setIngredientWeight(this.getIngredientWeight());
+        newIngredient.setIngredientPrice(this.ingredientPrice);
+        newIngredient.setId(this.getId());
+        newIngredient.setUnit(this.unit);
+        return newIngredient;
     }
 }

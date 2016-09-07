@@ -2,6 +2,7 @@ package ua.in.dris4ecoder.model.dao.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
