@@ -53,7 +53,7 @@ public class SalesInvoice extends Invoice {
     }
 
     public SimpleIntegerProperty orderIdPropProperty() {
-        orderIdProp.set(order.getId());
+        orderIdProp.set(order != null ? order.getId() : 0);
         return orderIdProp;
     }
 

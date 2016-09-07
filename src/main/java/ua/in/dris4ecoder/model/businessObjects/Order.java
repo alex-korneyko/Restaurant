@@ -61,6 +61,13 @@ public class Order {
     public Order() {
     }
 
+    public Order(int id) {
+        this.id = id;
+        if(id == 0) {
+            this.employee = new Employee();
+        }
+    }
+
     public Order(Employee employee, int desk) {
         this.employee = employee;
         this.desk = desk;

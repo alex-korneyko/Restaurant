@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
@@ -30,7 +29,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
     public DatePicker datePickerInvoiceDate;
     public TextField textFieldIdFromContractor;
 
-    private ObservableList<PurchaseInvoice> invoiceObservableList;
+    private ObservableList<PurchaseInvoice> invoicesObservableList;
     private Stage controlledStage;
     private ObservableList<Ingredient> ingredientsInCurrentInvoiceObservableList;
     private ObservableList<Contractor> contractorObservableList;
@@ -53,8 +52,8 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
             Main.getManagementController().editPurchaseInvoice(purchaseInvoice);
         }
 
-        invoiceObservableList.clear();
-        invoiceObservableList.addAll(Main.getManagementController().findAllPurchaseInvoices());
+        invoicesObservableList.clear();
+        invoicesObservableList.addAll(Main.getManagementController().findAllPurchaseInvoices());
         purchaseInvoice = null;
         controlledStage.hide();
     }
@@ -115,6 +114,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
     public void clearIngredientListFromInvoiceAction(ActionEvent actionEvent) {
 
         ingredientsInCurrentInvoiceObservableList.clear();
+        purchaseInvoice.getIngredients().clear();
         autoPrice();
     }
 
@@ -125,10 +125,8 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
 
     @Override
     public void init(ObservableList<PurchaseInvoice> observableList, Stage thisStage) throws Exception {
-        this.invoiceObservableList = observableList;
+        this.invoicesObservableList = observableList;
         this.controlledStage = thisStage;
-
-        controlledStage.setOnShowing(event -> datePickerInvoiceDate.setValue(LocalDate.now()));
 
         ingredientsInCurrentInvoiceObservableList = FXCollections.observableArrayList();
         ServiceClass.setColumns(tableViewIngredients, "id", "idProp", 50);
@@ -186,7 +184,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
 
     @Override
     public PurchaseInvoice getNewValue() {
-        return null;
+        return purchaseInvoice;
     }
 
     private void autoPrice() {
@@ -202,6 +200,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
         textFieldIdFromContractor.setText(valueForEditing == null ? "" : valueForEditing.getInvoiceIdFromContractor());
         checkBoxAutoAmount.setSelected(valueForEditing != null && valueForEditing.isAutoPrice());
         ingredientsInCurrentInvoiceObservableList.clear();
+        datePickerInvoiceDate.setValue(valueForEditing == null ? LocalDate.now() : valueForEditing.getInvoiceDate());
 
         if (valueForEditing != null) {
             final PurchaseInvoice purchaseInvoice = Main.getManagementController().findPurchaseInvoice(valueForEditing.getId());
@@ -209,7 +208,6 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
             ingredientsInCurrentInvoiceObservableList.addAll(ingredients);
         }
 
-        controlledStage.setOnShown(event -> datePickerInvoiceDate.setValue(valueForEditing == null ? LocalDate.now() : valueForEditing.getInvoiceDate()));
     }
 
     private void fillInvoice() {

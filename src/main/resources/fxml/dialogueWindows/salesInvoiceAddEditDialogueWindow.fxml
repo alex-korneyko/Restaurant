@@ -30,11 +30,11 @@
             <Label text="Сумма" GridPane.rowIndex="2" />
             <TextField id="textFieldContractor" fx:id="textFieldContractor" editable="false" maxWidth="1.7976931348623157E308" onMouseClicked="#selectContractorAction" GridPane.columnIndex="1" GridPane.columnSpan="2" />
             <TextField id="textFieldPrice" fx:id="textFieldAmount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="Накладная поставщ." GridPane.rowIndex="3">
+            <Label prefWidth="112.0" text="Ордер-источник" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin></Label>
-            <TextField id="textFieldWeight" fx:id="textFieldIdFromContractor" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField id="textFieldWeight" fx:id="textFieldIdFromOrder" editable="false" prefWidth="90.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <CheckBox id="checkBoxAutoPrice" fx:id="checkBoxAutoAmount" mnemonicParsing="false" onAction="#checkBoxAutoPriceAction" text="Авто" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
