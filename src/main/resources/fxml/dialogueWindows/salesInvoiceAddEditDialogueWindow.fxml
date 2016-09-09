@@ -60,12 +60,12 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonEditIngredient" disable="true" mnemonicParsing="false" onAction="#editIngredientInInvoiceAction" prefWidth="70.0" text="Изменить">
+                  <Button fx:id="buttonEditIngredient" mnemonicParsing="false" onAction="#editIngredientInInvoiceAction" prefWidth="70.0" text="Изменить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="buttonRemoveIngredient" disable="true" mnemonicParsing="false" onAction="#removeIngredientFromInvoiceAction" prefWidth="70.0" text="Удалить">
+                  <Button fx:id="buttonRemoveIngredient" mnemonicParsing="false" onAction="#removeIngredientFromInvoiceAction" prefWidth="70.0" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </HBox.margin>

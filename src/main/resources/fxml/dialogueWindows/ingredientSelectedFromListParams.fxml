@@ -18,6 +18,11 @@
          <children>
             <Label prefWidth="70.0" text="Цена/ед." />
             <TextField fx:id="textFieldPrice" prefWidth="70.0" />
+            <Label fx:id="labelCurrency" prefWidth="25.0" text="Cur">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </Label>
             <VBox>
                <children>
                   <Label fx:id="labelLastPrice" prefWidth="50.0" text="0.0" textFill="BLUE">
@@ -61,11 +66,45 @@
          <children>
             <Label prefWidth="70.0" text="Количество" />
             <TextField fx:id="textFieldAmount" prefWidth="70.0" />
-            <Label fx:id="labelUnit" text="Unit">
+            <Label fx:id="labelUnit" prefWidth="25.0" text="Unit">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Label>
+            <VBox>
+               <children>
+                  <Label fx:id="labelWarehouse" prefWidth="50.0" text="0.0" textFill="BLUE">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Остаток на складе">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
+                  </Label>
+                  <Label fx:id="labelReserved" prefWidth="50.0" text="0.0" textFill="BLUE">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <tooltip>
+                        <Tooltip text="Зарезервировано в ордерах">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets left="10.0" />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+            </VBox>
          </children>
          <VBox.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

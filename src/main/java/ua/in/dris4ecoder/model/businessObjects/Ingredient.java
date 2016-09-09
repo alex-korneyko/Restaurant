@@ -27,6 +27,10 @@ public class Ingredient implements Cloneable {
     @JoinColumn(name = "unit_id")
     private Unit unit;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_id")
+    private Currency currency;
+
     @Column(name = "ingredient_price")
     private Double ingredientPrice = 0.0;
 
@@ -42,6 +46,10 @@ public class Ingredient implements Cloneable {
     private SimpleStringProperty ingredientNameProp = new SimpleStringProperty();
     @Transient
     private SimpleStringProperty unitNameProperty = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty currencyShortNameProp = new SimpleStringProperty();
+    @Transient
+    private SimpleStringProperty currencyLongNameProp = new SimpleStringProperty();
     @Transient
     private SimpleDoubleProperty ingredientPriceProp = new SimpleDoubleProperty();
     @Transient
@@ -81,6 +89,16 @@ public class Ingredient implements Cloneable {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        currencyShortNameProp.set(currency.getShortName());
+        currencyLongNameProp.set(currency.getLongName());
+        this.currency = currency;
     }
 
     public Double getIngredientPrice() {
@@ -123,6 +141,16 @@ public class Ingredient implements Cloneable {
         return unitNameProperty;
     }
 
+    public SimpleStringProperty currencyShortNamePropProperty() {
+        currencyShortNameProp.set(currency.getShortName());
+        return currencyShortNameProp;
+    }
+
+    public SimpleStringProperty currencyLongNamePropProperty() {
+        currencyLongNameProp.set(currency.getLongName());
+        return currencyLongNameProp;
+    }
+
     public SimpleDoubleProperty ingredientPricePropProperty() {
         ingredientPriceProp.set(ingredientPrice);
         return ingredientPriceProp;
@@ -145,6 +173,7 @@ public class Ingredient implements Cloneable {
                 ", ingredientName='" + ingredientName + '\'' +
                 ", unit=" + unit +
                 ", ingredientPrice=" + ingredientPrice +
+                " " + currency.getShortName() +
                 ", ingredientWeight=" + ingredientWeight +
                 '}';
     }

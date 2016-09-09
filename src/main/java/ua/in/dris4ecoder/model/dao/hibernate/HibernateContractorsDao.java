@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.model.dao.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -20,6 +21,7 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void addItem(Contractor item) {
         Set<Contractor> contractors = new HashSet<>(findAll());
         if(!contractors.contains(item)) {
@@ -31,6 +33,7 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
 
     @SuppressWarnings("JpaQlInspection")
     @Override
+    @Transactional
     public void removeItemById(int id) {
         final Session currentSession = sessionFactory.getCurrentSession();
         final Query query = currentSession.createQuery("delete from Contractor c where c.id = :id");
@@ -39,22 +42,26 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     }
 
     @Override
+    @Transactional
     public void removeItemByName(String name) {
 
     }
 
     @Override
+    @Transactional
     public void removeItem(Contractor item) {
         sessionFactory.getCurrentSession().remove(item);
     }
 
     @Override
+    @Transactional
     public void editItem(int id, Contractor changedItem) {
         sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @SuppressWarnings("JpaQlInspection")
     @Override
+    @Transactional
     public Contractor findItemById(int id) {
         final Session currentSession = sessionFactory.getCurrentSession();
         final Query<Contractor> query = currentSession.createQuery("select c from Contractor c where c.id = :id");
@@ -64,6 +71,7 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
 
     @SuppressWarnings("JpaQlInspection")
     @Override
+    @Transactional
     public List<Contractor> findItem(String name) {
         final Session currentSession = sessionFactory.getCurrentSession();
         final Query<Contractor> query = currentSession.createQuery("select c from Contractor c where c.contractorName like :name");
@@ -72,22 +80,26 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     }
 
     @Override
+    @Transactional
     public List<Contractor> findItem(Contractor item) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<Contractor> findItem(OrderDishStatus status) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<Contractor> findItem(LocalDate startPeriod, LocalDate endPeriod) {
         return null;
     }
 
     @SuppressWarnings("JpaQlInspection")
     @Override
+    @Transactional
     public List<Contractor> findAll() {
         return sessionFactory.getCurrentSession().createQuery("select c from Contractor c").list();
     }

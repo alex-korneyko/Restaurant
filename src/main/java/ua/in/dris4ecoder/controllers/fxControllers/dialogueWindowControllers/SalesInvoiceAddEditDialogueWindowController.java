@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
@@ -107,12 +108,11 @@ public class SalesInvoiceAddEditDialogueWindowController implements AddEditContr
             DialogueWindows.createStage("salesIngredientParams", controlledStage, fxmlLoader, ingredientsInCurrentInvoiceObservableList);
         }
 
-        // TODO: 07.09.2016 Opening window for editing invoice by double click. Editing currently not work properly
-//        tableViewIngredients.setOnMouseClicked(event -> {
-//            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
-//                editIngredientInInvoiceAction(new ActionEvent());
-//            }
-//        });
+        tableViewIngredients.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
+                editIngredientInInvoiceAction(new ActionEvent());
+            }
+        });
     }
 
     public void checkBoxAutoPriceAction() {

@@ -32,17 +32,8 @@ public abstract class Invoice implements BusinessObject {
     @Column(name = "amount_of_invoice")
     private double amountOfInvoice;
 
-    @ManyToMany()
-    @Fetch(FetchMode.JOIN)
-    @JoinTable(
-            name = "service.invoices_compositions",
-            joinColumns = @JoinColumn(name = "invoice_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    protected List<Ingredient> ingredients = new ArrayList<>();
-
     @ElementCollection
-    @CollectionTable(name = "service.invoice_parameters")
+    @CollectionTable(name = "service.invoice_weights")
     @Column(name = "ingredient_weight")
     @MapKeyJoinColumn(name = "ingredient_id", referencedColumnName = "id")
     @Fetch(FetchMode.JOIN)
@@ -50,7 +41,7 @@ public abstract class Invoice implements BusinessObject {
 
 
     @ElementCollection
-    @CollectionTable(name = "service.invoice_parameters")
+    @CollectionTable(name = "service.invoice_prices")
     @Column(name = "ingredient_price")
     @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
@@ -97,29 +88,24 @@ public abstract class Invoice implements BusinessObject {
     }
 
     public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
         ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
         ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
     }
 
     public List<Ingredient> getIngredients() {
 
-        Set<Ingredient> set = new HashSet<>();
-        ingredients.forEach(set::add);
-        ingredients.clear();
-        set.forEach(ingredients::add);
+        List<Ingredient> ingredients = new ArrayList<>();
 
-        ingredients.forEach(ingredient -> {
+        for (Ingredient ingredient: ingredientWeightPerInvoice.keySet()) {
             ingredient.setIngredientWeight(ingredientWeightPerInvoice.get(ingredient));
             ingredient.setIngredientPrice(ingredientCostPerInvoice.get(ingredient));
-        });
-
+            ingredients.add(ingredient);
+        }
 
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
         ingredientWeightPerInvoice.clear();
         ingredientCostPerInvoice.clear();
         ingredients.forEach(ingredient -> {
@@ -158,7 +144,7 @@ public abstract class Invoice implements BusinessObject {
                 "id=" + id +
                 ", invoiceDate=" + invoiceDate +
                 ", amountOfInvoice=" + amountOfInvoice +
-                ", ingredients=" + ingredients +
+                ", ingredients=" + ingredientWeightPerInvoice.keySet() +
                 '}';
     }
 
