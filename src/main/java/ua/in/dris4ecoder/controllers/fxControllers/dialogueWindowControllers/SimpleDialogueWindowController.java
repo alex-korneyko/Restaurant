@@ -1,6 +1,7 @@
 package ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +14,7 @@ public class SimpleDialogueWindowController {
 
     public Label labelMessage;
     public ImageView imageIcon;
+    public Button buttonOk;
     private boolean result;
     private Stage controlledStage;
 
@@ -37,5 +39,9 @@ public class SimpleDialogueWindowController {
     public void cancelAction(ActionEvent actionEvent) {
         result = false;
         controlledStage.hide();
+    }
+
+    public void disableOk(boolean disable) {
+        buttonOk.setDisable(disable);
     }
 }

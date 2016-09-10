@@ -10,9 +10,12 @@ import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.model.businessObjects.Invoice;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ua.in.dris4ecoder.view.customControls.WarningsDialogWindow.WindowType.WARNING;
 
 /**
  * Created by Alex Korneyko on 31.08.2016 12:39.
@@ -33,11 +36,18 @@ public class IngredientParamsDialogueWindowController implements AddEditControll
     private double averageIngredientPrice;
     private Double lastIngredientPrice;
     private Double ingredientAvailability;
+    private Stage controlledStage;
+    private boolean isPurchase;
 
     @Override
     public void saveAction(ActionEvent actionEvent) {
         ingredient.setIngredientPrice(Double.parseDouble(textFieldPrice.getText().replace(',', '.')));
         ingredient.setIngredientWeight(Double.parseDouble(textFieldAmount.getText().replace(',', '.')));
+
+        if (!isPurchase && ingredient.getIngredientWeight() > ingredientAvailability) {
+            WarningsDialogWindow.showWindow(WARNING, "Не достаточно ингредиентов на складе", controlledStage);
+            return;
+        }
 
         if (observableList.contains(ingredient)) {
             observableList.set(observableList.indexOf(ingredient), ingredient);
@@ -55,11 +65,13 @@ public class IngredientParamsDialogueWindowController implements AddEditControll
 
     @Override
     public void setMainStage(Stage mainStage) {
-
+        String userData = (String) mainStage.getUserData();
+        isPurchase = userData.equals("purchaseInvoiceAddEditStage");
     }
 
     @Override
     public void init(ObservableList<Ingredient> observableList, Stage thisStage) throws Exception {
+        this.controlledStage = thisStage;
         this.observableList = observableList;
     }
 
@@ -106,6 +118,7 @@ public class IngredientParamsDialogueWindowController implements AddEditControll
             return;
         }
 
+        // TODO: 10.09.2016 incorrect calculating average price. Ignored weight of ingredient each invoice
         double sumIngredientPrices = invoicesWithCurrentIngredient.stream().map(Invoice::getIngredients).map(ingredients ->
                 ingredients.get(ingredients.indexOf(ingredient))).mapToDouble(Ingredient::getIngredientPrice).sum();
 

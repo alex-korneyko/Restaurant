@@ -47,8 +47,11 @@ public class SalesInvoicesTabController implements TabController<SalesInvoice> {
     @Override
     public void deleteAction(ActionEvent actionEvent) {
 
+        if (!WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.CONFIRM, "Удалить расходню накладную?", mainStage))
+            return;
+
         final SalesInvoice selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getManagementController().removeSalesInvoice(selectedItem);
+        Main.getManagementController().removeSalesInvoice(selectedItem, mainStage);
         getAllAction(actionEvent);
     }
 

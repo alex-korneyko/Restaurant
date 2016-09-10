@@ -1,7 +1,9 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
+import javafx.stage.Stage;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,18 +55,23 @@ public class ManagementController implements BusinessController {
 
     //-----------------------------------PurchaseInvoice---------------------------------------------
 
-    public void addPurchaseInvoice(PurchaseInvoice purchaseInvoice) {
+    public boolean addPurchaseInvoice(PurchaseInvoice purchaseInvoice, Stage controlledStage) {
         purchaseInvoiceRestaurantDao.addItem(purchaseInvoice);
 
-        purchaseInvoice.getIngredients().forEach(this::increaseAmount);
+        purchaseInvoice.getIngredients().forEach(ingredient -> increaseAmount(ingredient, controlledStage));
+
+        return true;
     }
 
-    public void editPurchaseInvoice(PurchaseInvoice newPurchaseInvoice) {
+    public boolean editPurchaseInvoice(PurchaseInvoice newPurchaseInvoice, Stage controlledStage) {
 
-        subtractionWeightsOfCollectionsOfIngredients(newPurchaseInvoice).forEach(this::increaseAmount);
+        for (Ingredient ingredient: subtractionWeightsOfCollectionsOfIngredients(newPurchaseInvoice))
+            if (!increaseAmount(ingredient, controlledStage)) {
+                return false;
+            }
 
         purchaseInvoiceRestaurantDao.editItem(newPurchaseInvoice.getId(), newPurchaseInvoice);
-
+        return true;
     }
 
     public PurchaseInvoice findPurchaseInvoice(int id) {
@@ -80,24 +87,28 @@ public class ManagementController implements BusinessController {
         return purchaseInvoiceRestaurantDao.findAll();
     }
 
-    public void removePurchaseInvoice(PurchaseInvoice selectedItem) {
+    public void removePurchaseInvoice(PurchaseInvoice selectedItem, Stage controlledStage) {
+
+        for (Ingredient ingredient: selectedItem.getIngredients()) {
+            if (!decreaseAmount(ingredient, controlledStage)) return;
+        }
+
         purchaseInvoiceRestaurantDao.removeItem(selectedItem);
 
-        selectedItem.getIngredients().forEach(this::decreaseAmount);
     }
 
     //------------------------------------SalesInvoice----------------------------------------------
 
-    public void addSalesInvouce(SalesInvoice salesInvoice) {
+    public void addSalesInvoice(SalesInvoice salesInvoice, Stage controlledStage) {
 
         salesInvoiceRestaurantDao.addItem(salesInvoice);
 
-        salesInvoice.getIngredients().forEach(this::decreaseAmount);
+        salesInvoice.getIngredients().forEach(ingredient -> decreaseAmount(ingredient, controlledStage));
     }
 
-    public void editSalesInvoice (SalesInvoice salesInvoice) {
+    public void editSalesInvoice (SalesInvoice salesInvoice, Stage controlledStage) {
 
-        subtractionWeightsOfCollectionsOfIngredients(salesInvoice).forEach(this::decreaseAmount);
+        subtractionWeightsOfCollectionsOfIngredients(salesInvoice).forEach(ingredient -> decreaseAmount(ingredient, controlledStage));
 
         salesInvoiceRestaurantDao.editItem(salesInvoice.getId(), salesInvoice);
     }
@@ -111,40 +122,44 @@ public class ManagementController implements BusinessController {
         return salesInvoiceRestaurantDao.findAll();
     }
 
-    public void removeSalesInvoice(SalesInvoice selectedItem) {
+    public void removeSalesInvoice(SalesInvoice selectedItem, Stage controlledStage) {
 
         salesInvoiceRestaurantDao.removeItem(selectedItem);
 
-        selectedItem.getIngredients().forEach(this::increaseAmount);
+        selectedItem.getIngredients().forEach(ingredient -> increaseAmount(ingredient, controlledStage));
     }
 
     //--------------------------------------Warehouse-----------------------------------------------
 
-    public void increaseAmount(Ingredient ingredient) {
+    public boolean increaseAmount(Ingredient ingredient, Stage controlledStage) {
 
         final List<WarehousePosition> warehousePositions = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
         if(warehousePositions.size() > 0) {
             final WarehousePosition warehousePosition = warehousePositions.get(0);
             Double ingredientWeight = warehousePosition.getIngredientAmount();
             ingredientWeight += ingredient.getIngredientWeight();
-            if(ingredientWeight < 0.0001)
-                ingredientWeight = 0.0;
+            if(ingredientWeight < 0) {
+                System.out.println(warehousePosition.getIngredient() + " " + ingredientWeight);
+                WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Для удаления/изменения накладной, на складе не хватает ингредиентов", controlledStage, true);
+                return false;
+            }
 
             warehousePosition.setIngredientAmount(ingredientWeight);
             warehousePositionRestaurantDao.editItem(warehousePosition.getId(), warehousePosition);
         } else {
             warehousePositionRestaurantDao.addItem(new WarehousePosition(ingredient));
         }
+        return true;
     }
 
-    public void decreaseAmount(Ingredient ingredient) {
+    public boolean decreaseAmount(Ingredient ingredient, Stage controlledStage) {
 
         final List<WarehousePosition> warehousePositions = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
 
-        if(warehousePositions.isEmpty()) return;
+        if(warehousePositions.isEmpty()) return false;
 
         ingredient.setIngredientWeight(ingredient.getIngredientWeight() * -1);
-        increaseAmount(ingredient);
+        return increaseAmount(ingredient, controlledStage);
     }
 
     public Double checkAmount(Ingredient ingredient) {

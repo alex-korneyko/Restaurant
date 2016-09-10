@@ -12,6 +12,7 @@ import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.time.LocalDate;
@@ -39,24 +40,31 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
+        boolean result;
+
         if (textFieldContractor.getText().isEmpty() || tableViewIngredients.getItems().isEmpty()) {
-            System.out.println("Error");
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Список ингредиентов пуст", controlledStage);
             return;
         }
 
         if (purchaseInvoice == null) {
             purchaseInvoice = new PurchaseInvoice();
             fillInvoice();
-            Main.getManagementController().addPurchaseInvoice(purchaseInvoice);
+            result = Main.getManagementController().addPurchaseInvoice(purchaseInvoice, controlledStage);
         } else {
             fillInvoice();
-            Main.getManagementController().editPurchaseInvoice(purchaseInvoice);
+            result = Main.getManagementController().editPurchaseInvoice(purchaseInvoice, controlledStage);
         }
 
         invoicesObservableList.clear();
         invoicesObservableList.addAll(Main.getManagementController().findAllPurchaseInvoices());
-        purchaseInvoice = null;
-        controlledStage.hide();
+        ingredientsInCurrentInvoiceObservableList.clear();
+        ingredientsInCurrentInvoiceObservableList.addAll(Main.getManagementController().findPurchaseInvoice(purchaseInvoice.getId()).getIngredients());
+
+        if (result) {
+            purchaseInvoice = null;
+            controlledStage.hide();
+        }
     }
 
     @Override
@@ -83,6 +91,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
         if (ingredient != null) {
             DialogueWindows.getStage("purchaseIngredientParams").setTitle("Параметры");
             DialogueWindows.getController("purchaseIngredientParams").setValueForEditing(ingredient);
+            DialogueWindows.getController("purchaseIngredientParams").setMainStage(controlledStage);
             DialogueWindows.getStage("purchaseIngredientParams").showAndWait();
         }
 
@@ -180,6 +189,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
 
         this.purchaseInvoice = valueForEditing;
         fillStageFields(valueForEditing);
+        checkBoxAutoAmount.setSelected(true);
     }
 
     @Override

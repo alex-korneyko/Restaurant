@@ -16,12 +16,12 @@ public class WarningsDialogWindow {
     private static Stage stage;
     private static SimpleDialogueWindowController simpleDialogueWindowController;
 
-    public static void showWindow(WindowType WindowType, String message, Stage owner) {
+    public static boolean showWindow(WindowType windowType, String message, Stage owner) {
 
         if (stage == null )
             init(owner);
 
-        switch (WindowType) {
+        switch (windowType) {
             case INFO:
                 simpleDialogueWindowController.setParameters("@../../images/dialog-information.png", message);
                 break;
@@ -36,6 +36,17 @@ public class WarningsDialogWindow {
         }
 
         stage.showAndWait();
+        simpleDialogueWindowController.disableOk(false);
+        return simpleDialogueWindowController.getResult();
+    }
+
+    public static boolean showWindow(WindowType windowType, String message, Stage owner, boolean disableOkButton) {
+
+        if (stage == null )
+            init(owner);
+
+        simpleDialogueWindowController.disableOk(true);
+        return showWindow(windowType, message, owner);
     }
 
     public static boolean getResult() {

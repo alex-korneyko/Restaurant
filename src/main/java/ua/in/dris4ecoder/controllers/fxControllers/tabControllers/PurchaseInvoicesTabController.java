@@ -37,7 +37,7 @@ public class PurchaseInvoicesTabController implements TabController<PurchaseInvo
         DialogueWindows.getStage("purchaseInvoiceAddEditStage").setTitle("Изменить");
         PurchaseInvoice selectedItem = tableView.getSelectionModel().getSelectedItem();
         if (selectedItem == null) {
-            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage, true);
             return;
         }
         DialogueWindows.getController("purchaseInvoiceAddEditStage").setValueForEditing(selectedItem);
@@ -48,7 +48,16 @@ public class PurchaseInvoicesTabController implements TabController<PurchaseInvo
     public void deleteAction(ActionEvent actionEvent) {
 
         final PurchaseInvoice selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getManagementController().removePurchaseInvoice(selectedItem);
+        if (selectedItem == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage, true);
+            return;
+        }
+
+        if (!WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.CONFIRM, "Удалить приходную накладную?", mainStage)) {
+            return;
+        }
+
+        Main.getManagementController().removePurchaseInvoice(selectedItem, mainStage);
         getAllAction(actionEvent);
     }
 

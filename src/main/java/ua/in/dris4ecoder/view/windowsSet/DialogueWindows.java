@@ -29,6 +29,7 @@ public class DialogueWindows {
     public static <E> void createStage(String stageKey, Stage mainStage, FXMLLoader fxmlLoader, ObservableList<E> observableList) throws Exception {
 
         Stage stage = new Stage();
+        stage.setUserData(stageKey);
         stage.setResizable(false);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainStage);
