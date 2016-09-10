@@ -8,6 +8,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class ContractorsTabController implements TabController<Contractor> {
 
     private TableView<Contractor> tableView;
     private ObservableList<Contractor> observableList;
+    private Stage mainStage;
 
     @Override
     public void addAction(ActionEvent actionEvent) throws IOException {
@@ -31,7 +33,10 @@ public class ContractorsTabController implements TabController<Contractor> {
     @Override
     public void editAction(ActionEvent actionEvent) {
         Contractor contractor = tableView.getSelectionModel().getSelectedItem();
-        if (contractor == null) return;
+        if (contractor == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
 
         final Stage contractorAddEditStage = DialogueWindows.getStage("contractorAddEditStage");
         contractorAddEditStage.setTitle("Изменить");
@@ -57,6 +62,7 @@ public class ContractorsTabController implements TabController<Contractor> {
     @Override
     public void init(Stage mainStage, TableView<Contractor> tableView) throws Exception {
 
+        this.mainStage = mainStage;
         this.tableView = tableView;
         this.observableList = tableView.getItems();
 

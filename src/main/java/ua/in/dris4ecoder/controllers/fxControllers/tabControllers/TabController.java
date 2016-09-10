@@ -15,7 +15,7 @@ public interface TabController<T> {
     void addAction(ActionEvent actionEvent) throws IOException;
 
     @FXML
-    void editAction(ActionEvent actionEvent);
+    void editAction(ActionEvent actionEvent) throws IOException;
 
     @FXML
     void deleteAction(ActionEvent actionEvent);

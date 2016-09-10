@@ -9,6 +9,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.List;
 public class IngredientTabController implements TabController<Ingredient> {
 
     private ObservableList<Ingredient> observableList;
+    private Stage mainStage;
 
     @FXML
     private TableView<Ingredient> tableView;
@@ -41,7 +43,10 @@ public class IngredientTabController implements TabController<Ingredient> {
         final Stage ingredientAddEditStage = DialogueWindows.getStage("ingredientAddEditStage");
         ingredientAddEditStage.setTitle("Изменить");
         Ingredient selectedItem = tableView.getSelectionModel().getSelectedItem();
-        if(selectedItem == null) return;
+        if(selectedItem == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
         DialogueWindows.getController("ingredientAddEditStage").setValueForEditing(selectedItem);
         ingredientAddEditStage.showAndWait();
     }
@@ -67,6 +72,7 @@ public class IngredientTabController implements TabController<Ingredient> {
     @Override
     public void init(Stage mainStage, TableView<Ingredient> tableView) throws Exception {
 
+        this.mainStage = mainStage;
         this.tableView = tableView;
         this.observableList = tableView.getItems();
 

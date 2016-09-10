@@ -8,6 +8,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.SalesInvoice;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class SalesInvoicesTabController implements TabController<SalesInvoice> {
 
     private TableView<SalesInvoice> tableView;
     private ObservableList<SalesInvoice> observableList;
+    private Stage mainStage;
 
     @Override
     public void addAction(ActionEvent actionEvent) throws IOException {
@@ -33,7 +35,12 @@ public class SalesInvoicesTabController implements TabController<SalesInvoice> {
     public void editAction(ActionEvent actionEvent) {
 
         DialogueWindows.getStage("salesInvoiceAddEditDialogueWindow").setTitle("Изменить расходную накладную");
-        DialogueWindows.getController("salesInvoiceAddEditDialogueWindow").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
+        SalesInvoice selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
+        DialogueWindows.getController("salesInvoiceAddEditDialogueWindow").setValueForEditing(selectedItem);
         DialogueWindows.getStage("salesInvoiceAddEditDialogueWindow").showAndWait();
     }
 
@@ -57,6 +64,7 @@ public class SalesInvoicesTabController implements TabController<SalesInvoice> {
     @Override
     public void init(Stage mainStage, TableView<SalesInvoice> tableView) throws Exception {
 
+        this.mainStage = mainStage;
         this.tableView = tableView;
         this.observableList = tableView.getItems();
 

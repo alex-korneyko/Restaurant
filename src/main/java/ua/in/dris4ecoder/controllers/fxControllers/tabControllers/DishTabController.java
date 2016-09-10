@@ -9,8 +9,10 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ public class DishTabController implements TabController<Dish> {
     @FXML
     private TableView<Dish> tableView;
     private ObservableList<Dish> observableList;
+    private Stage mainStage;
 
     @Override
     public void addAction(ActionEvent actionEvent) {
@@ -40,7 +43,10 @@ public class DishTabController implements TabController<Dish> {
     @Override
     public void editAction(ActionEvent actionEvent) {
 
-        if (tableView.getSelectionModel().getSelectedItem() == null) return;
+        if (tableView.getSelectionModel().getSelectedItem() == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
 
         DialogueWindows.getStage("dishAddEditStage").setTitle("Изменить");
         DialogueWindows.getController("dishAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
@@ -59,6 +65,7 @@ public class DishTabController implements TabController<Dish> {
     @Override
     public void init(Stage mainStage, TableView<Dish> tableView) throws Exception {
 
+        this.mainStage = mainStage;
         this.tableView = tableView;
         this.observableList = tableView.getItems();
 

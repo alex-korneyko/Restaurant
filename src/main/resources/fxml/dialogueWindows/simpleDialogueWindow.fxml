@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import org.controlsfx.glyphfont.*?>
+<?import impl.org.controlsfx.skin.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ua.in.dris4ecoder.controllers.fxControllers.dialogueWindowControllers.SimpleDialogueWindowController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <Label fx:id="labelMessage" prefWidth="300.0" text="Label">
+               <HBox.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </HBox.margin></Label>
+            <ImageView fx:id="imageIcon" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/dialog-error.png" />
+               </image>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER">
+         <children>
+            <Button defaultButton="true" mnemonicParsing="false" onAction="#okAction" prefWidth="100.0" text="Ok">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="30.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelAction" prefWidth="100.0" text="Cancel">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children></HBox>
+   </children>
+</VBox>

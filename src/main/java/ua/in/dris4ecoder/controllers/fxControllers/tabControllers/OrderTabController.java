@@ -7,6 +7,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.model.businessObjects.Order;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 /**
@@ -29,7 +30,10 @@ public class OrderTabController implements TabController<Order> {
     @Override
     public void editAction(ActionEvent actionEvent) {
 
-        if (tableView.getSelectionModel().getSelectedItem() == null) return;
+        if (tableView.getSelectionModel().getSelectedItem() == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
 
         DialogueWindows.getStage("orderAddEditStage").setTitle("Изменить");
         DialogueWindows.getController("orderAddEditStage").setValueForEditing(tableView.getSelectionModel().getSelectedItem());
@@ -50,6 +54,7 @@ public class OrderTabController implements TabController<Order> {
     @Override
     public void init(Stage mainStage, TableView<Order> tableView) throws Exception {
 
+        this.mainStage = mainStage;
         this.mainStage = mainStage;
         this.observableList = tableView.getItems();
 

@@ -8,6 +8,7 @@ import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class EmployeeTabController implements TabController<Employee> {
 
     private ObservableList<Employee> observableList;
     private TableView<Employee> tableView;
+    private Stage mainStage;
 
 
     @Override
@@ -35,7 +37,10 @@ public class EmployeeTabController implements TabController<Employee> {
     public void editAction(ActionEvent actionEvent) {
 
         Employee selectedItem = tableView.getSelectionModel().getSelectedItem();
-        if(selectedItem == null) return;
+        if(selectedItem == null) {
+            WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Ничего не выбрано", mainStage);
+            return;
+        }
 
         final Stage employeeAddEditStage = DialogueWindows.getStage("employeeAddEditStage");
         employeeAddEditStage.setTitle("Изменить");
@@ -65,6 +70,7 @@ public class EmployeeTabController implements TabController<Employee> {
     public void init(Stage mainStage, TableView<Employee> tableView) throws Exception {
 
         this.tableView = tableView;
+        this.mainStage = mainStage;
         observableList = tableView.getItems();
 
         if(DialogueWindows.getStage("employeeAddEditStage") == null) {
