@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Restaurant</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.js"></script>
+
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/restaurant_script.js"></script>
+
+</head>
+
+<body>
+
+<!--Status bar-->
+<div class="container">
+    <div class="row status">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"><p>Столиков свободно:</p></div>
+                <div class="col-md-1"><p>15</p></div>
+                <div class="col-md-2"><p>Заказов в очереди:</p></div>
+                <div class="col-md-1"><p>5</p></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-2"><p>Вход</p></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2"><p>Столиков зарезерв.:</p></div>
+                <div class="col-md-1"><p>3</p></div>
+                <div class="col-md-2"><p>Блюд готовится:</p></div>
+                <div class="col-md-1"><p>14</p></div>
+                <div class="col-md-4"></div>
+                <div class="col-md-2"><p>Регистрация</p></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Menu bar-->
+<div class="container">
+    <div class="row">
+        <div class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" onclick="showInFrame('mainPage', '')" class="navbar-brand">Блинчики тёти Глаши</a>
+                </div>
+                <div class="collapse navbar-collapse" id="responsive-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ресторан<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" onclick="showInFrame('diagram', '')">Схема зала</a></li>
+                                <li><a href="#" onclick="showInFrame('menu', '')">Меню</a></li>
+                                <li><a href="#" onclick="showInFrame('reserveTable', 'user/')">Заказать столик</a></li>
+                                <li><a href="#" onclick="showInFrame('orderDelivery', 'user/')">Заказать доставку</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ассортимент<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Блюда</a></li>
+                                <li><a href="#">Готовые наборы</a></li>
+                                <li><a href="#">Ингредиенты</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Программы<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Выступления</a></li>
+                                <li><a href="#">Авторские вечера</a></li>
+                                <li><a href="#">Караоке</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Приват<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Комнаты переговоров</a></li>
+                                <li><a href="#">Комнаты отдыха</a></li>
+                                <li><a href="#">Индивидуальные заказы</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">О нас<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Наши сотрудники</a></li>
+                                <li><a href="#">Схема проезда</a></li>
+                                <li><a href="#">Контакты</a></li>
+                                <li><a href="#">Отзывы</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Admin panel & content-->
+<div class="container">
+    <div class="row">
+
+        <!--Admin panel-->
+        <div class="col-md-2 left-side-panel">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Персонал <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#" onclick="showInFrame('posts', 'admin/')">Должности</a></li>
+                    <li><a href="#" onclick="showInFrame('employees', 'admin/')">Сотрудники</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Обслужи-<br>вание <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#">Заказы</a></li>
+                    <li><a href="#">Кухня</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Инсту-<br>менты <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#" onclick="showInFrame('ingredients', 'admin/')">Ингредиенты</a></li>
+                    <li><a href="#" onclick="showInFrame('dishes', 'admin/')">Блюда</a></li>
+                    <li><a href="#" onclick="showInFrame('menus', 'admin/')">Меню</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Менедж-<br>мент <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#">Приход</a></li>
+                    <li><a href="#">Расход</a></li>
+                    <li><a href="#">Контрагенты</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Склад</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Отчёты <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    Сервис <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-to-right">
+                    <li><a href="#">Настройки</a></li>
+                    <li><a href="#">База данных</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--Content-->
+        <div class="col-md-8 center-panel">
+            <iframe class="main-frame" id="mainFrame" src="mainPage.html"></iframe>
+        </div>
+
+        <!--Left side for banner-->
+        <div class="col-md-2 right-side-panel">
+            <img src="http://placehold.it/230x600" alt="">
+        </div>
+    </div>
+</div>
+
+</body>

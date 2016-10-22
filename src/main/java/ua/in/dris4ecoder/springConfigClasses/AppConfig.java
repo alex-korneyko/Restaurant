@@ -4,6 +4,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
@@ -50,7 +51,7 @@ public class AppConfig {
         Properties properties = new Properties();
 
         try {
-            properties.load(new FileInputStream("jdbc.properties"));
+            properties.load(new FileInputStream(new ClassPathResource("jdbc.properties").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }

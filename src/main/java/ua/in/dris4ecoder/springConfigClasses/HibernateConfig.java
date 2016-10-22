@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.hibernate.*;
@@ -16,6 +17,7 @@ import java.util.Properties;
  * Created by Alex Korneyko on 15.08.2016 11:18.
  */
 @Configuration
+@EnableTransactionManagement
 public class HibernateConfig {
 
     @Bean

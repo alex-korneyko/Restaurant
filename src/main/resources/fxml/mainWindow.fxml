@@ -29,6 +29,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
+                  <Button fx:id="buttonMainPage" mnemonicParsing="false" onAction="#createMainPageAction" prefWidth="100.0" text="Главная" />
                   <MenuButton minHeight="100.0" minWidth="100.0" mnemonicParsing="false" popupSide="RIGHT" prefHeight="100.0" prefWidth="100.0" text="Персонал" textAlignment="CENTER" wrapText="true">
                     <items>
                       <MenuItem fx:id="menuItemCreateTabPosts" mnemonicParsing="false" onAction="#createTabPosts" text="Должности" />

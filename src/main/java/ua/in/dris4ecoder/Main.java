@@ -1,11 +1,13 @@
 package ua.in.dris4ecoder;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
 import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
 import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.springConfigClasses.*;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 
 /**
@@ -23,7 +25,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ApplicationContext applicationContext =  new ClassPathXmlApplicationContext("application-context.xml");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(
+                AppConfig.class, FXSpringConfig.class, HibernateConfig.class, JdbcConfig.class);
         Main main = applicationContext.getBean(Main.class);
         main.start(args);
     }

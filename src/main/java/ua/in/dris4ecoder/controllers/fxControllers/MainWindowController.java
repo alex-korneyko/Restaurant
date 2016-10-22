@@ -9,6 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.view.customControls.CustomColumn;
 import ua.in.dris4ecoder.view.customControls.CustomTabGenerator;
+import ua.in.dris4ecoder.view.customControls.MainTab;
 import ua.in.dris4ecoder.view.customControls.SettingsTab;
 
 import java.io.IOException;
@@ -24,6 +25,17 @@ public class MainWindowController {
     @FXML public TabPane tabPaneDbManagement;
     private Stage mainStage;
     private SingleSelectionModel<Tab> selectionModel;
+
+    public void createMainPageAction(ActionEvent actionEvent) throws IOException {
+
+        if(findTab("main")) return;
+
+        MainTab mainTab = new MainTab("Главная", "main");
+        mainTab.init(mainStage);
+        tabPaneDbManagement.getTabs().add(mainTab);
+        selectionModel.select(tabPaneDbManagement.getTabs().size() - 1);
+
+    }
 
     public void createTabPosts() throws Exception {
 
