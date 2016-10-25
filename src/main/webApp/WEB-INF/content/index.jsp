@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -5,17 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>Restaurant</title>
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <link href="<c:url value="/resources/css/bootstrap.css" /> " rel="stylesheet">
+    <link href="<c:url value="/resources/css/style.css" /> " rel="stylesheet">
 
-    <link href="css/style.css" rel="stylesheet">
-    <script src="js/restaurant_script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/restaurant_script.js" /> "></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js" />"></script>
 
 </head>
 
@@ -31,7 +31,7 @@
                 <div class="col-md-2"><p>Заказов в очереди:</p></div>
                 <div class="col-md-1"><p>5</p></div>
                 <div class="col-md-4"></div>
-                <div class="col-md-2"><p>Вход</p></div>
+                <div class="col-md-2"><a href="#" onclick="showInFrame('loginPage', '')">Вход</a></div>
             </div>
         </div>
         <div class="container">
@@ -41,7 +41,7 @@
                 <div class="col-md-2"><p>Блюд готовится:</p></div>
                 <div class="col-md-1"><p>14</p></div>
                 <div class="col-md-4"></div>
-                <div class="col-md-2"><p>Регистрация</p></div>
+                <div class="col-md-2"><a href="#" onclick="showInFrame('registrationPage', '')">Регистрация</a></div>
             </div>
         </div>
     </div>
@@ -120,11 +120,13 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
-                    Персонал <span class="caret"></span>
+                    Люди <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-to-right">
                     <li><a href="#" onclick="showInFrame('posts', 'admin/')">Должности</a></li>
                     <li><a href="#" onclick="showInFrame('employees', 'admin/')">Сотрудники</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#" onclick="showInFrame('users', 'admin/')">Клиенты</a></li>
                 </ul>
             </div>
             <div class="btn-group">
@@ -167,11 +169,11 @@
                     Отчёты <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Доходы/расходы</a></li>
+                    <li><a href="#">Приход/Расход</a></li>
+                    <li><a href="#">Сотрудники</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li><a href="#">Отзывы</a></li>
                 </ul>
             </div>
             <div class="btn-group">
@@ -187,13 +189,13 @@
         </div>
 
         <!--Content-->
-        <div class="col-md-8 center-panel">
-            <iframe class="main-frame" id="mainFrame" src="mainPage.html"></iframe>
+        <div class="col-md-9 center-panel">
+            <iframe class="main-frame" id="mainFrame" src="${pageContext.request.contextPath}/mainPage"></iframe>
         </div>
 
         <!--Left side for banner-->
-        <div class="col-md-2 right-side-panel">
-            <img src="http://placehold.it/230x600" alt="">
+        <div class="col-md-1 right-side-panel">
+            <img src="http://placehold.it/130x600" alt="">
         </div>
     </div>
 </div>

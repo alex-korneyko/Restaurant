@@ -45,13 +45,13 @@ public class AppConfig {
     }
 
     @Bean
-    ComboPooledDataSource comboPooledDataSource() throws PropertyVetoException {
+    ComboPooledDataSource comboPooledDataSourceForRestaurant() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
         Properties properties = new Properties();
 
         try {
-            properties.load(new FileInputStream(new ClassPathResource("jdbc.properties").getFile()));
+            properties.load(new FileInputStream(new ClassPathResource("jdbcRestaurant.properties").getFile()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -68,7 +68,7 @@ public class AppConfig {
     }
 
     @Bean
-    RestaurantDao jdbcRestaurantDao(ComboPooledDataSource dataSource) {
+    RestaurantDao jdbcRestaurantDao(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource) {
 
         JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
         jdbcEmployeePostsDao.setDataSource(dataSource);

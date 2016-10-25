@@ -1,10 +1,9 @@
 package ua.in.dris4ecoder.springConfigClasses;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeeDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 
@@ -15,16 +14,16 @@ import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 public class JdbcConfig {
 
     @Bean
-    JdbcEmployeePostsDao jdbcEmployeePostsDao(ComboPooledDataSource comboPooledDataSource) {
+    JdbcEmployeePostsDao jdbcEmployeePostsDao(ComboPooledDataSource comboPooledDataSourceForRestaurant) {
         final JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
-        jdbcEmployeePostsDao.setDataSource(comboPooledDataSource);
+        jdbcEmployeePostsDao.setDataSource(comboPooledDataSourceForRestaurant);
         return jdbcEmployeePostsDao;
     }
 
     @Bean
-    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource comboPooledDataSource, JdbcEmployeePostsDao jdbcEmployeePostsDao) {
+    JdbcEmployeeDao jdbcEmployeeDao(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource, JdbcEmployeePostsDao jdbcEmployeePostsDao) {
         final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
-        jdbcEmployeeDao.setDataSource(comboPooledDataSource);
+        jdbcEmployeeDao.setDataSource(dataSource);
         jdbcEmployeeDao.setEmployeePostDao(jdbcEmployeePostsDao);
         return jdbcEmployeeDao;
     }

@@ -2,6 +2,7 @@ package ua.in.dris4ecoder.springConfigClasses;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -21,7 +22,7 @@ import java.util.Properties;
 public class HibernateConfig {
 
     @Bean
-    LocalSessionFactoryBean localSessionFactoryBean(ComboPooledDataSource dataSource) {
+    LocalSessionFactoryBean localSessionFactoryBean(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource) {
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
