@@ -24,27 +24,34 @@
 <!--Status bar-->
 <div class="container">
     <div class="row status">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2"><p>Столиков свободно:</p></div>
-                <div class="col-md-1"><p>15</p></div>
-                <div class="col-md-2"><p>Заказов в очереди:</p></div>
-                <div class="col-md-1"><p>5</p></div>
-                <div class="col-md-4"></div>
-                <div class="col-md-2"><a href="#" onclick="showInFrame('loginPage', '')">Вход</a></div>
+        <div class="col-md-10">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><p>Столиков свободно:</p></div>
+                    <div class="col-md-1"><p>15</p></div>
+                    <div class="col-md-2"><p>Заказов в очереди:</p></div>
+                    <div class="col-md-1"><p>5</p></div>
+                    <div class="col-md-4"></div>
+                    <%--<div class="col-md-2"><a href="#" onclick="showInFrame('loginPage', '')">Вход</a></div>--%>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2"><p>Столиков зарезерв.:</p></div>
+                    <div class="col-md-1"><p>3</p></div>
+                    <div class="col-md-2"><p>Блюд готовится:</p></div>
+                    <div class="col-md-1"><p>14</p></div>
+                    <div class="col-md-4"></div>
+                    <%--<div class="col-md-2"><a href="#" onclick="showInFrame('registrationPage', '')">Регистрация</a>--%>
+                </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2"><p>Столиков зарезерв.:</p></div>
-                <div class="col-md-1"><p>3</p></div>
-                <div class="col-md-2"><p>Блюд готовится:</p></div>
-                <div class="col-md-1"><p>14</p></div>
-                <div class="col-md-4"></div>
-                <div class="col-md-2"><a href="#" onclick="showInFrame('registrationPage', '')">Регистрация</a></div>
-            </div>
+        <div class="col-md-2">
+            <iframe id="loginFrame" class="loginFrame" src="${pageContext.request.contextPath}/loginStatusFrame"></iframe>
         </div>
     </div>
+
+</div>
 </div>
 
 <!--Menu bar-->
@@ -68,7 +75,8 @@
                                 <li><a href="#" onclick="showInFrame('diagram', '')">Схема зала</a></li>
                                 <li><a href="#" onclick="showInFrame('menu', '')">Меню</a></li>
                                 <li><a href="#" onclick="showInFrame('reserveTable', 'user/')">Заказать столик</a></li>
-                                <li><a href="#" onclick="showInFrame('orderDelivery', 'user/')">Заказать доставку</a></li>
+                                <li><a href="#" onclick="showInFrame('orderDelivery', 'user/')">Заказать доставку</a>
+                                </li>
                             </ul>
                         </li>
                         <li>
@@ -80,7 +88,8 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Программы<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Программы<b
+                                    class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">Выступления</a></li>
                                 <li><a href="#">Авторские вечера</a></li>
@@ -118,7 +127,8 @@
         <!--Admin panel-->
         <div class="col-md-2 left-side-panel">
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Люди <span class="caret"></span>
                 </button>
@@ -130,7 +140,8 @@
                 </ul>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Обслужи-<br>вание <span class="caret"></span>
                 </button>
@@ -140,7 +151,8 @@
                 </ul>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Инсту-<br>менты <span class="caret"></span>
                 </button>
@@ -151,7 +163,8 @@
                 </ul>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Менедж-<br>мент <span class="caret"></span>
                 </button>
@@ -164,7 +177,8 @@
                 </ul>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Отчёты <span class="caret"></span>
                 </button>
@@ -177,7 +191,8 @@
                 </ul>
             </div>
             <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                        aria-haspopup="true"
                         aria-expanded="false">
                     Сервис <span class="caret"></span>
                 </button>

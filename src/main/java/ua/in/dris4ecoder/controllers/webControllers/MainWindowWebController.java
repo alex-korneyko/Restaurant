@@ -1,5 +1,7 @@
 package ua.in.dris4ecoder.controllers.webControllers;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +35,20 @@ public class MainWindowWebController {
     public ModelAndView loginPage() {
 
         ModelAndView modelAndView = new ModelAndView("loginPage");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/loginStatusFrame")
+    public ModelAndView loginStatusPage() {
+
+        ModelAndView modelAndView = new ModelAndView("loginStatusFrame");
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof String)) {
+            modelAndView.addObject("userLogin", ((UserDetails) principal).getUsername());
+        }
+
+
         return modelAndView;
     }
 

@@ -50,10 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasRole("USER")
                 .and().formLogin().loginPage("/loginPage").successForwardUrl("/user/loginSuccess")
                 .and().httpBasic()
-                .and().logout().logoutSuccessUrl("/")
                 .and().rememberMe().rememberMeParameter("rememberMe")
                 .and().csrf().disable()
-                .headers().frameOptions().sameOrigin();
+                .logout().logoutUrl("/user/logout")
+                .logoutSuccessUrl("/loginStatusFrame")
+                .and().headers().frameOptions().sameOrigin();
     }
 
     @Bean

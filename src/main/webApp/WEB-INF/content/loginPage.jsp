@@ -43,6 +43,6 @@
     <button type="submit" class="button">Submit</button>
 </form>
 <br>
-<a href="${pageContext.request.contextPath}/">Main</a>
+<a href="${pageContext.request.contextPath}/mainPage">Back to main page</a>
 </body>
 </html>

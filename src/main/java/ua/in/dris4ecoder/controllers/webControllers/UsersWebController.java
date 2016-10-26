@@ -16,4 +16,11 @@ public class UsersWebController {
         ModelAndView modelAndView = new ModelAndView("user/loginSuccess");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/user/logout")
+    public ModelAndView logout() {
+
+        ModelAndView modelAndView = new ModelAndView("user/logoutPage");
+        return modelAndView;
+    }
 }
