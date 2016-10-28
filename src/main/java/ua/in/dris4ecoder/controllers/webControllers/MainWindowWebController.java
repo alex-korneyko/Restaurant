@@ -1,11 +1,14 @@
 package ua.in.dris4ecoder.controllers.webControllers;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
 
 import java.util.Map;
 
@@ -14,6 +17,14 @@ import java.util.Map;
  */
 @Controller
 public class MainWindowWebController {
+
+    private UserRegistrationController userRegistrationController;
+
+    @Bean
+    String setUserRegistrationController(UserRegistrationController userRegistrationController) {
+        this.userRegistrationController = userRegistrationController;
+        return null;
+    }
 
     @RequestMapping(value = "/")
     public ModelAndView index(Map<String, Object> model) {
@@ -58,5 +69,31 @@ public class MainWindowWebController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/registrationResult", method = RequestMethod.POST)
+    public ModelAndView registrationSuccess(@RequestParam Map<String, String> model) {
+
+        ModelAndView modelAndView = new ModelAndView("registrationPage");
+
+        System.out.println(model.toString());
+
+        for (String key : model.keySet()) {
+            if (model.get(key).isEmpty()) {
+                modelAndView.addObject("regError", "Все поля должны быть заполнены");
+                modelAndView.addObject("alreadyEntered", model);
+                return modelAndView;
+            }
+        }
+
+        if (!model.get("userPass1").equals(model.get("userPass2"))) {
+            modelAndView.addObject("regError", "Пароли не совпадают");
+            modelAndView.addObject("alreadyEntered", model);
+            return modelAndView;
+        }
+
+        modelAndView.setViewName("registrationResult");
+        userRegistrationController.addUser(model);
+
+        return modelAndView;
+    }
 
 }

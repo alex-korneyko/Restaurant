@@ -38,6 +38,9 @@ public class Order {
     @Column(name = "order_date")
     private LocalDate dateOfCreation;
 
+    @Column(name = "order_owner")
+    private String orderOwner;
+
     @ManyToMany
     @Fetch(FetchMode.SELECT)
     @JoinTable(
@@ -128,6 +131,14 @@ public class Order {
 
     public void setDishes(List<Dish> dishes) {
         this.dishes = dishes;
+    }
+
+    public String getOrderOwner() {
+        return orderOwner;
+    }
+
+    public void setOrderOwner(String orderOwner) {
+        this.orderOwner = orderOwner;
     }
 
     //------------------------------------

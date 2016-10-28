@@ -68,7 +68,7 @@ public class AppConfig {
     }
 
     @Bean
-    RestaurantDao jdbcRestaurantDao(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource) {
+    RestaurantDao jdbcRestaurantDao(ComboPooledDataSource dataSource) {
 
         JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
         jdbcEmployeePostsDao.setDataSource(dataSource);

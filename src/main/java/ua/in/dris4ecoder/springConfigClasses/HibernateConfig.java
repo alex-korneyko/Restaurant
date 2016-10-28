@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -22,7 +23,7 @@ import java.util.Properties;
 public class HibernateConfig {
 
     @Bean
-    LocalSessionFactoryBean localSessionFactoryBean(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource) {
+    LocalSessionFactoryBean localSessionFactoryBean(ComboPooledDataSource dataSource) {
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
@@ -44,7 +45,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<Dish> hibernateDishDao(SessionFactory sessionFactory) {
+    RestaurantDao<Dish> hibernateDishDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
 
         HibernateDishDao dishDao = new HibernateDishDao();
         dishDao.setSessionFactory(sessionFactory);
@@ -53,7 +54,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<Menu> hibernateMenuDao(SessionFactory sessionFactory) {
+    RestaurantDao<Menu> hibernateMenuDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
 
         HibernateMenuDao menuDao = new HibernateMenuDao();
         menuDao.setSessionFactory(sessionFactory);
@@ -62,59 +63,82 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<Order> hibernateOrderDao(SessionFactory sessionFactory) {
+    RestaurantDao<Order> hibernateOrderDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateOrderDao orderDao = new HibernateOrderDao();
         orderDao.setSessionFactory(sessionFactory);
         return orderDao;
     }
 
     @Bean
-    RestaurantDao<KitchenProcess> hibernateKitchenDao(SessionFactory sessionFactory) {
+    RestaurantDao<KitchenProcess> hibernateKitchenDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateKitchenDao hibernateKitchenDao = new HibernateKitchenDao();
         hibernateKitchenDao.setSessionFactory(sessionFactory);
         return hibernateKitchenDao;
     }
 
     @Bean
-    RestaurantDao<Unit> hibernateUnitDao(SessionFactory sessionFactory) {
+    RestaurantDao<Unit> hibernateUnitDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateUnitsDao hibernateUnitsDao = new HibernateUnitsDao();
         hibernateUnitsDao.setSessionFactory(sessionFactory);
         return hibernateUnitsDao;
     }
 
     @Bean
-    RestaurantDao<Contractor> hibernateSupplierDao(SessionFactory sessionFactory) {
+    RestaurantDao<Contractor> hibernateSupplierDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateContractorsDao hibernateContractorsDao = new HibernateContractorsDao();
         hibernateContractorsDao.setSessionFactory(sessionFactory);
         return hibernateContractorsDao;
     }
 
     @Bean
-    RestaurantDao<PurchaseInvoice> hibernatePurchaseInvoiceDao(SessionFactory sessionFactory) {
+    RestaurantDao<PurchaseInvoice> hibernatePurchaseInvoiceDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernatePurchaseInvoiceDao hibernatePurchaseInvoiceDao = new HibernatePurchaseInvoiceDao();
         hibernatePurchaseInvoiceDao.setSessionFactory(sessionFactory);
         return hibernatePurchaseInvoiceDao;
     }
 
     @Bean
-    RestaurantDao<SalesInvoice> hibernateSalesInvoiceDao(SessionFactory sessionFactory) {
+    RestaurantDao<SalesInvoice> hibernateSalesInvoiceDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateSalesInvoiceDao hibernateSalesInvoiceDao = new HibernateSalesInvoiceDao();
         hibernateSalesInvoiceDao.setSessionFactory(sessionFactory);
         return hibernateSalesInvoiceDao;
     }
 
     @Bean
-    RestaurantDao<WarehousePosition> hibernateWarehouseDao(SessionFactory sessionFactory) {
+    RestaurantDao<WarehousePosition> hibernateWarehouseDao(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
         HibernateWarehouseDao hibernateWarehouseDao = new HibernateWarehouseDao();
         hibernateWarehouseDao.setSessionFactory(sessionFactory);
         return hibernateWarehouseDao;
     }
 
     @Bean
-    HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
+    HibernateTransactionManager hibernateTransactionManager(@Qualifier("localSessionFactoryBean") SessionFactory sessionFactory) {
 
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
         return transactionManager;
+    }
+
+    @Bean
+    RestaurantDao<UserGroup> groupRestaurantDao(SessionFactory sessionFactory) {
+
+        HibernateGroupsDao groupsDao = new HibernateGroupsDao();
+        groupsDao.setSessionFactory(sessionFactory);
+
+        return groupsDao;
+    }
+
+    @Bean
+    RestaurantDao<User> userRestaurantDao(
+            SessionFactory localSessionFactoryBean,
+            BCryptPasswordEncoder passwordEncoder,
+            @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao) {
+
+        HibernateUsersDao userRestaurantDao = new HibernateUsersDao();
+        userRestaurantDao.setSessionFactory(localSessionFactoryBean);
+        userRestaurantDao.setPasswordEncoder(passwordEncoder);
+        userRestaurantDao.setUserGroupRestaurantDao(userGroupRestaurantDao);
+
+        return userRestaurantDao;
     }
 }

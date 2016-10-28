@@ -1,28 +1,28 @@
 package ua.in.dris4ecoder.springConfigClasses;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
+import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationControllerImpl;
+import ua.in.dris4ecoder.model.businessObjects.User;
+import ua.in.dris4ecoder.model.businessObjects.UserGroup;
+import ua.in.dris4ecoder.model.dao.RestaurantDao;
+import ua.in.dris4ecoder.model.dao.hibernate.HibernateGroupsDao;
+import ua.in.dris4ecoder.model.dao.hibernate.HibernateUsersDao;
+import ua.in.dris4ecoder.model.dao.jdbc.JdbcDaoImplWithDBSchemas;
 
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Created by Alex Korneyko on 10.10.2016 19:24.
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth, JdbcDaoImpl jdbcDao) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth, JdbcDaoImplWithDBSchemas jdbcDao) throws Exception {
 
         auth.userDetailsService(jdbcDao);
         auth.authenticationProvider(authenticationProvider());
@@ -58,30 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    ComboPooledDataSource comboPooledDataSourceForUsers() throws IOException, PropertyVetoException {
-        ComboPooledDataSource dataSource = new ComboPooledDataSource();
+    JdbcDaoImplWithDBSchemas securityJdbcDao(DataSource dataSource) {
 
-        Properties properties = new Properties();
-        properties.load(new FileInputStream(new ClassPathResource("jdbcUsers.properties").getFile()));
-
-        dataSource.setDriverClass(properties.getProperty("jdbc.driver.class"));
-        dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
-        dataSource.setUser(properties.getProperty("jdbc.user"));
-        dataSource.setPassword(properties.getProperty("jdbc.password"));
-        dataSource.setMinPoolSize(Integer.parseInt(properties.getProperty("jdbc.min.connection")));
-        dataSource.setMaxPoolSize(Integer.parseInt(properties.getProperty("jdbc.max.connection")));
-        dataSource.setAcquireIncrement(Integer.parseInt(properties.getProperty("jdbc.acquire.increment")));
-
-        return dataSource;
-    }
-
-    @Bean
-    JdbcDaoImpl securityJdbcDao(@Qualifier("comboPooledDataSourceForUsers") DataSource comboPooledDataSourceForUsers) {
-
-        JdbcDaoImpl jdbcDao = new JdbcDaoImpl();
+        JdbcDaoImplWithDBSchemas jdbcDao = new JdbcDaoImplWithDBSchemas();
         jdbcDao.setEnableGroups(true);
         jdbcDao.setEnableAuthorities(false);
-        jdbcDao.setDataSource(comboPooledDataSourceForUsers);
+        jdbcDao.setDataSource(dataSource);
 
         return jdbcDao;
     }
@@ -102,4 +84,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return daoAuthenticationProvider;
     }
 
+    @Bean
+    UserRegistrationController userRegistrationController(RestaurantDao<User> userRestaurantDao) {
+
+        UserRegistrationControllerImpl userRegistrationController = new UserRegistrationControllerImpl();
+        userRegistrationController.setUserRestaurantDao(userRestaurantDao);
+
+        return userRegistrationController;
+    }
 }

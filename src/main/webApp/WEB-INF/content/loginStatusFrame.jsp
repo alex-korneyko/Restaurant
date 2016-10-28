@@ -25,7 +25,7 @@
 </c:if>
 <c:if test="${userLogin != null}">
     <div class="container">
-        <p>Привет ${userLogin}</p>
+        <c:out value="Привет ${userLogin}"/>
     </div>
     <div class="container">
         <a href="#" onclick="showInFrameParentWindow('userProfile', '')">Профиль </a>
