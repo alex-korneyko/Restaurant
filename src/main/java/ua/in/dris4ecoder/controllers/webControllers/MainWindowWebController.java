@@ -74,8 +74,6 @@ public class MainWindowWebController {
 
         ModelAndView modelAndView = new ModelAndView("registrationPage");
 
-        System.out.println(model.toString());
-
         for (String key : model.keySet()) {
             if (model.get(key).isEmpty()) {
                 modelAndView.addObject("regError", "Все поля должны быть заполнены");
