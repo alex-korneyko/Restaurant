@@ -27,7 +27,7 @@ public class MainWindowWebController {
     }
 
     @RequestMapping(value = "/")
-    public ModelAndView index(Map<String, Object> model) {
+    public ModelAndView index(@RequestParam Map<String, Object> model) {
 
         ModelAndView modelAndView = new ModelAndView("index");
 

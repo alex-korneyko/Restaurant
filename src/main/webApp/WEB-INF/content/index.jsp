@@ -24,7 +24,7 @@
 <!--Status bar-->
 <div class="container">
     <div class="row status">
-        <div class="col-md-10">
+        <div class="col-md-10 hidden-xs hidden-sm">
             <div class="container">
                 <div class="row">
                     <div class="col-md-2"><p>Столиков свободно:</p></div>
@@ -209,7 +209,7 @@
         </div>
 
         <!--Left side for banner-->
-        <div class="col-md-1 right-side-panel">
+        <div class="col-md-1 hidden-xs hidden-sm hidden-md right-side-panel">
             <img src="http://placehold.it/130x600" alt="">
         </div>
     </div>

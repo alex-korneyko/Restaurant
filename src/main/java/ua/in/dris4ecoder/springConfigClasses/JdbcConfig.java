@@ -21,17 +21,10 @@ public class JdbcConfig {
     }
 
     @Bean
-    JdbcEmployeeDao jdbcEmployeeDao(@Qualifier("comboPooledDataSourceForRestaurant") ComboPooledDataSource dataSource, JdbcEmployeePostsDao jdbcEmployeePostsDao) {
+    JdbcEmployeeDao jdbcEmployeeDao(ComboPooledDataSource dataSource, JdbcEmployeePostsDao jdbcEmployeePostsDao) {
         final JdbcEmployeeDao jdbcEmployeeDao = new JdbcEmployeeDao();
         jdbcEmployeeDao.setDataSource(dataSource);
         jdbcEmployeeDao.setEmployeePostDao(jdbcEmployeePostsDao);
         return jdbcEmployeeDao;
     }
-
-//    @Bean
-//    DataSourceTransactionManager transactionManager(ComboPooledDataSource dataSource) {
-//        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-//        dataSourceTransactionManager.setDataSource(dataSource);
-//        return dataSourceTransactionManager;
-//    }
 }

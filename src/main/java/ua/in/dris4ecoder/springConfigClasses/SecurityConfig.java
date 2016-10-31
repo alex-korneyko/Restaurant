@@ -1,8 +1,6 @@
 package ua.in.dris4ecoder.springConfigClasses;
 
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -11,15 +9,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationControllerImpl;
 import ua.in.dris4ecoder.model.businessObjects.User;
-import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateGroupsDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateUsersDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcDaoImplWithDBSchemas;
 
 import javax.sql.DataSource;
