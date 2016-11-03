@@ -20,17 +20,12 @@ import java.util.List;
 public class HibernateUsersDao implements RestaurantDao<User> {
 
     private SessionFactory sessionFactory;
-    private BCryptPasswordEncoder passwordEncoder;
-    private RestaurantDao<UserGroup> userGroupRestaurantDao;
 
     @Override
     @Transactional
     public void addItem(User user) {
 
         Session currentSession = sessionFactory.getCurrentSession();
-        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
-        UserGroup userGroup = userGroupRestaurantDao.findItem("Users").get(0);
-        user.setUserGroups(Arrays.asList(userGroup));
         currentSession.save(user);
     }
 
@@ -50,8 +45,10 @@ public class HibernateUsersDao implements RestaurantDao<User> {
     }
 
     @Override
+    @Transactional
     public void editItem(int id, User changedItem) {
 
+        sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @Override
@@ -66,7 +63,7 @@ public class HibernateUsersDao implements RestaurantDao<User> {
         Session currentSession = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("JpaQlInspection")
-        Query<User> query = currentSession.createQuery("select u from CustomUser u where u.login = :login");
+        Query<User> query = currentSession.createQuery("select u from UserImpl u where u.userLogin = :login");
         query.setParameter("login", login);
 
         return query.list();
@@ -94,13 +91,5 @@ public class HibernateUsersDao implements RestaurantDao<User> {
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
-
-    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public void setUserGroupRestaurantDao(RestaurantDao<UserGroup> userGroupRestaurantDao) {
-        this.userGroupRestaurantDao = userGroupRestaurantDao;
     }
 }

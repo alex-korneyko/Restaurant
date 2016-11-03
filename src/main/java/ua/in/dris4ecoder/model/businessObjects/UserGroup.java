@@ -44,11 +44,51 @@ public class UserGroup {
         this.roles = roles;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public List<UserRoles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<UserRoles> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "UserGroup{" +
                 "groupName='" + groupName + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserGroup)) return false;
+
+        UserGroup userGroup = (UserGroup) o;
+
+        return groupName != null ? groupName.equals(userGroup.groupName) : userGroup.groupName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return groupName != null ? groupName.hashCode() : 0;
     }
 }

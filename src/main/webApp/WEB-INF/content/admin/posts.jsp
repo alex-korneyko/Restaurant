@@ -22,11 +22,11 @@
 <h3>Должности и права</h3>
 
 <c:if test="${openEditWindow == true}">
-        <script type="text/javascript">
-            $(window).load(function () {
-                $('#modal-1').modal('show');
-            })
-        </script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#modal-1').modal('show');
+        })
+    </script>
 </c:if>
 
 <form method="post" action="${pageContext.request.contextPath}/admin/posts">
@@ -49,7 +49,9 @@
                 </button>
                 <h4>Ошибка</h4>
                 <p>Нужно выбрать один элемент</p>
-                <p><button type="button" class="btn btn-danger" data-dismiss="alert">Отмена</button></p>
+                <p>
+                    <button type="button" class="btn btn-danger" data-dismiss="alert">Ок</button>
+                </p>
             </div>
         </c:if>
 
@@ -80,9 +82,12 @@
                 <button class="close" type="button" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Должность</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/posts" method="post">
-                <div class="modal-body">
-                    <input type="text" name="newPost" value="${postNameForEditing}">
+            <form action="${pageContext.request.contextPath}/admin/posts" method="post" class="form-horizontal">
+                <div class="modal-body form-group">
+                    <label for="newPostTextBox" class="control-label col-sm-4">Новая должность:</label>
+                    <div class="col-sm-6">
+                        <input id="newPostTextBox" type="text" class="form-control" name="newPost" value="${postNameForEditing}">
+                    </div>
                     <input type="hidden" name="postId" value="${postIdForEditing}">
                 </div>
                 <div class="modal-footer">

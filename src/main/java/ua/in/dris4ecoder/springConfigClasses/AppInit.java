@@ -12,7 +12,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{AppConfig.class, HibernateConfig.class, JdbcConfig.class, SecurityConfig.class, FXSpringConfig.class, WebConfig.class};
+        return new Class<?>[]{AppConfig.class, HibernateConfig.class, SecurityConfig.class, FXSpringConfig.class, WebConfig.class};
     }
 
     @Override
@@ -29,6 +29,7 @@ public class AppInit extends AbstractAnnotationConfigDispatcherServletInitialize
     protected Filter[] getServletFilters() {
 
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter("UTF-8", true);
+
 
         return new Filter[]{encodingFilter};
     }

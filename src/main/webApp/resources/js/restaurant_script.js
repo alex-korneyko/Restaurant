@@ -14,3 +14,9 @@ function showInFrameParentWindow(frameName) {
     frame.setAttribute('src', frameName);
     
 }
+
+function selectEmployeePost(post) {
+    
+    document.getElementById('newEmployeePostDropDown').setAttribute('value', post);
+    document.getElementById('employeePost').setAttribute('value', post);
+}

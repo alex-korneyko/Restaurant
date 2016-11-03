@@ -3,10 +3,13 @@ package ua.in.dris4ecoder.model.businessObjects;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Map;
 
 /**
  * Created by Alex Korneyko on 29.07.2016 18:15.
@@ -39,6 +42,10 @@ public class Employee implements BusinessObject {
 
     @Column(name = "salary")
     private double salary;
+
+    @OneToOne
+    @JoinColumn(name = "user_login")
+    private UserImpl user;
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
@@ -115,7 +122,7 @@ public class Employee implements BusinessObject {
         this.dateOfBirthProp.set(dateOfBirth.toString());
     }
 
-    public String getPhoneNumb() {
+    public String getPhoneNumber() {
         return this.phoneNumber;
     }
 
@@ -139,6 +146,14 @@ public class Employee implements BusinessObject {
     public void setSalary(double salary) {
         this.salary = salary;
         this.salaryProp.setValue(salary);
+    }
+
+    public UserImpl getUser() {
+        return user;
+    }
+
+    public void setUser(UserImpl user) {
+        this.user = user;
     }
 
     //-----------------------------------

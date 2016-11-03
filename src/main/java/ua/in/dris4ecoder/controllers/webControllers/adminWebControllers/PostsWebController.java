@@ -21,13 +21,6 @@ public class PostsWebController {
     @Autowired
     private StaffController staffController;
 
-//    @Bean
-//    String setStaffController(StaffController staffController) {
-//
-//        this.staffController = staffController;
-//        return null;
-//    }
-
     @RequestMapping(value = "admin/posts")
     public ModelAndView posts(@RequestParam Map<String, String> params) {
 
@@ -47,14 +40,16 @@ public class PostsWebController {
 
             if (selected.size() != 1) {
                 modelAndView.addObject("wrongCount", true);
-                modelAndView.addObject("posts", staffController.getAllEmployeePosts());
             } else {
-                int employeeId = staffController.findEmployeePostById(Integer.parseInt(params.get(selected.get(0)))).getId();
-                modelAndView.addObject("posts", staffController.getAllEmployeePosts());
-                modelAndView.addObject("postNameForEditing", staffController.findEmployeePostById(employeeId));
-                modelAndView.addObject("postIdForEditing", employeeId);
+                int employeePostId = Integer.parseInt(params.get(selected.get(0)));
+
+                modelAndView.addObject("postNameForEditing", staffController.findEmployeePostById(employeePostId));
+                modelAndView.addObject("postIdForEditing", employeePostId);
+
                 modelAndView.addObject("openEditWindow", true);
             }
+
+            modelAndView.addObject("posts", staffController.getAllEmployeePosts());
         }
 
         if (params.containsKey("newPost")) {

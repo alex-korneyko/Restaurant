@@ -41,14 +41,7 @@ public class UserImpl implements User{
     )
     private List<UserGroup> userGroups;
 
-
-    public UserImpl(Map<String, String> userData) {
-
-        this.userName = userData.get("userName");
-        this.userSurName = userData.get("userSurName");
-        this.userLogin = userData.get("userLogin");
-        this.userPass = userData.get("userPass1");
-        this.enabled = true;
+    public UserImpl() {
     }
 
     @Override

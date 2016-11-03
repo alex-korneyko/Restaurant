@@ -15,7 +15,6 @@ import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
-import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -97,7 +96,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
         textFieldLastName.setText(selectedItem != null ? selectedItem.getLastName() : "");
         textFieldFirstName.setText(selectedItem != null ? selectedItem.getFirstName() : "");
         comboBoxEmployeePost.setValue(selectedItem != null ? selectedItem.getEmployeePost().getPostName() : "");
-        textFieldPhone.setText(selectedItem != null ? selectedItem.getPhoneNumb() : "");
+        textFieldPhone.setText(selectedItem != null ? selectedItem.getPhoneNumber() : "");
         textFieldSalary.setText(selectedItem != null ? String.valueOf(selectedItem.getSalary()) : "");
         datePickerDayOfBirth.setValue(selectedItem != null ? selectedItem.getDateOfBirth() : null);
 

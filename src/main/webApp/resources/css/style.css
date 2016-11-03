@@ -39,3 +39,7 @@
     height: 60px;
     border: none;
 }
+
+.form-group{
+    margin-bottom: 5px;
+}

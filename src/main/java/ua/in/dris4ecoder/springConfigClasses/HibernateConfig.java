@@ -38,6 +38,24 @@ public class HibernateConfig {
     }
 
     @Bean
+    RestaurantDao<EmployeePost> hibernateEmployeePostDao(SessionFactory sessionFactory) {
+
+        HibernateEmployeePostDao hibernateEmployeePostDao = new HibernateEmployeePostDao();
+        hibernateEmployeePostDao.setSessionFactory(sessionFactory);
+
+        return hibernateEmployeePostDao;
+    }
+
+    @Bean
+    RestaurantDao<Employee> hibernateEmployeeDao(SessionFactory sessionFactory) {
+
+        HibernateEmployeeDao hibernateEmployeeDao = new HibernateEmployeeDao();
+        hibernateEmployeeDao.setSessionFactory(sessionFactory);
+
+        return hibernateEmployeeDao;
+    }
+
+    @Bean
     RestaurantDao<Ingredient> hibernateIngredientDao(SessionFactory sessionFactory) {
 
         HibernateIngredientDao ingredientDao = new HibernateIngredientDao();
@@ -131,15 +149,10 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<User> userRestaurantDao(
-            SessionFactory localSessionFactoryBean,
-            BCryptPasswordEncoder passwordEncoder,
-            @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao) {
+    RestaurantDao<User> userRestaurantDao(SessionFactory localSessionFactoryBean) {
 
         HibernateUsersDao userRestaurantDao = new HibernateUsersDao();
         userRestaurantDao.setSessionFactory(localSessionFactoryBean);
-        userRestaurantDao.setPasswordEncoder(passwordEncoder);
-        userRestaurantDao.setUserGroupRestaurantDao(userGroupRestaurantDao);
 
         return userRestaurantDao;
     }

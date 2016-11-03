@@ -1,10 +1,13 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
-import org.hibernate.SessionFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ua.in.dris4ecoder.model.businessObjects.User;
+import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -13,6 +16,8 @@ import java.util.Map;
 public class UserRegistrationControllerImpl implements UserRegistrationController {
 
     private RestaurantDao<User> userRestaurantDao;
+    private RestaurantDao<UserGroup> userGroupRestaurantDao;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public void validateUser(User user) {
@@ -22,23 +27,44 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     @Override
     public void addUser(User user) {
 
+        user.setUserPass(passwordEncoder.encode(user.getUserPass()));
         userRestaurantDao.addItem(user);
     }
 
     @Override
     public void addUser(Map<String, String> userData) {
 
-        userRestaurantDao.addItem(new UserImpl(userData));
+        User user = new UserImpl();
+        user.setUserName(userData.get("userName"));
+        user.setUserSurName(userData.get("userSurName"));
+        user.setUserLogin(userData.get("userLogin"));
+        user.setUserPass(userData.get("userPass1"));
+        user.setUserGroups(Collections.singletonList(userGroupRestaurantDao.findItem("Users").get(0)));
+        user.setEnabled(true);
+
+        addUser(user);
     }
 
     @Override
-    public void findUser(User user) {
+    public void editUser(User user) {
 
+        if (user.getUserPass().length() < 50) {
+            user.setUserPass(passwordEncoder.encode(user.getUserPass()));
+        }
+
+        userRestaurantDao.editItem(0, user);
     }
 
     @Override
-    public void finUser(String userLogin) {
+    public User findUser(User user) {
 
+        return user;
+    }
+
+    @Override
+    public User findUser(String userLogin) {
+
+        return userRestaurantDao.findItem(userLogin).get(0);
     }
 
     @Override
@@ -53,5 +79,13 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
 
     public void setUserRestaurantDao(RestaurantDao<User> userRestaurantDao) {
         this.userRestaurantDao = userRestaurantDao;
+    }
+
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public void setUserGroupRestaurantDao(RestaurantDao<UserGroup> userGroupRestaurantDao) {
+        this.userGroupRestaurantDao = userGroupRestaurantDao;
     }
 }

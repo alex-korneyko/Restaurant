@@ -26,7 +26,7 @@ public class Main {
     public static void main(String[] args) {
 
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(
-                AppConfig.class, FXSpringConfig.class, HibernateConfig.class, JdbcConfig.class, SecurityConfig.class);
+                AppConfig.class, FXSpringConfig.class, HibernateConfig.class, SecurityConfig.class);
         Main main = applicationContext.getBean(Main.class);
         main.start(args);
     }

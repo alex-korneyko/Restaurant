@@ -16,9 +16,11 @@ public interface UserRegistrationController{
 
     void addUser(Map<String, String> userData);
 
-    void findUser(User user);
+    void editUser(User user);
 
-    void finUser(String userLogin);
+    User findUser(User user);
+
+    User findUser(String userLogin);
 
     void removeUser(User user);
 

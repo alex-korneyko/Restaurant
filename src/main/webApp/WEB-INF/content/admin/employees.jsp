@@ -53,10 +53,22 @@
             </div>
         </c:if>
 
+        <c:if test="${error != null}">
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert">
+                    <i class="fa fa-times fa-fw"></i>
+                </button>
+                <h4>Ошибка</h4>
+                <p>${error}</p>
+                <p><button type="button" class="btn btn-danger" data-dismiss="alert">Отмена</button></p>
+            </div>
+        </c:if>
+
         <table class="table table-bordered table-condensed table-hover">
 
             <tr>
                 <th>Id</th>
+                <th>Логин</th>
                 <th>Фамилия</th>
                 <th>Имя</th>
                 <th>Телефон</th>
@@ -69,9 +81,10 @@
             <c:forEach items="${employees}" var="employee">
                 <tr>
                     <td>${employee.id}</td>
+                    <td>${employee.user.userLogin}</td>
                     <td>${employee.lastName}</td>
                     <td>${employee.firstName}</td>
-                    <td>${employee.phoneNumb}</td>
+                    <td>${employee.phoneNumber}</td>
                     <td>${employee.dateOfBirth}</td>
                     <td>${employee.employeePost}</td>
                     <td>${employee.salary}</td>
@@ -84,20 +97,142 @@
 </form>
 
 <div class="modal fade" id="modal-1">
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" type="button" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Работник</h4>
             </div>
-            <form action="${pageContext.request.contextPath}/admin/employees" method="post">
-                <div class="modal-body">
-                    <input type="text" name="newPost" value="${employeeNameForEditing}">
-                    <input type="hidden" name="postId" value="${postIdForEditing}">
+            <form action="${pageContext.request.contextPath}/admin/employees" method="post" class="form-horizontal">
+                <div class="modal-body form-group">
+
+                    <div class="form-group">
+                        <label for="newEmployeeNameTextBox" class="control-label col-sm-4">Имя:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeeNameTextBox" type="text" class="form-control" name="userName" value="${employeeNameForEditing}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeeSurNameTextBox" class="control-label col-sm-4">Фамилия:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeeSurNameTextBox" type="text" class="form-control" name="userSurName" value="${employeeSurNameForEditing}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeeLoginTextBox" class="control-label col-sm-4">Логин:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeeLoginTextBox" type="text" class="form-control" name="userLogin" value="${employeeLoginForEditing}"
+                            <%--<c:if test="${passEditDisable == true}"> disabled="disabled" </c:if>--%>
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeePass1TextBox" class="control-label col-sm-4">Пароль:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeePass1TextBox" type="password" class="form-control" name="userPass1"
+                            <%--<c:if test="${passEditDisable == true}"> disabled="disabled" </c:if> --%>
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeePass2TextBox" class="control-label col-sm-4">Повторить пароль:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeePass2TextBox" type="password" class="form-control" name="userPass2"
+                            <%--<c:if test="${passEditDisable == true}"> disabled="disabled" </c:if> --%>
+                            >
+                        </div>
+                    </div>
+
+                    <div id="accordion" style="margin-bottom: 5px" class="col-sm-offset-2 col-sm-8 panel-group panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a href="#groups" data-parent="#accordion" data-toggle="collapse">Членство в группах</a>
+                            </h4>
+                        </div>
+                        <div class="collapse panel-collapse" id="groups">
+                            <div class="panel-body">
+                                <table class="table table-bordered table-condensed table-hover">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Группа</th>
+                                        <th>Выбрать</th>
+                                    </tr>
+
+                                    <c:forEach items="${allGroups}" var="group">
+                                        <tr>
+                                            <td>${group.id}</td>
+                                            <td>${group.groupName}</td>
+                                            <td>
+                                                <input type="checkbox" name="selected${group.id}" value="${group.id}"
+                                                <c:if test="${employeeGroups.contains(group)}"> checked="checked" </c:if>
+                                                >
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeePostDropDown" class="control-label col-sm-4">Должность:</label>
+                        <div class="dropdown col-sm-6">
+                            <c:if test="${post != null}">
+                                <script type="text/javascript">
+                                    $(function (){
+                                        selectEmployeePost('${post.postName}')
+                                    });
+                                </script>
+                            </c:if>
+                            <input style="width: 200px" id="newEmployeePostDropDown" type="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false"  class="btn btn-default"
+                                   <c:if test="${post == null}"> value="Выберите..." </c:if>
+                                   <c:if test="${post != null}"> value="${post.postName}" </c:if>
+                            />
+
+                            <ul class="dropdown-menu" aria-labelledby="newEmployeePostDropDown">
+                                <c:forEach items="${allPosts}" var="post">
+                                    <li><a href="#" onclick="selectEmployeePost('${post.postName}')">${post.postName}</a> </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="employeePost" id="employeePost">
+
+                    <div class="form-group">
+                        <label for="newEmployeePhoneTextBox" class="control-label col-sm-4">Телефон:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeePhoneTextBox" type="text" class="form-control" name="newEmployeePhone" value="${employeePhoneForEditing}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeeDateBirth" class="control-label col-sm-4">Дата рождения:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeeDateBirth" type='date' class="form-control" name="newEmployeeDateOfBirth" value="${employeeBirthForEditing}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmployeeSalaryTextBox" class="control-label col-sm-4">Оклад:</label>
+                        <div class="col-sm-6">
+                            <input id="newEmployeeSalaryTextBox" type="text" class="form-control" name="newEmployeeSalary" value="${employeeSalaryForEditing}">
+                        </div>
+                    </div>
+
+
+                    <input type="hidden" name="employeeId" value="${employeeIdForEditing}">
+
                 </div>
                 <div class="modal-footer">
-                    <button class="btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn-default" type="submit">Ok</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-default" type="submit" name="saveEmployeeForm">Ok</button>
                 </div>
             </form>
         </div>

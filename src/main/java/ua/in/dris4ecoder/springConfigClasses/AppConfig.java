@@ -6,14 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
-import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
-import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.controllers.businessControllers.*;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
-import ua.in.dris4ecoder.model.dao.jdbc.JdbcEmployeePostsDao;
 
 import java.beans.PropertyVetoException;
 import java.io.FileInputStream;
@@ -68,21 +64,16 @@ public class AppConfig {
     }
 
     @Bean
-    RestaurantDao jdbcRestaurantDao(ComboPooledDataSource dataSource) {
-
-        JdbcEmployeePostsDao jdbcEmployeePostsDao = new JdbcEmployeePostsDao();
-        jdbcEmployeePostsDao.setDataSource(dataSource);
-
-        return jdbcEmployeePostsDao;
-    }
-
-    @Bean
-    StaffController staffController(RestaurantDao<EmployeePost> jdbcEmployeePostsDao,
-                                    RestaurantDao<Employee> jdbcEmployeeDao) {
+    StaffController staffController(RestaurantDao<EmployeePost> hibernateEmployeePostDao,
+                                    RestaurantDao<Employee> hibernateEmployeeDao,
+                                    UserRegistrationController userRegistrationController,
+                                    GroupsRegistrationController groupsRegistrationController) {
 
         StaffController controller = new StaffController();
-        controller.setEmployeePostsDao(jdbcEmployeePostsDao);
-        controller.setEmployeeDao(jdbcEmployeeDao);
+        controller.setEmployeePostsDao(hibernateEmployeePostDao);
+        controller.setEmployeeDao(hibernateEmployeeDao);
+        controller.setUserRegistrationController(userRegistrationController);
+        controller.setGroupsRegistrationController(groupsRegistrationController);
 
         return controller;
     }

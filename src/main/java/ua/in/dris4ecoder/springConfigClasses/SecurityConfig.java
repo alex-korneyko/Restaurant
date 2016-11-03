@@ -1,6 +1,7 @@
 package ua.in.dris4ecoder.springConfigClasses;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,9 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationController;
+import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationControllerImpl;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationControllerImpl;
 import ua.in.dris4ecoder.model.businessObjects.User;
+import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcDaoImplWithDBSchemas;
 
@@ -44,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/**").hasRole("USER")
                 .and().formLogin().loginPage("/loginPage").successForwardUrl("/user/loginSuccess")
                 .and().httpBasic()
-                .and().rememberMe().rememberMeParameter("rememberMe")
+                .and().rememberMe().rememberMeParameter("rememberMe").key("restaurant").tokenValiditySeconds(864000)
                 .and().csrf().disable()
-                .logout().logoutUrl("/user/logout")
-                .logoutSuccessUrl("/loginStatusFrame")
+                .logout().logoutUrl("/user/logout").logoutSuccessUrl("/loginStatusFrame")
+
                 .and().headers().frameOptions().sameOrigin();
     }
 
@@ -79,10 +85,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    UserRegistrationController userRegistrationController(RestaurantDao<User> userRestaurantDao) {
+    GroupsRegistrationController groupsRegistrationController(
+            @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao) {
+
+        GroupsRegistrationControllerImpl groupsRegistrationController = new GroupsRegistrationControllerImpl();
+        groupsRegistrationController.setUserGroupRestaurantDao(userGroupRestaurantDao);
+
+        return groupsRegistrationController;
+    }
+
+    @Bean
+    UserRegistrationController userRegistrationController(RestaurantDao<User> userRestaurantDao,
+                                                          @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao,
+                                                          BCryptPasswordEncoder passwordEncoder) {
 
         UserRegistrationControllerImpl userRegistrationController = new UserRegistrationControllerImpl();
         userRegistrationController.setUserRestaurantDao(userRestaurantDao);
+        userRegistrationController.setUserGroupRestaurantDao(userGroupRestaurantDao);
+        userRegistrationController.setPasswordEncoder(passwordEncoder);
 
         return userRegistrationController;
     }

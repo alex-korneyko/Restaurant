@@ -19,33 +19,42 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
     private SessionFactory sessionFactory;
 
     @Override
+    @Transactional
     public void addItem(UserGroup item) {
 
     }
 
     @Override
+    @Transactional
     public void removeItemById(int id) {
 
     }
 
     @Override
+    @Transactional
     public void removeItemByName(String name) {
 
     }
 
     @Override
+    @Transactional
     public void removeItem(UserGroup item) {
 
     }
 
     @Override
+    @Transactional
     public void editItem(int id, UserGroup changedItem) {
 
     }
 
     @Override
+    @Transactional
     public UserGroup findItemById(int id) {
-        return null;
+
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        return currentSession.get(UserGroup.class, id);
     }
 
     @Override
@@ -61,23 +70,33 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
     }
 
     @Override
+    @Transactional
     public List<UserGroup> findItem(UserGroup item) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<UserGroup> findItem(OrderDishStatus status) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<UserGroup> findItem(LocalDate startPeriod, LocalDate endPeriod) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<UserGroup> findAll() {
-        return null;
+
+        Session currentSession = sessionFactory.getCurrentSession();
+
+        @SuppressWarnings("JpaQlInspection")
+        Query<UserGroup> query = currentSession.createQuery("select g from UserGroup g");
+
+        return query.list();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
