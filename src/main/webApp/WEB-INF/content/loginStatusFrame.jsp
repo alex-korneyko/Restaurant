@@ -28,7 +28,7 @@
         <c:out value="Привет ${userLogin}"/>
     </div>
     <div class="container">
-        <a href="#" onclick="showInFrameParentWindow('userProfile', '')">Профиль </a>
+        <a href="#" onclick="showInFrameParentWindow('/user/userProfile?login=${userLogin}', '')">Профиль </a>
         <a href="${pageContext.request.contextPath}/user/logout" onclick="showInFrameParentWindow('loginPage', '')">Выход </a>
     </div>
 </c:if>

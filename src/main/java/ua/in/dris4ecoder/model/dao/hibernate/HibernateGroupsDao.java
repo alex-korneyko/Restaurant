@@ -59,19 +59,19 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
 
     @Override
     @Transactional
-    public List<UserGroup> findItem(String name) {
+    public UserGroup findItem(String name) {
         Session currentSession = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("JpaQlInspection")
         Query<UserGroup> query = currentSession.createQuery("select g from UserGroup g where g.groupName = :name");
         query.setParameter("name", name);
 
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
     @Transactional
-    public List<UserGroup> findItem(UserGroup item) {
+    public UserGroup findItem(UserGroup item) {
         return null;
     }
 

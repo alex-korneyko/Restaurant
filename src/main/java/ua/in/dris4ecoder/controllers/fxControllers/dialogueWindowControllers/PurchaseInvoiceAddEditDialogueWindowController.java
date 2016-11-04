@@ -221,7 +221,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
     }
 
     private void fillInvoice() {
-        purchaseInvoice.setContractor(Main.getManagementController().findContractor(textFieldContractor.getText()).get(0));
+        purchaseInvoice.setContractor(Main.getManagementController().findContractor(textFieldContractor.getText()));
         purchaseInvoice.setAmountOfInvoice(Double.parseDouble(textFieldAmount.getText()));
         purchaseInvoice.setInvoiceIdFromContractor(textFieldIdFromContractor.getText());
         purchaseInvoice.setIngredients(tableViewIngredients.getItems());

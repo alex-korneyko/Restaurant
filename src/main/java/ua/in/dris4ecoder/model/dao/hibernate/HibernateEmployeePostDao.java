@@ -76,22 +76,20 @@ public class HibernateEmployeePostDao implements RestaurantDao<EmployeePost> {
 
     @Override
     @Transactional
-    public List<EmployeePost> findItem(String name) {
+    public EmployeePost findItem(String name) {
 
         Session currentSession = sessionFactory.getCurrentSession();
         @SuppressWarnings("JpaQlInspection")
-        Query<EmployeePost> query = currentSession.createQuery("select ep from EmployeePost ep where ep.postName like :name");
+        Query<EmployeePost> query = currentSession.createQuery("select ep from EmployeePost ep where ep.postName = :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
     @Transactional
-    public List<EmployeePost> findItem(EmployeePost item) {
+    public EmployeePost findItem(EmployeePost item) {
 
-        Session currentSession = sessionFactory.getCurrentSession();
-
-        return Collections.singletonList(currentSession.find(EmployeePost.class, item.getId()));
+        return sessionFactory.getCurrentSession().find(EmployeePost.class, item.getId());
     }
 
     @Override

@@ -32,9 +32,9 @@ public class IngredientAddEditDialogueWindowController implements AddEditControl
         if (selectedIngredient == null) {
             if (!textFieldIngredientName.getText().isEmpty()) {
                 Ingredient ingredient = new Ingredient(textFieldIngredientName.getText());
-                ingredient.setUnit(Main.getInstrumentsController().findUnit(comboBoxUnits.getValue()).get(0));
+                ingredient.setUnit(Main.getInstrumentsController().findUnit(comboBoxUnits.getValue()));
                 Main.getInstrumentsController().addIngredient(ingredient);
-                observableList.add(Main.getInstrumentsController().findIngredient(ingredient.getIngredientName()).get(0));
+                observableList.add(Main.getInstrumentsController().findIngredient(ingredient.getIngredientName()));
             }
         } else {
             Main.getInstrumentsController().editIngredient(selectedIngredient.getId(), new Ingredient(textFieldIngredientName.getText()));

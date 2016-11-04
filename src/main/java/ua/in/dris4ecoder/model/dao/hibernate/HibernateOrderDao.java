@@ -63,13 +63,14 @@ public class HibernateOrderDao implements RestaurantDao<Order> {
     }
 
     @Override
-    public List<Order> findItem(String name) {
+    public Order findItem(String name) {
         throw new NotImplementedException();
     }
 
     @Override
-    public List<Order> findItem(Order item) {
-        return findAll().stream().filter(order -> order.equals(item)).collect(Collectors.toList());
+    public Order findItem(Order item) {
+
+        return sessionFactory.getCurrentSession().find(Order.class, item.getId());
     }
 
     @Override

@@ -32,7 +32,7 @@ public class PostAddEditDialogueWindowController implements AddEditController<Em
             } else {
                 if (observableList != null) {
                     Main.getStaffController().addEmployeePost(textFieldEmployeePostName.getText());
-                    this.employeePost = Main.getStaffController().findEmployeePost(textFieldEmployeePostName.getText()).get(0);
+                    this.employeePost = Main.getStaffController().findEmployeePost(textFieldEmployeePostName.getText());
                     observableList.add(this.employeePost);
                 }
             }

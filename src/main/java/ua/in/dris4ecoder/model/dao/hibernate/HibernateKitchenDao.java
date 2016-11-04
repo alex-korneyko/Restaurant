@@ -46,12 +46,12 @@ public class HibernateKitchenDao implements RestaurantDao<KitchenProcess> {
     }
 
     @Override
-    public List<KitchenProcess> findItem(String name) {
+    public KitchenProcess findItem(String name) {
         return null;
     }
 
     @Override
-    public List<KitchenProcess> findItem(KitchenProcess item) {
+    public KitchenProcess findItem(KitchenProcess item) {
         return null;
     }
 

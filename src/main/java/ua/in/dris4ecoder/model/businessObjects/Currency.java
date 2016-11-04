@@ -23,6 +23,9 @@ public class Currency implements BusinessObject {
     @Column(name = "long_name")
     private String longName;
 
+    @Column(name = "is_main")
+    private boolean isMain;
+
     public Integer getId() {
         return id;
     }
@@ -47,12 +50,21 @@ public class Currency implements BusinessObject {
         this.longName = longName;
     }
 
+    public boolean isMain() {
+        return isMain;
+    }
+
+    public void setMain(boolean main) {
+        isMain = main;
+    }
+
     @Override
     public String toString() {
         return "Currency{" +
                 "id=" + id +
                 ", shortName='" + shortName + '\'' +
                 ", longName='" + longName + '\'' +
+                ", isMain=" + isMain +
                 '}';
     }
 

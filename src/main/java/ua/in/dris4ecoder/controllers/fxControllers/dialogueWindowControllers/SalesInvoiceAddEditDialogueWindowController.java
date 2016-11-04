@@ -164,7 +164,7 @@ public class SalesInvoiceAddEditDialogueWindowController implements AddEditContr
     }
 
     private void fillInvoice() {
-        salesInvoice.setContractor(Main.getManagementController().findContractor(textFieldContractor.getText()).get(0));
+        salesInvoice.setContractor(Main.getManagementController().findContractor(textFieldContractor.getText()));
         salesInvoice.setAmountOfInvoice(Double.parseDouble(textFieldAmount.getText()));
         salesInvoice.setIngredients(tableViewIngredients.getItems());
         salesInvoice.setInvoiceDate(datePickerInvoiceDate.getValue());

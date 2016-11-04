@@ -25,7 +25,7 @@ public class EmployeesWebController {
     @Autowired
     private GroupsRegistrationController groupsRegistrationController;
 
-    @RequestMapping(value = "/admin/employees")
+    @RequestMapping(value = "/admin/employees/**")
     public ModelAndView employees(@RequestParam Map<String, String> params) {
 
         ModelAndView modelAndView = new ModelAndView("admin/employees");
@@ -34,7 +34,6 @@ public class EmployeesWebController {
 
             modelAndView.addObject("allPosts", staffController.getAllEmployeePosts());
             modelAndView.addObject("allGroups", groupsRegistrationController.getAllGroups());
-//            modelAndView.addObject("passEditDisable", false);
             modelAndView.addObject("openEditWindow", true);
         }
 
@@ -66,6 +65,15 @@ public class EmployeesWebController {
 
                 modelAndView.addObject("openEditWindow", true);
             }
+        }
+
+        if (params.containsKey("delete")) {
+
+            List<String> selected = params.keySet().stream()
+                    .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
+                    .collect(Collectors.toList());
+
+            selected.forEach(s -> staffController.removeEmployee(Integer.parseInt(params.get(s))));
         }
 
         if (params.containsKey("showAll")) {

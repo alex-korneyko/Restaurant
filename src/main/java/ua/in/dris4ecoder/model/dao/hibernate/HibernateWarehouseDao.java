@@ -56,19 +56,19 @@ public class HibernateWarehouseDao implements RestaurantDao<WarehousePosition> {
     @SuppressWarnings("JpaQlInspection")
     @Override
     @Transactional
-    public List<WarehousePosition> findItem(String name) {
-        final Query<WarehousePosition> query =  sessionFactory.getCurrentSession().createQuery("select wp from WarehousePosition wp where wp.ingredient.name like :name");
+    public WarehousePosition findItem(String name) {
+        final Query<WarehousePosition> query =  sessionFactory.getCurrentSession().createQuery("select wp from WarehousePosition wp where wp.ingredient.name = :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
     }
 
     @SuppressWarnings("JpaQlInspection")
     @Override
     @Transactional
-    public List<WarehousePosition> findItem(WarehousePosition item) {
+    public WarehousePosition findItem(WarehousePosition item) {
         final Query<WarehousePosition> query = sessionFactory.getCurrentSession().createQuery("select wp from WarehousePosition wp where wp.ingredient = :item");
         query.setParameter("item", item.getIngredient());
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override

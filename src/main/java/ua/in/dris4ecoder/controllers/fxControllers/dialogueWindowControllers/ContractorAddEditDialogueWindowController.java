@@ -28,7 +28,7 @@ public class ContractorAddEditDialogueWindowController implements AddEditControl
         } else {
             if (observableList != null) {
                 Main.getManagementController().addContractor(textFieldContractorName.getText());
-                this.contractor = Main.getManagementController().findContractor(textFieldContractorName.getText()).get(0);
+                this.contractor = Main.getManagementController().findContractor(textFieldContractorName.getText());
                 observableList.add(this.contractor);
             }
         }

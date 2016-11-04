@@ -49,15 +49,15 @@ public class HibernateUnitsDao implements RestaurantDao<Unit> {
     }
 
     @Override
-    public List<Unit> findItem(String name) {
+    public Unit findItem(String name) {
         final Session currentSession = sessionFactory.getCurrentSession();
-        final Query query = currentSession.createQuery("select u from Unit u where u.unitName like :name");
+        final Query<Unit> query = currentSession.createQuery("select u from Unit u where u.unitName = :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
-    public List<Unit> findItem(Unit item) {
+    public Unit findItem(Unit item) {
         return null;
     }
 

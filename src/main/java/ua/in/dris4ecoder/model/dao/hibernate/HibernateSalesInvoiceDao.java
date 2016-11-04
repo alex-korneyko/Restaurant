@@ -55,13 +55,13 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
 
     @Override
     @Transactional
-    public List<SalesInvoice> findItem(String name) {
+    public SalesInvoice findItem(String name) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<SalesInvoice> findItem(SalesInvoice item) {
+    public SalesInvoice findItem(SalesInvoice item) {
         return null;
     }
 

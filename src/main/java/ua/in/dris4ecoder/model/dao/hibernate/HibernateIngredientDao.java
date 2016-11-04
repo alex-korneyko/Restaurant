@@ -73,19 +73,19 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
     }
 
     @Override
-    public List<Ingredient> findItem(String name) {
+    public Ingredient findItem(String name) {
 
         final Session session = sessionFactory.getCurrentSession();
-        final Query<Ingredient> query = session.createQuery("select i from Ingredient i where i.ingredientName like :name");
+        final Query<Ingredient> query = session.createQuery("select i from Ingredient i where i.ingredientName = :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
 
     }
 
     @Override
-    public List<Ingredient> findItem(Ingredient item) {
-        List<Ingredient> ingredients = findAll();
-        return ingredients.stream().filter(ingredient -> ingredient.equals(item)).collect(Collectors.toList());
+    public Ingredient findItem(Ingredient item) {
+
+        return sessionFactory.getCurrentSession().find(Ingredient.class, item.getId());
     }
 
     @Override

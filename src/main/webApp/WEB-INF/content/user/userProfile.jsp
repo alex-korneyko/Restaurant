@@ -6,5 +6,6 @@
 </head>
 <body>
 <h1>User profile page</h1>
+<p>Profile for ${user.userLogin}</p>
 </body>
 </html>

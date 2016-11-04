@@ -91,8 +91,8 @@
                     <input type="hidden" name="postId" value="${postIdForEditing}">
                 </div>
                 <div class="modal-footer">
-                    <button class="btn-danger" type="button" data-dismiss="modal">Cancel</button>
-                    <button class="btn-default" type="submit">Ok</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-default" type="submit">Ok</button>
                 </div>
             </form>
         </div>

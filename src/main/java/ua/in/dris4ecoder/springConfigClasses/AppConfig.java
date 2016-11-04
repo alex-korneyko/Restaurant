@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import ua.in.dris4ecoder.Main;
 import ua.in.dris4ecoder.controllers.businessControllers.*;
+import ua.in.dris4ecoder.model.dao.CurrencyDao;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -82,13 +83,15 @@ public class AppConfig {
     InstrumentsController instrumentsController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
                                                 @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
                                                 @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
-                                                @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao) {
+                                                @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao,
+                                                CurrencyDao currencyDao) {
 
         InstrumentsController instrumentsController = new InstrumentsController();
         instrumentsController.setIngredientRestaurantDao(ingredientRestaurantDao);
         instrumentsController.setDishRestaurantDao(dishRestaurantDao);
         instrumentsController.setMenuRestaurantDao(menuRestaurantDao);
         instrumentsController.setUnitRestaurantDao(unitRestaurantDao);
+        instrumentsController.setCurrencyDao(currencyDao);
 
         return instrumentsController;
     }

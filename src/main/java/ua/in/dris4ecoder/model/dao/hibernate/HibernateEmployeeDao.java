@@ -67,15 +67,15 @@ public class HibernateEmployeeDao implements RestaurantDao<Employee> {
 
     @Override
     @Transactional
-    public List<Employee> findItem(String name) {
+    public Employee findItem(String name) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<Employee> findItem(Employee item) {
+    public Employee findItem(Employee item) {
 
-        return Collections.singletonList(sessionFactory.getCurrentSession().find(Employee.class, item.getId()));
+        return sessionFactory.getCurrentSession().find(Employee.class, item.getId());
     }
 
     @Override

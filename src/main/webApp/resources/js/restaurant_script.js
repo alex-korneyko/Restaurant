@@ -15,8 +15,8 @@ function showInFrameParentWindow(frameName) {
     
 }
 
-function selectEmployeePost(post) {
+function dropDownComboBoxScript(selectedValue) {
     
-    document.getElementById('newEmployeePostDropDown').setAttribute('value', post);
-    document.getElementById('employeePost').setAttribute('value', post);
+    document.getElementById('dropDownComboBox').setAttribute('value', selectedValue);
+    document.getElementById('dropDownComboBoxSelectedValue').setAttribute('value', selectedValue);
 }

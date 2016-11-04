@@ -2,6 +2,7 @@ package ua.in.dris4ecoder.controllers.businessControllers;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.*;
+import ua.in.dris4ecoder.model.dao.CurrencyDao;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class InstrumentsController implements BusinessController {
     private RestaurantDao<Unit> unitRestaurantDao;
     private RestaurantDao<Dish> dishRestaurantDao;
     private RestaurantDao<Menu> menuRestaurantDao;
+    private CurrencyDao currencyDao;
 
     @Transactional
     public void addIngredient(String name) {
@@ -47,12 +49,12 @@ public class InstrumentsController implements BusinessController {
     }
 
     @Transactional
-    public List<Ingredient> findIngredient(String name) {
+    public Ingredient findIngredient(String name) {
         return ingredientRestaurantDao.findItem(name);
     }
 
     @Transactional
-    public List<Ingredient> findIngredient(Ingredient ingredient) {
+    public Ingredient findIngredient(Ingredient ingredient) {
         return ingredientRestaurantDao.findItem(ingredient);
     }
 
@@ -101,12 +103,12 @@ public class InstrumentsController implements BusinessController {
     }
 
     @Transactional
-    public List<Dish> findDish(String name) {
+    public Dish findDish(String name) {
         return dishRestaurantDao.findItem(name);
     }
 
     @Transactional
-    public List<Dish> findDish(Dish dish) {
+    public Dish findDish(Dish dish) {
         return dishRestaurantDao.findItem(dish);
     }
 
@@ -116,13 +118,18 @@ public class InstrumentsController implements BusinessController {
     }
 
     @Transactional
-    public List<Unit> findUnit(String value) {
+    public Unit findUnit(String value) {
         return unitRestaurantDao.findItem(value);
     }
 
     @Transactional
     public List<Unit> findAllUnits() {
         return unitRestaurantDao.findAll();
+    }
+
+    public Currency getMainCurrency() {
+
+        return currencyDao.getMainCurrency();
     }
 
     //Setters
@@ -140,6 +147,10 @@ public class InstrumentsController implements BusinessController {
 
     public void setUnitRestaurantDao(RestaurantDao<Unit> unitRestaurantDao) {
         this.unitRestaurantDao = unitRestaurantDao;
+    }
+
+    public void setCurrencyDao(CurrencyDao currencyDao) {
+        this.currencyDao = currencyDao;
     }
 
     //end Setters

@@ -28,7 +28,6 @@ public class PostsWebController {
 
         if (params.containsKey("create")) {
 
-            modelAndView.addObject("posts", staffController.getAllEmployeePosts());
             modelAndView.addObject("openEditWindow", true);
         }
 
@@ -48,8 +47,6 @@ public class PostsWebController {
 
                 modelAndView.addObject("openEditWindow", true);
             }
-
-            modelAndView.addObject("posts", staffController.getAllEmployeePosts());
         }
 
         if (params.containsKey("newPost")) {
@@ -58,8 +55,6 @@ public class PostsWebController {
                 staffController.addEmployeePost(params.get("newPost"));
             else
                 staffController.editEmployeePost(Integer.parseInt(params.get("postId")), params.get("newPost"));
-
-            modelAndView.addObject("posts", staffController.getAllEmployeePosts());
         }
 
         if (params.containsKey("delete")) {
@@ -67,13 +62,13 @@ public class PostsWebController {
             params.keySet()
                     .stream().filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
                     .forEach(key -> staffController.removeEmployeePost(Integer.parseInt(params.get(key))));
-
-            modelAndView.addObject("posts", staffController.getAllEmployeePosts());
         }
 
         if (params.containsKey("showAll")) {
             modelAndView.addObject("posts", staffController.getAllEmployeePosts());
         }
+
+        modelAndView.addObject("posts", staffController.getAllEmployeePosts());
 
         return modelAndView;
     }

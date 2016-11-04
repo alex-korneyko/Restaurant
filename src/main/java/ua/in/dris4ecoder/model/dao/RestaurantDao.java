@@ -25,9 +25,9 @@ public interface RestaurantDao<T> {
 
     T findItemById(int id);
 
-    List<T> findItem(String name);
+    T findItem(String name);
 
-    List<T> findItem(T item);
+    T findItem(T item);
 
     List<T> findItem(OrderDishStatus status);
 

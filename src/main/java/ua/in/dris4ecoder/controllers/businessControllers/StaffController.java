@@ -36,7 +36,7 @@ public class StaffController implements BusinessController {
         employeePostsDao.editItem(id, new EmployeePost(newEmployeePostName));
     }
 
-    public List<EmployeePost> findEmployeePost(String name) {
+    public EmployeePost findEmployeePost(String name) {
         return employeePostsDao.findItem(name);
     }
 
@@ -91,8 +91,8 @@ public class StaffController implements BusinessController {
     }
 
     private void fillUserData(Map<String, String> params, Employee employee) {
-        List<EmployeePost> employeePost = employeePostsDao.findItem(params.get("employeePost"));
-        employee.setEmployeePost(employeePost.get(0));
+        EmployeePost employeePost = employeePostsDao.findItem(params.get("employeePost"));
+        employee.setEmployeePost(employeePost);
 
         List<String> selectedGroups = params.keySet().stream()
                 .filter(s -> s.length() > 8 && s.substring(0, 8).equals("selected")).collect(Collectors.toList());
@@ -113,7 +113,9 @@ public class StaffController implements BusinessController {
     }
 
     public void removeEmployee(int id) {
+        Employee employee = employeeDao.findItemById(id);
         employeeDao.removeItemById(id);
+        userRegistrationController.removeUser(employee.getUser().getUserLogin());
     }
 
     public void editEmployee(int id, Employee changedEmployee) {
@@ -126,7 +128,7 @@ public class StaffController implements BusinessController {
         editEmployee(Integer.parseInt(params.get("employeeId")), createEditEmployeeFromWebForm(params));
     }
 
-    public List<Employee> findEmployeeByName(String name) {
+    public Employee findEmployeeByName(String name) {
         return employeeDao.findItem(name);
     }
 

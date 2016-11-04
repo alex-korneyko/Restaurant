@@ -77,7 +77,7 @@ public class EmployeeAddEditDialogueWindowController implements AddEditControlle
     private void fillEmployee() {
         employee.setFirstName(textFieldFirstName.getText());
         employee.setLastName(textFieldLastName.getText());
-        employee.setEmployeePost(Main.getStaffController().findEmployeePost(comboBoxEmployeePost.getValue()).get(0));
+        employee.setEmployeePost(Main.getStaffController().findEmployeePost(comboBoxEmployeePost.getValue()));
         employee.setPhoneNumber(textFieldPhone.getText());
         employee.setSalary(Double.parseDouble(textFieldSalary.getText()));
         employee.setDateOfBirth(datePickerDayOfBirth.getValue());

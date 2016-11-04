@@ -30,16 +30,24 @@ public class HibernateUsersDao implements RestaurantDao<User> {
     }
 
     @Override
+    @Transactional
     public void removeItemById(int id) {
 
     }
 
     @Override
+    @Transactional
     public void removeItemByName(String name) {
 
+        Session currentSession = sessionFactory.getCurrentSession();
+        @SuppressWarnings("JpaQlInspection")
+        Query query = currentSession.createQuery("delete from UserImpl u where u.userLogin = :name");
+        query.setParameter("name", name);
+        query.executeUpdate();
     }
 
     @Override
+    @Transactional
     public void removeItem(User item) {
 
     }
@@ -52,13 +60,14 @@ public class HibernateUsersDao implements RestaurantDao<User> {
     }
 
     @Override
+    @Transactional
     public User findItemById(int id) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<User> findItem(String login) {
+    public User findItem(String login) {
 
         Session currentSession = sessionFactory.getCurrentSession();
 
@@ -66,25 +75,29 @@ public class HibernateUsersDao implements RestaurantDao<User> {
         Query<User> query = currentSession.createQuery("select u from UserImpl u where u.userLogin = :login");
         query.setParameter("login", login);
 
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
-    public List<User> findItem(User item) {
+    @Transactional
+    public User findItem(User item) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<User> findItem(OrderDishStatus status) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<User> findItem(LocalDate startPeriod, LocalDate endPeriod) {
         return null;
     }
 
     @Override
+    @Transactional
     public List<User> findAll() {
         return null;
     }

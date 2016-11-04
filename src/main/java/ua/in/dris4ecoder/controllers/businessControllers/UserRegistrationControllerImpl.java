@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
         user.setUserSurName(userData.get("userSurName"));
         user.setUserLogin(userData.get("userLogin"));
         user.setUserPass(userData.get("userPass1"));
-        user.setUserGroups(Collections.singletonList(userGroupRestaurantDao.findItem("Users").get(0)));
+        user.setUserGroups(Collections.singletonList(userGroupRestaurantDao.findItem("Users")));
         user.setEnabled(true);
 
         addUser(user);
@@ -64,7 +65,7 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     @Override
     public User findUser(String userLogin) {
 
-        return userRestaurantDao.findItem(userLogin).get(0);
+        return userRestaurantDao.findItem(userLogin);
     }
 
     @Override
@@ -75,6 +76,7 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     @Override
     public void removeUser(String userLogin) {
 
+        userRestaurantDao.removeItemByName(userLogin);
     }
 
     public void setUserRestaurantDao(RestaurantDao<User> userRestaurantDao) {

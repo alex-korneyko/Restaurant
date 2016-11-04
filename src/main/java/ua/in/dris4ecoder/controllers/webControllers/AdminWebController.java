@@ -19,28 +19,4 @@ public class AdminWebController {
 
         return modelAndView;
     }
-
-    @RequestMapping(value = "/admin/ingredients")
-    public ModelAndView ingredients() {
-
-        ModelAndView modelAndView = new ModelAndView("admin/ingredients");
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin/dishes")
-    public ModelAndView dishes() {
-
-        ModelAndView modelAndView = new ModelAndView("admin/dishes");
-
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/admin/menus")
-    public ModelAndView menus() {
-
-        ModelAndView modelAndView = new ModelAndView("admin/menus");
-
-        return modelAndView;
-    }
 }

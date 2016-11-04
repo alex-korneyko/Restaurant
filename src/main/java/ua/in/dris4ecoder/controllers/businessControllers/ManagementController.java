@@ -28,7 +28,7 @@ public class ManagementController implements BusinessController {
         addContractor(new Contractor(contractorName));
     }
 
-    public List<Contractor> findContractor(String contractorName) {
+    public Contractor findContractor(String contractorName) {
         return contractorRestaurantDao.findItem(contractorName);
     }
 
@@ -45,8 +45,11 @@ public class ManagementController implements BusinessController {
     }
 
     public void removeContractor(String name) {
-        final List<Contractor> item = contractorRestaurantDao.findItem(name);
-        item.forEach(contractor -> removeContractor(contractor.getId()));
+
+        final Contractor item = contractorRestaurantDao.findItem(name);
+        if (item != null) {
+            removeContractor(item);
+        }
     }
 
     public void removeContractor(Contractor contractor) {
@@ -133,9 +136,8 @@ public class ManagementController implements BusinessController {
 
     public boolean increaseAmount(Ingredient ingredient, Stage controlledStage) {
 
-        final List<WarehousePosition> warehousePositions = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
-        if(warehousePositions.size() > 0) {
-            final WarehousePosition warehousePosition = warehousePositions.get(0);
+        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
+        if(warehousePosition != null) {
             Double ingredientWeight = warehousePosition.getIngredientAmount();
             ingredientWeight += ingredient.getIngredientWeight();
             if(ingredientWeight < 0) {
@@ -154,9 +156,9 @@ public class ManagementController implements BusinessController {
 
     public boolean decreaseAmount(Ingredient ingredient, Stage controlledStage) {
 
-        final List<WarehousePosition> warehousePositions = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
+        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
 
-        if(warehousePositions.isEmpty()) return false;
+        if(warehousePosition == null) return false;
 
         ingredient.setIngredientWeight(ingredient.getIngredientWeight() * -1);
         return increaseAmount(ingredient, controlledStage);
@@ -164,13 +166,11 @@ public class ManagementController implements BusinessController {
 
     public Double checkAmount(Ingredient ingredient) {
 
-        final List<WarehousePosition> warehousePositions = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
+        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
 
-        if(warehousePositions.isEmpty()) return 0.0;
+        if(warehousePosition == null) return 0.0D;
 
-        double ingredientAmount = warehousePositions.get(0).getIngredientAmount();
-
-        return ingredientAmount;
+        return warehousePosition.getIngredientAmount();
     }
 
     public List<WarehousePosition> findAllPositions() {

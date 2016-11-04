@@ -35,19 +35,13 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     @Override
     public void removeItemById(int id) {
 
-        final Session currentSession = sessionFactory.getCurrentSession();
-        final Query query = currentSession.createQuery("delete from Dish d where d.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        removeItem(findItemById(id));
     }
 
     @Override
     public void removeItemByName(String name) {
 
-        final Session currentSession = sessionFactory.getCurrentSession();
-        final Query query = currentSession.createQuery("delete from Dish d where d.dishName like :name");
-        query.setParameter("name", name);
-        query.executeUpdate();
+        removeItem(findItem(name));
     }
 
     @Override
@@ -73,17 +67,18 @@ public class HibernateDishDao implements RestaurantDao<Dish> {
     }
 
     @Override
-    public List<Dish> findItem(String name) {
+    public Dish findItem(String name) {
 
         final Session currentSession = sessionFactory.getCurrentSession();
-        final Query<Dish> query = currentSession.createQuery("select d from Dish d where d.dishName like :name");
+        final Query<Dish> query = currentSession.createQuery("select d from Dish d where d.dishName = :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
-    public List<Dish> findItem(Dish item) {
-        return findAll().stream().filter(dish -> dish.equals(item)).collect(Collectors.toList());
+    public Dish findItem(Dish item) {
+
+        return sessionFactory.getCurrentSession().find(Dish.class, item.getId());
     }
 
     @Override

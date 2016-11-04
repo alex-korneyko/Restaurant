@@ -72,16 +72,16 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
     @SuppressWarnings("JpaQlInspection")
     @Override
     @Transactional
-    public List<Contractor> findItem(String name) {
+    public Contractor findItem(String name) {
         final Session currentSession = sessionFactory.getCurrentSession();
         final Query<Contractor> query = currentSession.createQuery("select c from Contractor c where c.contractorName like :name");
         query.setParameter("name", name);
-        return query.list();
+        return query.uniqueResult();
     }
 
     @Override
     @Transactional
-    public List<Contractor> findItem(Contractor item) {
+    public Contractor findItem(Contractor item) {
         return null;
     }
 

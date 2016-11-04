@@ -47,12 +47,12 @@ public class HibernateMenuDao implements RestaurantDao<Menu> {
     }
 
     @Override
-    public List<Menu> findItem(String name) {
+    public Menu findItem(String name) {
         return null;
     }
 
     @Override
-    public List<Menu> findItem(Menu employee) {
+    public Menu findItem(Menu employee) {
         return null;
     }
 

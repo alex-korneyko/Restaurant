@@ -11,6 +11,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ua.in.dris4ecoder.model.businessObjects.*;
+import ua.in.dris4ecoder.model.dao.CurrencyDao;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.hibernate.*;
 
@@ -20,7 +21,6 @@ import java.util.Properties;
  * Created by Alex Korneyko on 15.08.2016 11:18.
  */
 @Configuration
-//@ComponentScan(value = "ua.in.dris4ecoder.springConfigClasses")
 @EnableTransactionManagement
 public class HibernateConfig {
 
@@ -137,6 +137,15 @@ public class HibernateConfig {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
         return transactionManager;
+    }
+
+    @Bean
+    CurrencyDao currencyDao(SessionFactory sessionFactory) {
+
+        HibernateCurrenciesDao currenciesDao = new HibernateCurrenciesDao();
+        currenciesDao.setSessionFactory(sessionFactory);
+
+        return currenciesDao;
     }
 
     @Bean

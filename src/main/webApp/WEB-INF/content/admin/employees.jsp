@@ -81,7 +81,7 @@
             <c:forEach items="${employees}" var="employee">
                 <tr>
                     <td>${employee.id}</td>
-                    <td>${employee.user.userLogin}</td>
+                    <td><a href="${pageContext.request.contextPath}/user/userProfile?login=${employee.user.userLogin}"> ${employee.user.userLogin}</a></td>
                     <td>${employee.lastName}</td>
                     <td>${employee.firstName}</td>
                     <td>${employee.phoneNumber}</td>
@@ -180,30 +180,30 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="newEmployeePostDropDown" class="control-label col-sm-4">Должность:</label>
+                        <label for="dropDownComboBox" class="control-label col-sm-4">Должность:</label>
                         <div class="dropdown col-sm-6">
                             <c:if test="${post != null}">
                                 <script type="text/javascript">
                                     $(function (){
-                                        selectEmployeePost('${post.postName}')
+                                        dropDownComboBoxScript('${post.postName}')
                                     });
                                 </script>
                             </c:if>
-                            <input style="width: 200px" id="newEmployeePostDropDown" type="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false"  class="btn btn-default"
+                            <input style="width: 200px" id="dropDownComboBox" type="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false" class="btn btn-default"
                                    <c:if test="${post == null}"> value="Выберите..." </c:if>
                                    <c:if test="${post != null}"> value="${post.postName}" </c:if>
                             />
 
                             <ul class="dropdown-menu" aria-labelledby="newEmployeePostDropDown">
                                 <c:forEach items="${allPosts}" var="post">
-                                    <li><a href="#" onclick="selectEmployeePost('${post.postName}')">${post.postName}</a> </li>
+                                    <li><a href="#" onclick="dropDownComboBoxScript('${post.postName}')">${post.postName}</a> </li>
                                 </c:forEach>
                             </ul>
                         </div>
                     </div>
 
-                    <input type="hidden" name="employeePost" id="employeePost">
+                    <input type="hidden" name="employeePost" id="dropDownComboBoxSelectedValue">
 
                     <div class="form-group">
                         <label for="newEmployeePhoneTextBox" class="control-label col-sm-4">Телефон:</label>
