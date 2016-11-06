@@ -126,6 +126,21 @@ public class Ingredient implements Cloneable {
         return ingredientPriceOfWeight;
     }
 
+    public String getNameWithHtmlQuot() {
+
+        StringBuilder nameWithBackSlash = new StringBuilder();
+
+        for (char c : ingredientName.toCharArray()) {
+            if (c =='"') {
+                nameWithBackSlash.append("&quot;");
+                continue;
+            }
+            nameWithBackSlash.append(c);
+        }
+
+        return nameWithBackSlash.toString();
+    }
+
     public SimpleIntegerProperty idPropProperty() {
         idProp.set(this.id);
         return idProp;

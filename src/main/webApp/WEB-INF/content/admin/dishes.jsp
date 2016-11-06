@@ -38,7 +38,7 @@
             <button class="btn btn-info" name="showAll">Показать всё</button>
         </div>
     </div>
-
+    <br>
     <div class="container">
         <c:if test="${wrongCount == true}">
             <div class="alert alert-danger alert-dismissable">

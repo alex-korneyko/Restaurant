@@ -47,6 +47,21 @@ public class Contractor {
         return contractorName;
     }
 
+    public String getNameWithHtmlQuot() {
+
+        StringBuilder nameWithBackSlash = new StringBuilder();
+
+        for (char c : contractorName.toCharArray()) {
+            if (c =='"') {
+                nameWithBackSlash.append("&quot;");
+                continue;
+            }
+                nameWithBackSlash.append(c);
+        }
+
+        return nameWithBackSlash.toString();
+    }
+
     public void setContractorName(String contractorName) {
         contractorNameProp.set(contractorName);
         this.contractorName = contractorName;

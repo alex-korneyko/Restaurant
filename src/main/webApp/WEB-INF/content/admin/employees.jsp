@@ -105,7 +105,7 @@
                 <h4 class="modal-title">Работник</h4>
             </div>
             <form action="${pageContext.request.contextPath}/admin/employees" method="post" class="form-horizontal">
-                <div class="modal-body form-group">
+                <div class="modal-body">
 
                     <div class="form-group">
                         <label for="newEmployeeNameTextBox" class="control-label col-sm-4">Имя:</label>
@@ -231,8 +231,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                     <button class="btn btn-default" type="submit" name="saveEmployeeForm">Ok</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                 </div>
             </form>
         </div>

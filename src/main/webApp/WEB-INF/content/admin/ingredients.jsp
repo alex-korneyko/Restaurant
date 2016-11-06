@@ -89,7 +89,7 @@
                     <div class="form-group">
                         <label for="newIngredientTextBox" class="control-label col-sm-4">Новый ингредиент:</label>
                         <div class="col-sm-6">
-                            <input id="newIngredientTextBox" type="text" class="form-control" name="newIngredient" value="${ingredientForEditing.ingredientName}">
+                            <input id="newIngredientTextBox" type="text" class="form-control" name="newIngredient" value="${ingredientForEditing.nameWithHtmlQuot}">
                         </div>
                         <input type="hidden" name="ingredientId" value="${ingredientForEditing.id}">
                     </div>

@@ -169,11 +169,11 @@
                     Менедж-<br>мент <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#">Приход</a></li>
-                    <li><a href="#">Расход</a></li>
-                    <li><a href="#">Контрагенты</a></li>
+                    <li><a href="#" onclick="showInFrame('purchaseInvoices', 'admin/')">Приход</a></li>
+                    <li><a href="#" onclick="showInFrame('salesInvoices', 'admin/')">Расход</a></li>
+                    <li><a href="#" onclick="showInFrame('contractors', 'admin/')">Контрагенты</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Склад</a></li>
+                    <li><a href="#" onclick="showInFrame('warehouse', 'admin/')">Склад</a></li>
                 </ul>
             </div>
             <div class="btn-group">

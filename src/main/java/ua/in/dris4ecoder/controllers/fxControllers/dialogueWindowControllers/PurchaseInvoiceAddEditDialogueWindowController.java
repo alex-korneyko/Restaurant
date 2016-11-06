@@ -12,6 +12,7 @@ import ua.in.dris4ecoder.controllers.fxControllers.ServiceClass;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
+import ua.in.dris4ecoder.model.businessObjects.WarehouseChangeResult;
 import ua.in.dris4ecoder.view.customControls.WarningsDialogWindow;
 import ua.in.dris4ecoder.view.windowsSet.DialogueWindows;
 
@@ -40,7 +41,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
     @Override
     public void saveAction(ActionEvent actionEvent) {
 
-        boolean result;
+        WarehouseChangeResult result;
 
         if (textFieldContractor.getText().isEmpty() || tableViewIngredients.getItems().isEmpty()) {
             WarningsDialogWindow.showWindow(WarningsDialogWindow.WindowType.ERROR, "Список ингредиентов пуст", controlledStage);
@@ -61,7 +62,7 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
         ingredientsInCurrentInvoiceObservableList.clear();
         ingredientsInCurrentInvoiceObservableList.addAll(Main.getManagementController().findPurchaseInvoice(purchaseInvoice.getId()).getIngredients());
 
-        if (result) {
+        if (result.isChangeSuccessfully()) {
             purchaseInvoice = null;
             controlledStage.hide();
         }

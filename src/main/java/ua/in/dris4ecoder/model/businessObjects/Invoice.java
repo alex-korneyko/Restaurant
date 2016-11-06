@@ -58,6 +58,12 @@ public abstract class Invoice implements BusinessObject {
     private SimpleDoubleProperty amountOfInvoiceProp = new SimpleDoubleProperty();
 
     public Invoice() {
+        this.invoiceDate = LocalDate.now();
+    }
+
+    public Invoice(boolean autoPrice) {
+        this();
+        this.autoPrice = autoPrice;
     }
 
     public int getId() {
@@ -79,6 +85,12 @@ public abstract class Invoice implements BusinessObject {
     }
 
     public double getAmountOfInvoice() {
+
+        if (autoPrice) {
+            amountOfInvoice = ingredientCostPerInvoice.keySet().stream()
+                    .mapToDouble(key -> ingredientCostPerInvoice.get(key) * ingredientWeightPerInvoice.get(key)).sum();
+        }
+
         return amountOfInvoice;
     }
 
@@ -88,8 +100,15 @@ public abstract class Invoice implements BusinessObject {
     }
 
     public void addIngredient(Ingredient ingredient) {
+
         ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
         ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+
+        ingredientCostPerInvoice.remove(ingredient);
+        ingredientWeightPerInvoice.remove(ingredient);
     }
 
     public List<Ingredient> getIngredients() {
@@ -112,6 +131,14 @@ public abstract class Invoice implements BusinessObject {
             ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
             ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
         });
+    }
+
+    public Ingredient getIngredientWithParamsInInvoice(Ingredient ingredient) {
+
+        ingredient.setIngredientPrice(ingredientCostPerInvoice.get(ingredient));
+        ingredient.setIngredientWeight(ingredientWeightPerInvoice.get(ingredient));
+
+        return ingredient;
     }
 
     public boolean isAutoPrice() {

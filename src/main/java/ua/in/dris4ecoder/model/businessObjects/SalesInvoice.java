@@ -29,9 +29,13 @@ public class SalesInvoice extends Invoice {
     public SalesInvoice() {
     }
 
-    public SalesInvoice(Order order, Contractor contractor) {
+    public SalesInvoice(boolean autoPrice) {
+        super(autoPrice);
+    }
+
+    public SalesInvoice(boolean autoPrice, Order order) {
+        this(autoPrice);
         this.order = order;
-        this.contractor = contractor;
     }
 
     public Order getOrder() {

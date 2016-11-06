@@ -34,6 +34,10 @@ public class PurchaseInvoice extends Invoice {
     public PurchaseInvoice() {
     }
 
+    public PurchaseInvoice(boolean autoPrice) {
+        super(autoPrice);
+    }
+
     public PurchaseInvoice(Contractor contractor) {
         this.contractor = contractor;
     }
