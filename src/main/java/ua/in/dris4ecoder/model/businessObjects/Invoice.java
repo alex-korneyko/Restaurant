@@ -165,6 +165,12 @@ public abstract class Invoice implements BusinessObject {
     }
 
 
+    public void clearAllIngredients() {
+
+        ingredientCostPerInvoice.clear();
+        ingredientWeightPerInvoice.clear();
+    }
+
     @Override
     public String toString() {
         return "Invoice{" +

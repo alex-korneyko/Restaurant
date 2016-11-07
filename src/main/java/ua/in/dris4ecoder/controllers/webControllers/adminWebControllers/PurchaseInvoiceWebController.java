@@ -100,6 +100,8 @@ public class PurchaseInvoiceWebController {
 
         if (params.containsKey("editIngredient")) {
 
+            fillInvoice(purchaseInvoice, params);
+
             List<Integer> ingredientIds = params.keySet().stream()
                     .filter(key -> key.length() > 18 && key.substring(0, 18).equals("selectedIngredient"))
                     .map(key -> Integer.parseInt(params.get(key))).collect(Collectors.toList());
@@ -117,6 +119,8 @@ public class PurchaseInvoiceWebController {
 
         if (params.containsKey("removeIngredient")) {
 
+            fillInvoice(purchaseInvoice, params);
+
             params.keySet().stream().filter(key -> key.length() > 18 && key.substring(0, 18).equals("selectedIngredient"))
                     .forEach(key ->
                             purchaseInvoice.removeIngredient(instrumentsController.findIngredient(Integer.parseInt(params.get(key)))));
@@ -128,6 +132,10 @@ public class PurchaseInvoiceWebController {
 
         if (params.containsKey("clearAllIngredients")) {
 
+            fillInvoice(purchaseInvoice, params);
+
+            purchaseInvoice.clearAllIngredients();
+            modelAndView.addObject("openEditWindow", true);
         }
 
         //----------------- INGREDIENT PARAMS DIALOGUE WINDOWS -------------------------------------

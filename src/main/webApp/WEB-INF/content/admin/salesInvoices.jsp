@@ -109,7 +109,7 @@
 
                     <div class="form-group">
                         <label for="dropDownComboBox" class="control-label col-sm-4">Контрагент:</label>
-                        <div class="dropdown col-sm-6"></div>
+                        <div class="dropdown col-sm-6">
                         <c:if test="${invoiceForEditing.contractor != null}">
                             <script type="text/javascript">
                                 $(function (){

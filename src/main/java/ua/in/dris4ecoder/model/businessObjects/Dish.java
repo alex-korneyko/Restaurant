@@ -36,27 +36,24 @@ public class Dish {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "auto_price")
+    private boolean autoPrice;
+
     @Column(name = "weight")
     private double weight;
 
-    @ManyToMany
-    @Fetch(FetchMode.JOIN)
-    @JoinTable(
-            name = "service.dish_composition",
-            joinColumns = @JoinColumn(name = "dish_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    private List<Ingredient> ingredients = new ArrayList<>();
+    @Column(name = "auto_weight")
+    private boolean autoWeight;
 
     @ElementCollection
-    @CollectionTable(name = "service.dish_parameters")
+    @CollectionTable(name = "service.dish_ingredients_weights")
     @Column(name = "ingredient_weight")
     @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
     private Map<Ingredient, Double> ingredientWeightPerDish = new HashMap<>();
 
     @ElementCollection
-    @CollectionTable(name = "service.dish_parameters")
+    @CollectionTable(name = "service.dish_ingredients_prices")
     @Column(name = "ingredient_price")
     @MapKeyJoinColumn(name = "ingredient_id")
     @Fetch(FetchMode.JOIN)
@@ -78,6 +75,11 @@ public class Dish {
     private SimpleDoubleProperty weightProp = new SimpleDoubleProperty();
 
     public Dish() {
+    }
+
+    public Dish(boolean autoPrice, boolean autoWeight) {
+        this.autoPrice = autoPrice;
+        this.autoWeight = autoWeight;
     }
 
     public Dish(String dishName, DishCategory dishCategory) {
@@ -123,6 +125,14 @@ public class Dish {
     }
 
     public double getPrice() {
+
+        if (autoPrice) {
+            price = 0;
+            for (Ingredient ingredient: ingredientCostPerDish.keySet()) {
+                price += (ingredientCostPerDish.get(ingredient) * ingredientWeightPerDish.get(ingredient));
+            }
+        }
+
         return price;
     }
 
@@ -131,7 +141,20 @@ public class Dish {
         this.priceProp.setValue(price);
     }
 
+    public boolean isAutoPrice() {
+        return autoPrice;
+    }
+
+    public void setAutoPrice(boolean autoPrice) {
+        this.autoPrice = autoPrice;
+    }
+
     public double getWeight() {
+
+        if (autoWeight) {
+            weight = ingredientWeightPerDish.keySet().stream().mapToDouble(key -> ingredientWeightPerDish.get(key)).sum();
+        }
+
         return weight;
     }
 
@@ -140,13 +163,27 @@ public class Dish {
         this.weightProp.setValue(weight);
     }
 
+    public boolean isAutoWeight() {
+        return autoWeight;
+    }
+
+    public void setAutoWeight(boolean autoWeight) {
+        this.autoWeight = autoWeight;
+    }
+
     public List<Ingredient> getIngredients() {
-        fillWeightAndCostInIngredients();
+
+        ArrayList<Ingredient> ingredients = new ArrayList<>(ingredientCostPerDish.keySet());
+
+        for (Ingredient ingredient : ingredients) {
+            ingredient.setIngredientPrice(ingredientCostPerDish.get(ingredient));
+            ingredient.setIngredientWeight(ingredientWeightPerDish.get(ingredient));
+        }
         return ingredients;
     }
 
     public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+
         ingredientWeightPerDish.clear();
         ingredientCostPerDish.clear();
         ingredients.forEach(ingredient -> {
@@ -181,11 +218,33 @@ public class Dish {
         return weightProp;
     }
 
-    private void fillWeightAndCostInIngredients() {
-        ingredients.forEach(ingredient -> {
-            ingredient.setIngredientWeight(ingredientWeightPerDish.get(ingredient));
-            ingredient.setIngredientPrice(ingredientCostPerDish.get(ingredient));
-        });
+    public void addIngredient(Ingredient ingredient) {
+
+        removeIngredient(ingredient);
+
+        ingredientCostPerDish.put(ingredient, ingredient.getIngredientPrice());
+        ingredientWeightPerDish.put(ingredient, ingredient.getIngredientWeight());
+    }
+
+    public void removeIngredient(Ingredient ingredient) {
+
+//        ingredients.remove(ingredient);
+        ingredientWeightPerDish.remove(ingredient);
+        ingredientCostPerDish.remove(ingredient);
+    }
+
+    public Ingredient getIngredientWithParamsInDish(Ingredient ingredient) {
+
+        ingredient.setIngredientPrice(ingredientCostPerDish.get(ingredient));
+        ingredient.setIngredientWeight(ingredientWeightPerDish.get(ingredient));
+
+        return ingredient;
+    }
+
+    public void removeAllIngredients() {
+
+        ingredientWeightPerDish.clear();
+        ingredientCostPerDish.clear();
     }
 
     @Override
