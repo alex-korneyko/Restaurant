@@ -185,7 +185,8 @@ public class DishAddEditDialogueWindowController implements AddEditController<Di
 
     private void autoPrice() {
         if (checkBoxAutoPrice.isSelected()) {
-            textFieldPrice.setText(String.valueOf(ingredientsInCurrentDishObservableList.stream().mapToDouble(Ingredient::getIngredientPriceOfWeight).sum()));
+            textFieldPrice.setText(String.valueOf(ingredientsInCurrentDishObservableList.stream()
+                    .mapToDouble((ingredient) -> ingredient.getIngredientPriceOfWeight().doubleValue()).sum()));
         }
     }
 

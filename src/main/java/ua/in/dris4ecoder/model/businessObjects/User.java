@@ -15,6 +15,8 @@ public interface User {
 
     void setUserSurName(String userSurName);
 
+    String getUserFullName();
+
     String getUserLogin();
 
     void setUserLogin(String userLogin);

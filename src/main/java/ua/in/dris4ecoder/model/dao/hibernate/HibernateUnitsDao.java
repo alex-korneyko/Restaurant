@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.Unit;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -67,7 +68,7 @@ public class HibernateUnitsDao implements RestaurantDao<Unit> {
     }
 
     @Override
-    public List<Unit> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<Unit> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

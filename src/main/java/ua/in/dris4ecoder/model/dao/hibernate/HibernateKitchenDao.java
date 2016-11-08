@@ -6,6 +6,7 @@ import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -61,7 +62,7 @@ public class HibernateKitchenDao implements RestaurantDao<KitchenProcess> {
     }
 
     @Override
-    public List<KitchenProcess> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<KitchenProcess> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

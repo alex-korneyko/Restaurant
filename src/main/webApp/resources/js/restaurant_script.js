@@ -16,7 +16,13 @@ function showInFrameParentWindow(frameName) {
 }
 
 function dropDownComboBoxScript(selectedValue) {
-    
+
     document.getElementById('dropDownComboBox').setAttribute('value', selectedValue);
     document.getElementById('dropDownComboBoxSelectedValue').setAttribute('value', selectedValue);
+}
+
+function dropDownComboBoxScr(selectedValue, valueId) {
+
+    document.getElementById('dropDownComboBox').setAttribute('value', selectedValue);
+    document.getElementById('dropDownComboBoxSelectedValue').setAttribute('value', valueId);
 }

@@ -65,6 +65,12 @@ public class UserImpl implements User{
     }
 
     @Override
+    public String getUserFullName() {
+
+        return this.userName + " " + this.userSurName;
+    }
+
+    @Override
     public String getUserLogin() {
         return userLogin;
     }

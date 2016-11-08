@@ -81,7 +81,7 @@
             <c:forEach items="${dishes}" var="dish">
                 <tr>
                     <td>${dish.id}</td>
-                    <td>${dish.dishName}</td>
+                    <td><a href="${pageContext.request.contextPath}/admin/dishes?dishInfoWindow=${dish.id}">${dish.dishName}</a></td>
                     <td>${dish.dishCategory.toString()}</td>
                     <td>${dish.price}</td>
                     <td>${dish.weight}</td>
@@ -104,94 +104,102 @@
                     <div class="form-group">
                         <label for="dishName" class="control-label col-sm-4">Название:</label>
                         <div class="col-sm-6">
-                            <input id="dishName" type="text" class="form-control" name="dishName" value="${dish.dishName}">
+                            <input id="dishName" type="text" class="form-control" name="dishName" value="${dish.dishNameWithHtmlQuot}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="dropDownComboBox" class="control-label col-sm-4">Категория:</label>
-                        <div class="dropdown col-sm-6">
-                            <c:if test="${dish.dishCategory != null}">
-                                <script type="text/javascript">
-                                    $(function (){
-                                        dropDownComboBoxScript('${dish.dishCategory.toString()}')
-                                    });
-                                </script>
-                            </c:if>
-                            <input style="width: 300px" id="dropDownComboBox" type="button" data-toggle="dropdown"
-                                   aria-haspopup="true" aria-expanded="false" class="btn btn-default"
-                            <c:if test="${dish.dishCategory == null}"> value="Выберите..." </c:if>
-                            <c:if test="${dish.dishCategory != null}"> value="${dish.dishCategory.toString()}" </c:if>
-                            >
-                            <ul class="dropdown-menu" aria-labelledby="newInvoiceDropDown">
-                                <c:forEach items="${dishCategories}" var="category">
-                                    <li><a href="#" onclick="dropDownComboBoxScript('${category.toString()}')">${category.toString()}</a> </li>
-                                </c:forEach>
-                            </ul>
-                            <input type="hidden" name="selectedCategory" id="dropDownComboBoxSelectedValue" value="0">
+                        <div class="col-sm-6">
+                            <div class="dropdown">
+                                <c:if test="${dish.dishCategory != null}">
+                                    <script type="text/javascript">
+                                        $(function (){
+                                            dropDownComboBoxScript('${dish.dishCategory.toString()}')
+                                        });
+                                    </script>
+                                </c:if>
+                                <input style="width: 320px" id="dropDownComboBox" type="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false" class="btn btn-default"
+                                <c:if test="${dish.dishCategory == null}"> value="Выберите..." </c:if>
+                                <c:if test="${dish.dishCategory != null}"> value="${dish.dishCategory.toString()}" </c:if>
+                                >
+                                <ul class="dropdown-menu" aria-labelledby="newInvoiceDropDown">
+                                    <c:forEach items="${dishCategories}" var="category">
+                                        <li><a href="#" onclick="dropDownComboBoxScript('${category.toString()}')">${category.toString()}</a> </li>
+                                    </c:forEach>
+                                </ul>
+                                <input type="hidden" name="selectedCategory" id="dropDownComboBoxSelectedValue" value="0">
+                            </div>
                         </div>
                     </div>
 
-                </div>
+                    <div class="form-group">
+                        <label for="fileImage" class="control-label col-sm-4">Файл Изображения:</label>
+                        <div class="col-sm-6">
+                            <input type="file" class="form-control" id="fileImage" name="fileImage">
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="dishPrice" class="control-label col-sm-4">Цена:</label>
-                    <div class="col-sm-4">
-                        <input id="dishPrice" type="text" class="form-control" name="dishPrice" value="${dish.price}">
+                    <div class="form-group">
+                        <label for="dishPrice" class="control-label col-sm-4">Цена:</label>
+                        <div class="col-sm-4">
+                            <input id="dishPrice" type="text" class="form-control" name="dishPrice" value="${dish.price}">
+                        </div>
+                        <div class="checkbox col-sm-2">
+                            <label>
+                                <input id="dishAutoPrice" type="checkbox" name="dishAutoPriceCheckBox"
+                                       <c:if test="${dish.autoPrice == true}">checked="checked"</c:if>/>Авто
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox col-sm-2">
-                        <label>
-                            <input id="dishAutoPrice" type="checkbox" name="dishAutoPriceCheckBox"
-                                   <c:if test="${dish.autoPrice == true}">checked="checked"</c:if>/>Авто
-                        </label>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="dishWeight" class="control-label col-sm-4">Вес:</label>
-                    <div class="col-sm-4">
-                        <input id="dishWeight" type="text" class="form-control" name="dishWeight" value="${dish.weight}">
+                    <div class="form-group">
+                        <label for="dishWeight" class="control-label col-sm-4">Вес:</label>
+                        <div class="col-sm-4">
+                            <input id="dishWeight" type="text" class="form-control" name="dishWeight" value="${dish.weight}">
+                        </div>
+                        <div class="checkbox col-sm-2">
+                            <label>
+                                <input id="dishAutoWeight" type="checkbox" name="dishAutoWeightCheckBox"
+                                       <c:if test="${dish.autoWeight == true}">checked="checked"</c:if>/>Авто
+                            </label>
+                        </div>
                     </div>
-                    <div class="checkbox col-sm-2">
-                        <label>
-                            <input id="dishAutoWeight" type="checkbox" name="dishAutoWeightCheckBox"
-                                   <c:if test="${dish.autoWeight == true}">checked="checked"</c:if>/>Авто
-                        </label>
-                    </div>
-                </div>
 
-                <table class="table table-bordered table-condensed table-hover">
-                    <tr>
-                        <th>Id</th>
-                        <th>Ингредиент</th>
-                        <th>Вес</th>
-                        <th>Цена</th>
-                        <th>Сумма</th>
-                        <th>Выбор</th>
-                    </tr>
-                    <c:forEach items="${dish.ingredients}" var="ingredient">
+                    <table class="table table-bordered table-condensed table-hover">
                         <tr>
-                            <td>${ingredient.id}</td>
-                            <td>${ingredient.nameWithHtmlQuot}</td>
-                            <td>${ingredient.ingredientWeight}</td>
-                            <td>${ingredient.ingredientPrice}</td>
-                            <td>${ingredient.ingredientPriceOfWeight}</td>
-                            <td><input type="checkbox" name="selectedIngredient${ingredient.id}" value="${ingredient.id}"></td>
+                            <th>Id</th>
+                            <th>Ингредиент</th>
+                            <th>Вес</th>
+                            <th>Цена</th>
+                            <th>Сумма</th>
+                            <th>Выбор</th>
                         </tr>
-                    </c:forEach>
-                </table>
-                <div class="container">
-                    <div class="col-sm-8 col-sm-offset-2">
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-default" name="addIngredient" value="Добавить">
-                            <input type="submit" class="btn btn-default" name="editIngredient" value="Изменить">
-                            <input type="submit" class="btn btn-default" name="removeIngredient" value="Удалить">
-                            <input type="submit" class="btn btn-default" name="clearAllIngredients" value="Очистить">
+                        <c:forEach items="${dish.ingredients}" var="ingredient">
+                            <tr>
+                                <td>${ingredient.id}</td>
+                                <td>${ingredient.nameWithHtmlQuot}</td>
+                                <td>${ingredient.ingredientWeight}</td>
+                                <td>${ingredient.ingredientPrice}</td>
+                                <td>${ingredient.ingredientPriceOfWeight}</td>
+                                <td><input type="checkbox" name="selectedIngredient${ingredient.id}" value="${ingredient.id}"></td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <div class="container">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-default" name="addIngredient" value="Добавить">
+                                <input type="submit" class="btn btn-default" name="editIngredient" value="Изменить">
+                                <input type="submit" class="btn btn-default" name="removeIngredient" value="Удалить">
+                                <input type="submit" class="btn btn-default" name="clearAllIngredients" value="Очистить">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" type="submit" name="saveDishForm">Ok</button>
+                        <button class="btn btn-default" type="submit" name="saveDishForm" <c:if test="${hideOk == true}">disabled="disabled"</c:if> >Ok</button>
                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

@@ -8,6 +8,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,6 +112,25 @@ public class Dish {
         return dishName;
     }
 
+    public String getDishNameWithHtmlQuot() {
+
+        if (dishName == null) {
+            return "";
+        }
+
+        StringBuilder nameWithBackSlash = new StringBuilder();
+
+        for (char c : dishName.toCharArray()) {
+            if (c =='"') {
+                nameWithBackSlash.append("&quot;");
+                continue;
+            }
+            nameWithBackSlash.append(c);
+        }
+
+        return nameWithBackSlash.toString();
+    }
+
     public void setDishName(String dishName) {
         this.dishName = dishName;
         this.dishNameProp.set(dishName);
@@ -124,7 +145,7 @@ public class Dish {
         this.dishCategoryProp.set(dishCategory.toString());
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
 
         if (autoPrice) {
             price = 0;
@@ -133,7 +154,7 @@ public class Dish {
             }
         }
 
-        return price;
+        return new BigDecimal(price, new MathContext(2));
     }
 
     public void setPrice(double price) {
@@ -149,13 +170,13 @@ public class Dish {
         this.autoPrice = autoPrice;
     }
 
-    public double getWeight() {
+    public BigDecimal getWeight() {
 
         if (autoWeight) {
             weight = ingredientWeightPerDish.keySet().stream().mapToDouble(key -> ingredientWeightPerDish.get(key)).sum();
         }
 
-        return weight;
+        return new BigDecimal(weight, new MathContext(3));
     }
 
     public void setWeight(double weight) {
@@ -265,23 +286,15 @@ public class Dish {
 
         Dish dish = (Dish) o;
 
-        if (Double.compare(dish.price, price) != 0) return false;
-        if (Double.compare(dish.weight, weight) != 0) return false;
-        if (dishName != null ? !dishName.equals(dish.dishName) : dish.dishName != null) return false;
+        if (!dishName.equals(dish.dishName)) return false;
         return dishCategory == dish.dishCategory;
 
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = dishName != null ? dishName.hashCode() : 0;
-        result = 31 * result + (dishCategory != null ? dishCategory.hashCode() : 0);
-        temp = Double.doubleToLongBits(price);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(weight);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        int result = dishName.hashCode();
+        result = 31 * result + dishCategory.hashCode();
         return result;
     }
 }

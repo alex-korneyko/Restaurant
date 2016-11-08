@@ -7,6 +7,7 @@ import ua.in.dris4ecoder.model.businessObjects.SalesInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -73,7 +74,7 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
 
     @Override
     @Transactional
-    public List<SalesInvoice> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<SalesInvoice> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

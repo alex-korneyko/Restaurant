@@ -9,6 +9,7 @@ import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -136,7 +137,7 @@ public class StaffController implements BusinessController {
         return employeeDao.findItemById(id);
     }
 
-    public List<Employee> findEmployeeByDateRange(LocalDate start, LocalDate end) {
+    public List<Employee> findEmployeeByDateRange(LocalDateTime start, LocalDateTime end) {
         return employeeDao.findItem(start, end);
     }
 

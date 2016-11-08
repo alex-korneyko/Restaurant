@@ -9,6 +9,7 @@ import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -83,7 +84,7 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
 
     @Override
     @Transactional
-    public List<UserGroup> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<UserGroup> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

@@ -7,6 +7,7 @@ import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public class ServiceController implements BusinessController {
     }
 
     @Transactional
-    public List<Order> findOrder(LocalDate start, LocalDate end) {
+    public List<Order> findOrder(LocalDateTime start, LocalDateTime end) {
         return ordersDao.findItem(start, end);
     }
 
@@ -62,6 +63,10 @@ public class ServiceController implements BusinessController {
         }
     }
 
+    public List<Order> getAllOrders() {
+
+        return ordersDao.findAll();
+    }
 
     public void setOrdersDao(RestaurantDao<Order> ordersDao) {
         this.ordersDao = ordersDao;

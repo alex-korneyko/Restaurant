@@ -9,7 +9,9 @@ import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
 import ua.in.dris4ecoder.model.businessObjects.Dish;
 import ua.in.dris4ecoder.model.businessObjects.DishCategory;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
+import ua.in.dris4ecoder.model.utilityServices.FormsDataValidator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,6 +67,16 @@ public class DishesWebController {
         if (params.containsKey("showAll")) {
 
             modelAndView.addObject("dishes", instrumentsController.findAllDishes());
+        }
+
+        if (params.containsKey("dishInfoWindow")) {
+
+            modelAndView.addObject("hideOk", true);
+            modelAndView.addObject("dishes", instrumentsController.findAllDishes());
+            Dish dish = instrumentsController.findDish(Integer.parseInt(params.get("dishInfoWindow")));
+            modelAndView.addObject("dish", dish);
+            modelAndView.addObject("openEditWindow", true);
+            return modelAndView;
         }
 
         //----------------- INGREDIENTS LIST DIALOG ----------------------------------
@@ -126,16 +138,12 @@ public class DishesWebController {
 
         if (params.containsKey("paramsEntered")) {
 
-            double ingredientParamPrice = Double.parseDouble(params.get("ingredientParamPrice"));
-            double ingredientParamWeight = Double.parseDouble(params.get("ingredientParamWeight"));
+            double ingredientParamPrice = Double.parseDouble(FormsDataValidator.CommaToDot(params.get("ingredientParamPrice")));
+            double ingredientParamWeight = Double.parseDouble(FormsDataValidator.CommaToDot(params.get("ingredientParamWeight")));
 
             Ingredient ingredient = instrumentsController.findIngredient(Integer.parseInt(params.get("selectedIngredientForDish")));
             ingredient.setIngredientPrice(ingredientParamPrice);
             ingredient.setIngredientWeight(ingredientParamWeight);
-
-//            if (dish.getIngredients().contains(ingredient)) {
-//                dish.removeIngredient(ingredient);
-//            }
 
             dish.addIngredient(ingredient);
 
@@ -173,12 +181,12 @@ public class DishesWebController {
 
         if (params.get("dishAutoPriceCheckBox") == null) {
             dish.setAutoPrice(false);
-            dish.setPrice(Double.parseDouble(params.get("dishPrice")));
+            dish.setPrice(Double.parseDouble(FormsDataValidator.CommaToDot(params.get("dishPrice"))));
         }
 
         if (params.get("dishAutoWeightCheckBox") == null) {
             dish.setAutoWeight(false);
-            dish.setWeight(Double.parseDouble(params.get("dishWeight")));
+            dish.setWeight(Double.parseDouble(FormsDataValidator.CommaToDot(params.get("dishWeight"))));
         }
     }
 }

@@ -10,6 +10,7 @@ import ua.in.dris4ecoder.model.dao.CurrencyDao;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -65,7 +66,7 @@ public class HibernateCurrenciesDao implements RestaurantDao<Currency>, Currency
     }
 
     @Override
-    public List<Currency> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<Currency> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

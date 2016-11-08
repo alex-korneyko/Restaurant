@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.WarehousePosition;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -79,7 +80,7 @@ public class HibernateWarehouseDao implements RestaurantDao<WarehousePosition> {
 
     @Override
     @Transactional
-    public List<WarehousePosition> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<WarehousePosition> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 

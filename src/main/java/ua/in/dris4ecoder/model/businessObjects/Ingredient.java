@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:14.
@@ -105,6 +107,11 @@ public class Ingredient implements Cloneable {
         return ingredientPrice;
     }
 
+    public BigDecimal getIngredientPriceInBDecimal() {
+
+        return new BigDecimal(ingredientPrice, new MathContext(2));
+    }
+
     public void setIngredientPrice(double ingredientPrice) {
         ingredientPriceProp.set(ingredientPrice);
         ingredientPriceOfWeight = ingredientWeight * ingredientPrice;
@@ -115,15 +122,20 @@ public class Ingredient implements Cloneable {
         return ingredientWeight;
     }
 
+    public BigDecimal getIngredientWeightInBDecimal() {
+
+        return new BigDecimal(ingredientWeight, new MathContext(3));
+    }
+
     public void setIngredientWeight(double ingredientWeight) {
         ingredientWeightProp.set(ingredientWeight);
         ingredientPriceOfWeight = ingredientWeight * ingredientPrice;
         this.ingredientWeight = ingredientWeight;
     }
 
-    public Double getIngredientPriceOfWeight() {
+    public BigDecimal getIngredientPriceOfWeight() {
 //        ingredientPriceOfWeight = ingredientWeight * ingredientWeight;
-        return ingredientPriceOfWeight;
+        return new BigDecimal(ingredientPriceOfWeight, new MathContext(2));
     }
 
     public String getNameWithHtmlQuot() {
@@ -177,7 +189,7 @@ public class Ingredient implements Cloneable {
     }
 
     public SimpleDoubleProperty ingredientPriceOfWeightPropProperty() {
-        ingredientPriceOfWeightProp.set(getIngredientPriceOfWeight());
+        ingredientPriceOfWeightProp.set(getIngredientPriceOfWeight().doubleValue());
         return ingredientPriceOfWeightProp;
     }
 

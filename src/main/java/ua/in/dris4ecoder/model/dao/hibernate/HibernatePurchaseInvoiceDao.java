@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -77,7 +78,7 @@ public class HibernatePurchaseInvoiceDao implements RestaurantDao<PurchaseInvoic
     @SuppressWarnings("JpaQlInspection")
     @Override
     @Transactional
-    public List<PurchaseInvoice> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<PurchaseInvoice> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
 
         Query<PurchaseInvoice> query = sessionFactory.getCurrentSession().createQuery("select pi from PurchaseInvoice pi where pi.invoiceDate >= :startPeriod and pi.invoiceDate <= :endPeriod");
         query.setParameter("startPeriod", startPeriod);

@@ -146,7 +146,7 @@
                     Обслужи-<br>вание <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#">Заказы</a></li>
+                    <li><a href="#" onclick="showInFrame('orders', 'admin/')">Заказы</a></li>
                     <li><a href="#">Кухня</a></li>
                 </ul>
             </div>

@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.controllers.businessControllers;
 import org.hibernate.SessionFactory;
 import ua.in.dris4ecoder.model.businessObjects.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +26,6 @@ public interface UserRegistrationController{
     void removeUser(User user);
 
     void removeUser(String userLogin);
+
+    List<User> getAllUsers();
 }

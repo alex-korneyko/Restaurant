@@ -8,8 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:15.
@@ -36,10 +36,11 @@ public class Order {
     private OrderDishStatus status;
 
     @Column(name = "order_date")
-    private LocalDate dateOfCreation;
+    private LocalDateTime dateOfCreation;
 
-    @Column(name = "order_owner")
-    private String orderOwner;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserImpl orderOwner;
 
     @ManyToMany
     @Fetch(FetchMode.SELECT)
@@ -48,7 +49,14 @@ public class Order {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
-    private List<Dish> dishes;
+    private List<Dish> dishes = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "service.order_dish_counts")
+    @MapKeyJoinColumn(name = "dish_id")
+    @Column(name = "dish_count")
+    @Fetch(FetchMode.JOIN)
+    private Map<Dish, Integer> dishesCount = new HashMap<>();
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
@@ -76,7 +84,7 @@ public class Order {
         this.desk = desk;
 
         status = OrderDishStatus.IN_QUEUE;
-        dateOfCreation = LocalDate.now();
+        dateOfCreation = LocalDateTime.now();
     }
 
     public int getId() {
@@ -116,11 +124,11 @@ public class Order {
         statusProp.set(status.toString());
     }
 
-    public LocalDate getDateOfCreation() {
+    public LocalDateTime getDateOfCreation() {
         return dateOfCreation;
     }
 
-    public void setDateOfCreation(LocalDate dateOfCreation) {
+    public void setDateOfCreation(LocalDateTime dateOfCreation) {
         this.dateOfCreation = dateOfCreation;
         dateProp.set(dateOfCreation.toString());
     }
@@ -130,15 +138,53 @@ public class Order {
     }
 
     public void setDishes(List<Dish> dishes) {
-        this.dishes = dishes;
+
+        dishes.forEach(this::addDish);
     }
 
-    public String getOrderOwner() {
+    public User getOrderOwner() {
         return orderOwner;
     }
 
-    public void setOrderOwner(String orderOwner) {
+    public void setOrderOwner(UserImpl orderOwner) {
         this.orderOwner = orderOwner;
+    }
+
+    public Map<Dish, Integer> getDishesCount() {
+        return dishesCount;
+    }
+
+    public void setDishesCount(Map<Dish, Integer> dishesCount) {
+        this.dishesCount = dishesCount;
+    }
+
+    public void addDish(Dish dish) {
+
+        if (dishes.contains(dish)) {
+            dishesCount.put(dish, dishesCount.get(dish) + 1);
+        } else {
+            dishes.add(dish);
+            dishesCount.put(dish, 1);
+        }
+    }
+
+    public void removeDish(Dish dish) {
+
+        if (!dishes.contains(dish)) return;
+
+        if (dishesCount.get(dish) > 1) {
+            dishesCount.put(dish, dishesCount.get(dish) - 1);
+        } else {
+            dishes.remove(dish);
+            dishesCount.remove(dish);
+        }
+    }
+
+    public int getDishCount(Dish dish) {
+
+        if (!dishesCount.containsKey(dish)) return 0;
+
+        return dishesCount.get(dish);
     }
 
     //------------------------------------

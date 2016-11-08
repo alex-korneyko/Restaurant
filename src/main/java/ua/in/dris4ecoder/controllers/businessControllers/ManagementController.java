@@ -5,6 +5,7 @@ import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +92,7 @@ public class ManagementController implements BusinessController {
         return  purchaseInvoiceRestaurantDao.findItemById(id);
     }
 
-    public List<PurchaseInvoice> findPurchaseInvoice(LocalDate fromDate, LocalDate toDate) {
+    public List<PurchaseInvoice> findPurchaseInvoice(LocalDateTime fromDate, LocalDateTime toDate) {
 
         return purchaseInvoiceRestaurantDao.findItem(fromDate, toDate);
     }

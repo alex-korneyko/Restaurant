@@ -8,9 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.User;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
+import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,14 +94,19 @@ public class HibernateUsersDao implements RestaurantDao<User> {
 
     @Override
     @Transactional
-    public List<User> findItem(LocalDate startPeriod, LocalDate endPeriod) {
+    public List<User> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 
     @Override
     @Transactional
+    @SuppressWarnings("JpaQlInspection")
     public List<User> findAll() {
-        return null;
+
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<User> query = currentSession.createQuery("select u from UserImpl u");
+
+        return query.list();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

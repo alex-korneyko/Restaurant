@@ -79,6 +79,12 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
         userRestaurantDao.removeItemByName(userLogin);
     }
 
+    @Override
+    public List<User> getAllUsers() {
+
+        return userRestaurantDao.findAll();
+    }
+
     public void setUserRestaurantDao(RestaurantDao<User> userRestaurantDao) {
         this.userRestaurantDao = userRestaurantDao;
     }

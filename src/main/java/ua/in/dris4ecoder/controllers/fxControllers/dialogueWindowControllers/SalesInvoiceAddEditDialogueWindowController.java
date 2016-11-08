@@ -139,7 +139,8 @@ public class SalesInvoiceAddEditDialogueWindowController implements AddEditContr
 
     private void autoPrice() {
         if (checkBoxAutoAmount.isSelected()) {
-            final double sum = ingredientsInCurrentInvoiceObservableList.stream().mapToDouble(Ingredient::getIngredientPriceOfWeight).sum();
+            final double sum = ingredientsInCurrentInvoiceObservableList.stream()
+                    .mapToDouble((ingredient) -> ingredient.getIngredientPriceOfWeight().doubleValue()).sum();
             textFieldAmount.setText(String.valueOf(sum));
         }
     }
