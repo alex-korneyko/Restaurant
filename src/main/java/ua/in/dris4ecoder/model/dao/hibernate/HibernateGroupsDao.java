@@ -21,8 +21,9 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
 
     @Override
     @Transactional
-    public void addItem(UserGroup item) {
+    public int addItem(UserGroup item) {
 
+        return 0;
     }
 
     @Override

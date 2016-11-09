@@ -1,6 +1,5 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
-import ua.in.dris4ecoder.model.businessObjects.User;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserRoles;
 

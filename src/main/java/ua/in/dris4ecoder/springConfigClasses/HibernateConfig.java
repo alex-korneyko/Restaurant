@@ -158,7 +158,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<User> userRestaurantDao(SessionFactory localSessionFactoryBean) {
+    RestaurantDao<UserImpl> userRestaurantDao(SessionFactory localSessionFactoryBean) {
 
         HibernateUsersDao userRestaurantDao = new HibernateUsersDao();
         userRestaurantDao.setSessionFactory(localSessionFactoryBean);

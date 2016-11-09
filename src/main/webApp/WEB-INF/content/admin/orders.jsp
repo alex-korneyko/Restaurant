@@ -112,21 +112,21 @@
                                 <c:if test="${order.orderOwner != null}">
                                     <script type="text/javascript">
                                         $(function (){
-                                            dropDownComboBoxScript('${order.orderOwner.userFullName}')
+                                            dropDownComboBoxScr('${order.orderOwner.userFullName}', '${order.orderOwner.userLogin}')
                                         });
                                     </script>
                                 </c:if>
                                 <input style="width: 320px" id="dropDownComboBox" type="button" data-toggle="dropdown"
                                        aria-haspopup="true" aria-expanded="false" class="btn btn-default"
                                 <c:if test="${order.orderOwner == null}"> value="Выберите..." </c:if>
-                                <c:if test="${order.orderOwner != null}"> value="${order.orderOwner.userSurName}" </c:if>
+                                <c:if test="${order.orderOwner != null}"> value="${order.orderOwner.userFullName}" </c:if>
                                 >
                                 <ul class="dropdown-menu" aria-labelledby="usersDropDown">
                                     <c:forEach items="${allUsers}" var="user">
                                         <li><a href="#" onclick="dropDownComboBoxScr('${user.userFullName}', '${user.userLogin}')">${user.userFullName}</a> </li>
                                     </c:forEach>
                                 </ul>
-                                <input type="hidden" name="selectedUserId" id="dropDownComboBoxSelectedValue" value="0">
+                                <input type="hidden" name="selectedUserId" id="dropDownComboBoxSelectedValue">
                             </div>
                         </div>
                     </div>
@@ -134,11 +134,11 @@
                     <div class="form-group">
                         <label for="desk" class="control-label col-sm-3">Столик:</label>
                         <div class="col-sm-2">
-                            <input id="desk" type="text" class="form-control" name="desk" value="0">
+                            <input id="desk" type="text" class="form-control" name="desk" value="${order.desk}">
                         </div>
                         <label for="deskOrder" class="control-label col-sm-2">№ заказа:</label>
                         <div class="col-sm-2">
-                            <input id="deskOrder" type="text" class="form-control" name="desk" value="0">
+                            <input id="deskOrder" type="text" class="form-control" name="deskOrder" value="0">
                         </div>
                     </div>
 
@@ -163,6 +163,12 @@
                                 <td><input type="checkbox" name="selectedDish${dish.id}" value="${dish.id}"></td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${order.dishes.size() > 0}">
+                            <tr>
+                                <td colspan="4">И того</td>
+                                <td colspan="2">${order.orderCost}</td>
+                            </tr>
+                        </c:if>
                     </table>
 
                     <div class="container">
@@ -177,7 +183,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" type="submit" name="saveOrderForm" <c:if test="${hideOk == true}">disabled="disabled"</c:if> >Ok</button>
+                    <button class="btn btn-primary" type="submit" name="saveOrderForm" <c:if test="${hideOk == true}">disabled="disabled"</c:if> >Ok</button>
                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

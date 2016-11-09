@@ -11,14 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationController;
 import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationControllerImpl;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
 import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationControllerImpl;
-import ua.in.dris4ecoder.model.businessObjects.User;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
+import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.jdbc.JdbcDaoImplWithDBSchemas;
 
@@ -95,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    UserRegistrationController userRegistrationController(RestaurantDao<User> userRestaurantDao,
+    UserRegistrationController userRegistrationController(RestaurantDao<UserImpl> userRestaurantDao,
                                                           @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao,
                                                           BCryptPasswordEncoder passwordEncoder) {
 

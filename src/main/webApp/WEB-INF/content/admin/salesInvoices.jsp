@@ -84,7 +84,7 @@
 
             <c:forEach items="${allInvoices}" var="invoice">
                 <tr>
-                    <td>${invoice.id}</td>
+                    <td><a href="${pageContext.request.contextPath}/admin/salesInvoices?invoice=${invoice.id}">${invoice.id}</a></td>
                     <td>${invoice.invoiceDate}</td>
                     <td>${invoice.contractor.nameWithHtmlQuot}</td>
                     <td>${invoice.order.id}</td>
@@ -189,7 +189,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" type="submit" name="saveInvoiceForm">Ok</button>
+                    <button class="btn btn-default" type="submit" name="saveInvoiceForm"
+                            <c:if test="${disableOk == true}">disabled="disabled"</c:if>>Ok
+                    </button>
                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

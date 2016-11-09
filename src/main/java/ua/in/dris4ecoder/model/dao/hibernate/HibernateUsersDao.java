@@ -6,11 +6,11 @@ import org.hibernate.query.Query;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
-import ua.in.dris4ecoder.model.businessObjects.User;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -19,16 +19,17 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 27.10.2016 19:27.
  */
-public class HibernateUsersDao implements RestaurantDao<User> {
+public class HibernateUsersDao implements RestaurantDao<UserImpl> {
 
     private SessionFactory sessionFactory;
 
     @Override
     @Transactional
-    public void addItem(User user) {
+    public int addItem(UserImpl user) {
 
         Session currentSession = sessionFactory.getCurrentSession();
         currentSession.save(user);
+        return 0;
     }
 
     @Override
@@ -50,31 +51,31 @@ public class HibernateUsersDao implements RestaurantDao<User> {
 
     @Override
     @Transactional
-    public void removeItem(User item) {
+    public void removeItem(UserImpl item) {
 
     }
 
     @Override
     @Transactional
-    public void editItem(int id, User changedItem) {
+    public void editItem(int id, UserImpl changedItem) {
 
         sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @Override
     @Transactional
-    public User findItemById(int id) {
+    public UserImpl findItemById(int id) {
         return null;
     }
 
     @Override
     @Transactional
-    public User findItem(String login) {
+    public UserImpl findItem(String login) {
 
         Session currentSession = sessionFactory.getCurrentSession();
 
         @SuppressWarnings("JpaQlInspection")
-        Query<User> query = currentSession.createQuery("select u from UserImpl u where u.userLogin = :login");
+        Query<UserImpl> query = currentSession.createQuery("select u from UserImpl u where u.userLogin = :login");
         query.setParameter("login", login);
 
         return query.uniqueResult();
@@ -82,29 +83,29 @@ public class HibernateUsersDao implements RestaurantDao<User> {
 
     @Override
     @Transactional
-    public User findItem(User item) {
+    public UserImpl findItem(UserImpl item) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<User> findItem(OrderDishStatus status) {
+    public List<UserImpl> findItem(OrderDishStatus status) {
         return null;
     }
 
     @Override
     @Transactional
-    public List<User> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
+    public List<UserImpl> findItem(LocalDateTime startPeriod, LocalDateTime endPeriod) {
         return null;
     }
 
     @Override
     @Transactional
     @SuppressWarnings("JpaQlInspection")
-    public List<User> findAll() {
+    public List<UserImpl> findAll() {
 
         Session currentSession = sessionFactory.getCurrentSession();
-        Query<User> query = currentSession.createQuery("select u from UserImpl u");
+        Query<UserImpl> query = currentSession.createQuery("select u from UserImpl u");
 
         return query.list();
     }

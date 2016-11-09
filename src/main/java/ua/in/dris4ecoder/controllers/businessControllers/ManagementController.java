@@ -117,7 +117,7 @@ public class ManagementController implements BusinessController {
 
         purchaseInvoiceRestaurantDao.removeItem(selectedItem);
 
-        return new WarehouseChangeResult(true, null, "Удачно");
+        return new WarehouseChangeResult(true);
     }
 
     //------------------------------------SalesInvoice----------------------------------------------
@@ -129,9 +129,9 @@ public class ManagementController implements BusinessController {
             if (!result.isChangeSuccessfully()) return result;
         }
 
-        salesInvoiceRestaurantDao.addItem(salesInvoice);
+        int id = salesInvoiceRestaurantDao.addItem(salesInvoice);
 
-        return new WarehouseChangeResult(true, null, "Удачно");
+        return new WarehouseChangeResult(true, id);
     }
 
     public WarehouseChangeResult editSalesInvoice (SalesInvoice salesInvoice, Stage controlledStage) {
@@ -143,7 +143,7 @@ public class ManagementController implements BusinessController {
 
         salesInvoiceRestaurantDao.editItem(salesInvoice.getId(), salesInvoice);
 
-        return new WarehouseChangeResult(true, null, "Успешно");
+        return new WarehouseChangeResult(true);
     }
 
     public SalesInvoice findSalesInvoice(int id) {

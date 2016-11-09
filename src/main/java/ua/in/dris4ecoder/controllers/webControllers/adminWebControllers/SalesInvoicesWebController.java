@@ -85,6 +85,14 @@ public class SalesInvoicesWebController {
             }
         }
 
+        if (params.containsKey("invoice")) {
+
+            SalesInvoice invoice = managementController.findSalesInvoice(Integer.parseInt(params.get("invoice")));
+            modelAndView.addObject("invoiceForEditing", invoice);
+            modelAndView.addObject("disableOk", true);
+            modelAndView.addObject("openEditWindow", true);
+        }
+
         //----------------- INGREDIENTS LIST -------------------------------------
 
         if (params.containsKey("addIngredient")) {

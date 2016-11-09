@@ -1,9 +1,8 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
-import ua.in.dris4ecoder.model.businessObjects.Order;
-import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.time.LocalDate;
@@ -18,9 +17,23 @@ public class ServiceController implements BusinessController {
     private RestaurantDao<Order> ordersDao;
     private RestaurantDao<KitchenProcess> kitchenProcessDao;
 
+    @Autowired
+    private ManagementController managementController;
+
     @Transactional
-    public void addOrder(Order order) {
-        ordersDao.addItem(order);
+    public WarehouseChangeResult addOrder(Order order) {
+
+        SalesInvoice salesInvoice = new SalesInvoice(true, order);
+        WarehouseChangeResult result = managementController.addSalesInvoice(salesInvoice, null);
+
+        if (result.isChangeSuccessfully()) {
+            int orderId = ordersDao.addItem(order);
+            salesInvoice = managementController.findSalesInvoice(result.getInvoiceId());
+            salesInvoice.setOrder(ordersDao.findItemById(orderId));
+            managementController.editSalesInvoice(salesInvoice, null);
+        }
+
+        return result;
     }
 
     @Transactional

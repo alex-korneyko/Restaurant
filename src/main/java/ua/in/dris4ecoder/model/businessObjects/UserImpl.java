@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Entity
 @Table(name = "security.users")
-public class UserImpl implements User{
+public class UserImpl {
 
     @Column(name = "name")
     private String userName;
@@ -44,58 +44,47 @@ public class UserImpl implements User{
     public UserImpl() {
     }
 
-    @Override
     public String getUserName() {
         return userName;
     }
 
-    @Override
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    @Override
     public String getUserSurName() {
         return userSurName;
     }
 
-    @Override
     public void setUserSurName(String userSurName) {
         this.userSurName = userSurName;
     }
 
-    @Override
     public String getUserFullName() {
 
         return this.userName + " " + this.userSurName;
     }
 
-    @Override
     public String getUserLogin() {
         return userLogin;
     }
 
-    @Override
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
     }
 
-    @Override
     public String getUserPass() {
         return userPass;
     }
 
-    @Override
     public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
 
-    @Override
     public boolean isEnabled() {
         return enabled;
     }
 
-    @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

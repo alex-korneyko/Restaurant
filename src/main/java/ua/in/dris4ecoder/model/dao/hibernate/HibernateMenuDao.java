@@ -18,8 +18,9 @@ public class HibernateMenuDao implements RestaurantDao<Menu> {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addItem(Menu item) {
+    public int addItem(Menu item) {
 
+        return 0;
     }
 
     @Override

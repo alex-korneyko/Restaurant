@@ -7,6 +7,7 @@ import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.WarehousePosition;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,8 +21,9 @@ public class HibernateWarehouseDao implements RestaurantDao<WarehousePosition> {
 
     @Override
     @Transactional
-    public void addItem(WarehousePosition item) {
-        sessionFactory.getCurrentSession().save(item);
+    public int addItem(WarehousePosition item) {
+        Serializable save = sessionFactory.getCurrentSession().save(item);
+        return ((int) save);
     }
 
     @Override

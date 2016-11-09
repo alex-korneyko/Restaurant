@@ -101,8 +101,15 @@ public abstract class Invoice implements BusinessObject {
 
     public void addIngredient(Ingredient ingredient) {
 
-        ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
-        ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
+        if (ingredientCostPerInvoice.containsKey(ingredient)) {
+            ingredientCostPerInvoice.put(ingredient, ingredientCostPerInvoice.get(ingredient) + ingredient.getIngredientPrice());
+            ingredientWeightPerInvoice.put(ingredient, ingredientWeightPerInvoice.get(ingredient) + ingredient.getIngredientWeight());
+        } else {
+            ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
+            ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
+        }
+
+        this.amountOfInvoice = getAmountOfInvoice();
     }
 
     public void removeIngredient(Ingredient ingredient) {

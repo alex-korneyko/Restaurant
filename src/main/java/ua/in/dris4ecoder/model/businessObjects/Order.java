@@ -70,9 +70,17 @@ public class Order {
     private SimpleStringProperty dateProp = new SimpleStringProperty();
 
     public Order() {
+        this.status = OrderDishStatus.EDITING;
+        dateOfCreation = LocalDateTime.now();
+    }
+
+    public Order(Employee employee) {
+        this();
+        this.employee = employee;
     }
 
     public Order(int id) {
+        this();
         this.id = id;
         if(id == 0) {
             this.employee = new Employee();
@@ -80,11 +88,8 @@ public class Order {
     }
 
     public Order(Employee employee, int desk) {
-        this.employee = employee;
+        this(employee);
         this.desk = desk;
-
-        status = OrderDishStatus.IN_QUEUE;
-        dateOfCreation = LocalDateTime.now();
     }
 
     public int getId() {
@@ -142,7 +147,7 @@ public class Order {
         dishes.forEach(this::addDish);
     }
 
-    public User getOrderOwner() {
+    public UserImpl getOrderOwner() {
         return orderOwner;
     }
 
@@ -185,6 +190,11 @@ public class Order {
         if (!dishesCount.containsKey(dish)) return 0;
 
         return dishesCount.get(dish);
+    }
+
+    public double getOrderCost() {
+
+        return dishes.stream().mapToDouble(dish -> dish.getPrice().doubleValue() * dishesCount.get(dish)).sum();
     }
 
     //------------------------------------

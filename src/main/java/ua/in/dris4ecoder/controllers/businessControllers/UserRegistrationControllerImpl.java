@@ -1,7 +1,6 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ua.in.dris4ecoder.model.businessObjects.User;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -16,17 +15,17 @@ import java.util.Map;
  */
 public class UserRegistrationControllerImpl implements UserRegistrationController {
 
-    private RestaurantDao<User> userRestaurantDao;
+    private RestaurantDao<UserImpl> userRestaurantDao;
     private RestaurantDao<UserGroup> userGroupRestaurantDao;
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public void validateUser(User user) {
+    public void validateUser(UserImpl user) {
 
     }
 
     @Override
-    public void addUser(User user) {
+    public void addUser(UserImpl user) {
 
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
         userRestaurantDao.addItem(user);
@@ -35,7 +34,7 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     @Override
     public void addUser(Map<String, String> userData) {
 
-        User user = new UserImpl();
+        UserImpl user = new UserImpl();
         user.setUserName(userData.get("userName"));
         user.setUserSurName(userData.get("userSurName"));
         user.setUserLogin(userData.get("userLogin"));
@@ -47,7 +46,7 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     }
 
     @Override
-    public void editUser(User user) {
+    public void editUser(UserImpl user) {
 
         if (user.getUserPass().length() < 50) {
             user.setUserPass(passwordEncoder.encode(user.getUserPass()));
@@ -57,19 +56,19 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     }
 
     @Override
-    public User findUser(User user) {
+    public UserImpl findUser(UserImpl user) {
 
         return user;
     }
 
     @Override
-    public User findUser(String userLogin) {
+    public UserImpl findUser(String userLogin) {
 
         return userRestaurantDao.findItem(userLogin);
     }
 
     @Override
-    public void removeUser(User user) {
+    public void removeUser(UserImpl user) {
 
     }
 
@@ -80,12 +79,12 @@ public class UserRegistrationControllerImpl implements UserRegistrationControlle
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserImpl> getAllUsers() {
 
         return userRestaurantDao.findAll();
     }
 
-    public void setUserRestaurantDao(RestaurantDao<User> userRestaurantDao) {
+    public void setUserRestaurantDao(RestaurantDao<UserImpl> userRestaurantDao) {
         this.userRestaurantDao = userRestaurantDao;
     }
 

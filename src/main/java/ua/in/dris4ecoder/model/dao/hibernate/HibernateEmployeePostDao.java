@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -22,10 +23,11 @@ public class HibernateEmployeePostDao implements RestaurantDao<EmployeePost> {
 
     @Override
     @Transactional
-    public void addItem(EmployeePost item) {
+    public int addItem(EmployeePost item) {
 
         Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.save(item);
+        Serializable save = currentSession.save(item);
+        return ((int) save);
     }
 
     @Override

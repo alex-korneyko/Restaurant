@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.Employee;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -22,10 +23,11 @@ public class HibernateEmployeeDao implements RestaurantDao<Employee> {
 
     @Override
     @Transactional
-    public void addItem(Employee item) {
+    public int addItem(Employee item) {
 
         Session currentSession = sessionFactory.getCurrentSession();
-        currentSession.save(item);
+        Serializable save = currentSession.save(item);
+        return ((int) save);
     }
 
     @Override
@@ -66,10 +68,15 @@ public class HibernateEmployeeDao implements RestaurantDao<Employee> {
         return sessionFactory.getCurrentSession().find(Employee.class, id);
     }
 
+    @SuppressWarnings("JpaQlInspection")
     @Override
     @Transactional
     public Employee findItem(String name) {
-        return null;
+
+        Session currentSession = sessionFactory.getCurrentSession();
+        Query<Employee> query = currentSession.createQuery("select e from Employee e where e.user.userLogin = :name");
+        query.setParameter("name", name);
+        return query.uniqueResult();
     }
 
     @Override

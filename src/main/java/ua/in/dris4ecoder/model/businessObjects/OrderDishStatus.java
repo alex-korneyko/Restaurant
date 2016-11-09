@@ -5,6 +5,7 @@ package ua.in.dris4ecoder.model.businessObjects;
  */
 public enum OrderDishStatus {
 
+    EDITING, /*редактируется*/
     IN_QUEUE, /*в очереди*/
     IN_PROCESS, /*выполняется на кухне*/
     PREPARED, /*выполнен на кухне*/
@@ -14,10 +15,11 @@ public enum OrderDishStatus {
     public String toString() {
 
         switch (this) {
-            case IN_QUEUE: return "in queue";
-            case IN_PROCESS: return "in process";
-            case PREPARED: return "prepared";
-            case CLOSED: return "closed";
+            case EDITING: return "Редактирование";
+            case IN_QUEUE: return "В очереди";
+            case IN_PROCESS: return "Выполняется";
+            case PREPARED: return "Готов";
+            case CLOSED: return "Выдан";
             default: throw new IllegalArgumentException();
         }
     }

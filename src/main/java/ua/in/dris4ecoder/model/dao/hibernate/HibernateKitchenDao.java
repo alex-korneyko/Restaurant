@@ -17,8 +17,9 @@ public class HibernateKitchenDao implements RestaurantDao<KitchenProcess> {
     SessionFactory sessionFactory;
 
     @Override
-    public void addItem(KitchenProcess item) {
+    public int addItem(KitchenProcess item) {
 
+        return 0;
     }
 
     @Override

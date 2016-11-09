@@ -1,9 +1,6 @@
 package ua.in.dris4ecoder.model.dao;
 
-import ua.in.dris4ecoder.model.businessObjects.Dish;
-import ua.in.dris4ecoder.model.businessObjects.Employee;
-import ua.in.dris4ecoder.model.businessObjects.KitchenProcess;
-import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
+import ua.in.dris4ecoder.model.businessObjects.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +11,7 @@ import java.util.List;
  */
 public interface RestaurantDao<T> {
 
-    void addItem(T item);
+    int addItem(T item);
 
     void removeItemById(int id);
 

@@ -20,8 +20,9 @@ public class HibernateUnitsDao implements RestaurantDao<Unit> {
     SessionFactory sessionFactory;
 
     @Override
-    public void addItem(Unit item) {
+    public int addItem(Unit item) {
 
+        return 0;
     }
 
     @Override

@@ -7,6 +7,7 @@ import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,11 +24,12 @@ public class HibernateIngredientDao implements RestaurantDao<Ingredient> {
     private SessionFactory sessionFactory;
 
     @Override
-    public void addItem(Ingredient item) {
+    public int addItem(Ingredient item) {
 
         Set<Ingredient> ingredients = new HashSet<>(findAll());
         if (!ingredients.contains(item)) {
-            sessionFactory.getCurrentSession().save(item);
+            Serializable save = sessionFactory.getCurrentSession().save(item);
+            return ((int) save);
         } else {
             throw new RuntimeException("Object already exist: " + item.toString());
         }

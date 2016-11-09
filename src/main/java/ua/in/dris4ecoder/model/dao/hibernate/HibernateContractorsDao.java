@@ -8,6 +8,7 @@ import ua.in.dris4ecoder.model.businessObjects.Contractor;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,10 +24,11 @@ public class HibernateContractorsDao implements RestaurantDao<Contractor> {
 
     @Override
     @Transactional
-    public void addItem(Contractor item) {
+    public int addItem(Contractor item) {
         Set<Contractor> contractors = new HashSet<>(findAll());
         if(!contractors.contains(item)) {
-            sessionFactory.getCurrentSession().save(item);
+            Serializable save = sessionFactory.getCurrentSession().save(item);
+            return ((int) save);
         } else {
             throw new RuntimeException("Object already exist: " + item.toString());
         }

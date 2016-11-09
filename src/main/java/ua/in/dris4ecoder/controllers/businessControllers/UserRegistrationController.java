@@ -1,7 +1,7 @@
 package ua.in.dris4ecoder.controllers.businessControllers;
 
 import org.hibernate.SessionFactory;
-import ua.in.dris4ecoder.model.businessObjects.User;
+import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -11,21 +11,21 @@ import java.util.Map;
  */
 public interface UserRegistrationController{
 
-    void validateUser(User user);
+    void validateUser(UserImpl user);
 
-    void addUser(User user);
+    void addUser(UserImpl user);
 
     void addUser(Map<String, String> userData);
 
-    void editUser(User user);
+    void editUser(UserImpl user);
 
-    User findUser(User user);
+    UserImpl findUser(UserImpl user);
 
-    User findUser(String userLogin);
+    UserImpl findUser(String userLogin);
 
-    void removeUser(User user);
+    void removeUser(UserImpl user);
 
     void removeUser(String userLogin);
 
-    List<User> getAllUsers();
+    List<UserImpl> getAllUsers();
 }

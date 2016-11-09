@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import javax.persistence.*;
+import java.util.Map;
 
 /**
  * Created by Alex Korneyko on 30.08.2016 13:00.
@@ -35,7 +36,20 @@ public class SalesInvoice extends Invoice {
 
     public SalesInvoice(boolean autoPrice, Order order) {
         this(autoPrice);
-        this.order = order;
+        fillInvoice(order);
+    }
+
+    private void fillInvoice(Order order) {
+
+        Map<Dish, Integer> dishesCount = order.getDishesCount();
+
+        for(Dish dish: dishesCount.keySet()) {
+            for(Ingredient ingredient: dish.getIngredients()) {
+                for (int i = dishesCount.get(dish); i > 0; i--) {
+                    addIngredient(dish.getIngredientWithParamsInDish(ingredient));
+                }
+            }
+        }
     }
 
     public Order getOrder() {

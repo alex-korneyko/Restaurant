@@ -21,8 +21,9 @@ public class HibernateCurrenciesDao implements RestaurantDao<Currency>, Currency
     SessionFactory sessionFactory;
 
     @Override
-    public void addItem(Currency item) {
+    public int addItem(Currency item) {
 
+        return 0;
     }
 
     @Override

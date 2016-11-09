@@ -162,6 +162,11 @@ public class StaffController implements BusinessController {
         this.groupsRegistrationController = groupsRegistrationController;
     }
 
+    public Employee findEmployeeByUserName(String name) {
+
+        return employeeDao.findItem(name);
+    }
+
     public String validateEmployeeFormData(Map<String, String> params) {
 
         if (params.get("employeeId").equals("") && (params.get("userPass1").length() == 0 || params.get("userPass2").length() == 0)) {

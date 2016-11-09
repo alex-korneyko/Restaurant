@@ -6,6 +6,7 @@ import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.SalesInvoice;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,9 +20,10 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
 
     @Override
     @Transactional
-    public void addItem(SalesInvoice item) {
+    public int addItem(SalesInvoice item) {
 
-        sessionFactory.getCurrentSession().save(item);
+        Serializable save = sessionFactory.getCurrentSession().save(item);
+        return ((int) save);
     }
 
     @Override
