@@ -122,28 +122,33 @@ public class ManagementController implements BusinessController {
 
     //------------------------------------SalesInvoice----------------------------------------------
 
-    public WarehouseChangeResult addSalesInvoice(SalesInvoice salesInvoice, Stage controlledStage) {
+    public WarehouseChangeResult addSalesInvoice(SalesInvoice salesInvoice, boolean saveInvoiceInDB) {
 
         for (Ingredient ingredient : salesInvoice.getIngredients()) {
             WarehouseChangeResult result = decreaseAmount(ingredient);
             if (!result.isChangeSuccessfully()) return result;
         }
 
-        int id = salesInvoiceRestaurantDao.addItem(salesInvoice);
+        int invoiceId = 0;
 
-        return new WarehouseChangeResult(true, id);
-    }
-
-    public WarehouseChangeResult editSalesInvoice (SalesInvoice salesInvoice, Stage controlledStage) {
-
-        for (Ingredient ingredient: salesInvoice.getIngredients()) {
-            WarehouseChangeResult result = decreaseAmount(ingredient);
-            if (!result.isChangeSuccessfully()) return result;
+        if (saveInvoiceInDB) {
+            invoiceId = salesInvoiceRestaurantDao.addItem(salesInvoice);
         }
 
-        salesInvoiceRestaurantDao.editItem(salesInvoice.getId(), salesInvoice);
+        return new WarehouseChangeResult(true, invoiceId);
+    }
 
-        return new WarehouseChangeResult(true);
+    public WarehouseChangeResult editSalesInvoice (SalesInvoice salesInvoice, boolean saveChangedInvoiceToDb) {
+
+        SalesInvoice differenceOfSalesInvoice = new SalesInvoice();
+        differenceOfSalesInvoice.setIngredients(subtractionWeightsOfCollectionsOfIngredients(salesInvoice));
+        WarehouseChangeResult warehouseChangeResult = addSalesInvoice(differenceOfSalesInvoice, false);
+
+        if (saveChangedInvoiceToDb) {
+            salesInvoiceRestaurantDao.editItem(salesInvoice.getId(), salesInvoice);
+        }
+
+        return warehouseChangeResult;
     }
 
     public SalesInvoice findSalesInvoice(int id) {
@@ -155,18 +160,18 @@ public class ManagementController implements BusinessController {
         return salesInvoiceRestaurantDao.findAll();
     }
 
-    public WarehouseChangeResult removeSalesInvoice(int invoiceId) {
+    public WarehouseChangeResult removeSalesInvoice(int invoiceId, boolean deleteInvoiceInDB) {
 
         SalesInvoice itemById = salesInvoiceRestaurantDao.findItemById(invoiceId);
 
         if (itemById != null) {
-            return removeSalesInvoice(itemById, null);
+            return removeSalesInvoice(itemById, deleteInvoiceInDB);
         } else {
             return new WarehouseChangeResult(false, null, "Накладная не найдена");
         }
     }
 
-    public WarehouseChangeResult removeSalesInvoice(SalesInvoice selectedItem, Stage controlledStage) {
+    public WarehouseChangeResult removeSalesInvoice(SalesInvoice selectedItem, boolean deleteInvoiceInDB) {
 
         for (Ingredient ingredient: selectedItem.getIngredients()) {
 
@@ -174,7 +179,9 @@ public class ManagementController implements BusinessController {
             if (!result.isChangeSuccessfully()) return result;
         }
 
-        salesInvoiceRestaurantDao.removeItem(selectedItem);
+        if (deleteInvoiceInDB) {
+            salesInvoiceRestaurantDao.removeItem(selectedItem);
+        }
 
         return new WarehouseChangeResult(true, null, "Удачно");
     }
@@ -209,7 +216,7 @@ public class ManagementController implements BusinessController {
         return result;
     }
 
-    public WarehouseChangeResult decreaseAmount(Ingredient ingredient) {
+    private WarehouseChangeResult decreaseAmount(Ingredient ingredient) {
 
         WarehouseChangeResult result = new WarehouseChangeResult();
 

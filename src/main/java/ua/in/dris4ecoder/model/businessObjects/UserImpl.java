@@ -33,7 +33,7 @@ public class UserImpl {
     private boolean enabled;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @Fetch(value = FetchMode.JOIN)
+    @Fetch(value = FetchMode.SELECT)
     @JoinTable(
             name = "security.group_members",
             joinColumns = @JoinColumn(name = "username"),

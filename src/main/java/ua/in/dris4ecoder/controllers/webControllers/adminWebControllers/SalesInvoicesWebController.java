@@ -73,7 +73,7 @@ public class SalesInvoicesWebController {
             List<WarehouseChangeResult> results = new ArrayList<>();
 
             for (Integer selectedId : selectedIds) {
-                WarehouseChangeResult result = managementController.removeSalesInvoice(selectedId);
+                WarehouseChangeResult result = managementController.removeSalesInvoice(selectedId, true);
                 if (!result.isChangeSuccessfully()) {
                     results.add(result);
                 }
@@ -176,9 +176,9 @@ public class SalesInvoicesWebController {
             WarehouseChangeResult result;
 
             if (salesInvoice.getId() == 0) {
-                result = managementController.addSalesInvoice(salesInvoice, null);
+                result = managementController.addSalesInvoice(salesInvoice, true);
             } else {
-                result = managementController.editSalesInvoice(salesInvoice, null);
+                result = managementController.editSalesInvoice(salesInvoice, true);
             }
 
             if (!result.isChangeSuccessfully()) {

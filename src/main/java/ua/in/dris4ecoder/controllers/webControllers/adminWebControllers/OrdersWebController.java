@@ -10,7 +10,9 @@ import ua.in.dris4ecoder.model.businessObjects.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alex Korneyko on 07.11.2016 21:58.
@@ -49,7 +51,43 @@ public class OrdersWebController {
 
         if (params.containsKey("edit")) {
 
+            List<String> selected = params.keySet().stream()
+                    .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
+                    .collect(Collectors.toList());
+
+            if (selected.size() != 1) {
+                modelAndView.addObject("errorMessage", "Нужно выбрать один заказ");
+            } else {
+                int orderId = Integer.parseInt(params.get(selected.get(0)));
+                order = serviceController.findOrder(orderId);
+
+                modelAndView.addObject("openNewOrderWindow", true);
+            }
+        }
+
+        if (params.containsKey("delete")) {
+
+            List<Integer> selectedIds = params.keySet().stream()
+                    .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
+                    .map(s -> Integer.parseInt(params.get(s))).collect(Collectors.toList());
+
+            for (Integer id : selectedIds) {
+                Order order = serviceController.findOrder(id);
+                if (order.getStatus() == OrderDishStatus.IN_QUEUE) {
+                    serviceController.removeOrder(id);
+                } else {
+                    modelAndView.addObject("errorMessage", "Заказ " + order.getStatus().toString() + ". Удаление невозможно");
+                }
+            }
+        }
+
+        if (params.containsKey("orderInfo")) {
+
+            order = serviceController.findOrder(Integer.parseInt(params.get("orderInfo")));
+
             modelAndView.addObject("order", order);
+            modelAndView.addObject("disableOk");
+            modelAndView.addObject("openNewOrderWindow", true);
         }
 
         //----------------- DISHES LIST DIALOG ----------------------------------
@@ -62,6 +100,25 @@ public class OrdersWebController {
             modelAndView.addObject("openDishesSelectWindow", true);
         }
 
+        if (params.containsKey("editDish")) {
+
+            List<Integer> dishIds = params.keySet().stream()
+                    .filter(key -> key.length() > 12 && key.substring(0, 12).equals("selectedDish"))
+                    .map(key -> Integer.parseInt(params.get(key))).collect(Collectors.toList());
+
+            if (!dishIds.isEmpty()) {
+
+                Dish dish = instrumentsController.findDish(dishIds.get(0));
+                int dishCount = order.getDishCount(dish);
+                order.removeDish(dish);
+
+                modelAndView.addObject("dishCount", dishCount);
+                modelAndView.addObject("paramsForDish", dish);
+                modelAndView.addObject("openNewOrderWindow", true);
+                modelAndView.addObject("openDishesCountWindow", true);
+            }
+        }
+
 
         //----------------- DISH PARAMS DIALOGUE WINDOWS -------------------------------------
 
@@ -70,6 +127,7 @@ public class OrdersWebController {
             Dish dish = instrumentsController.findDish(Integer.parseInt(params.get("clickDish")));
 
             modelAndView.addObject("paramsForDish", dish);
+            modelAndView.addObject("dishCount", 1);
             modelAndView.addObject("openNewOrderWindow", true);
             modelAndView.addObject("openDishesCountWindow", true);
         }
@@ -78,9 +136,11 @@ public class OrdersWebController {
 
             int count = Integer.parseInt(params.get("dishCount"));
 
+            Dish selectedDishForOrder = instrumentsController.findDish(Integer.parseInt(params.get("selectedDishForOrder")));
+            order.deleteDish(selectedDishForOrder);
+
             while (count > 0) {
-                Dish dish = instrumentsController.findDish(Integer.parseInt(params.get("selectedDishForOrder")));
-                order.addDish(dish);
+                order.addDish(selectedDishForOrder);
                 count--;
             }
 

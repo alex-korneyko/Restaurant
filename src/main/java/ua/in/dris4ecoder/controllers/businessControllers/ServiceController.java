@@ -24,13 +24,11 @@ public class ServiceController implements BusinessController {
     public WarehouseChangeResult addOrder(Order order) {
 
         SalesInvoice salesInvoice = new SalesInvoice(true, order);
-        WarehouseChangeResult result = managementController.addSalesInvoice(salesInvoice, null);
+        WarehouseChangeResult result = managementController.addSalesInvoice(salesInvoice, false);
 
         if (result.isChangeSuccessfully()) {
-            int orderId = ordersDao.addItem(order);
-            salesInvoice = managementController.findSalesInvoice(result.getInvoiceId());
-            salesInvoice.setOrder(ordersDao.findItemById(orderId));
-            managementController.editSalesInvoice(salesInvoice, null);
+            order.addSalesInvoice(salesInvoice);
+            ordersDao.addItem(order);
         }
 
         return result;
@@ -38,11 +36,10 @@ public class ServiceController implements BusinessController {
 
     @Transactional
     public void removeOrder(Order order) {
-        if (order.getStatus() == OrderDishStatus.IN_QUEUE) {
-            ordersDao.removeItemById(order.getId());
-        } else {
-            throw new RuntimeException("Order already " + order.getStatus().toString());
-        }
+
+        managementController.removeSalesInvoice(order.getSalesInvoice().getId(), false);
+
+        ordersDao.removeItem(order);
     }
 
     @Transactional
@@ -67,13 +64,14 @@ public class ServiceController implements BusinessController {
         return ordersDao.findItem(start, end);
     }
 
-    @Transactional
     public void editOrder(Order order) {
-        if (order.getStatus() == OrderDishStatus.IN_QUEUE) {
-            ordersDao.editItem(order.getId(), order);
-        } else {
-            throw new RuntimeException("Order already " + order.getStatus().toString());
-        }
+
+        SalesInvoice salesInvoice = new SalesInvoice(true, order);
+        salesInvoice.setId(order.getSalesInvoice().getId());
+        order.addSalesInvoice(salesInvoice);
+        managementController.editSalesInvoice(salesInvoice, false);
+
+        ordersDao.editItem(order.getId(), order);
     }
 
     public List<Order> getAllOrders() {

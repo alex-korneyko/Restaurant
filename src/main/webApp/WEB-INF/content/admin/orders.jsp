@@ -81,7 +81,7 @@
             </tr>
             <c:forEach items="${allOrders}" var="order">
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/admin/orders?orderInfoWindow=${order.id}">${order.id}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/admin/orders?orderInfo=${order.id}">${order.id}</a></td>
                     <td><a href="${pageContext.request.contextPath}/admin/employees/?employeeInfoWindow=${order.employee.user.userLogin}">
                     ${order.employee.firstName} ${order.employee.lastName}</a></td>
                     <td>${order.desk}</td>
@@ -239,7 +239,7 @@
                      <div class="form-group">
                          <label for="dishCount" class="control-label col-sm-3">Количество:</label>
                          <div class="col-sm-2">
-                             <input id="dishCount" type="text" class="form-control" name="dishCount" value="1">
+                             <input id="dishCount" type="text" class="form-control" name="dishCount" value="${dishCount}">
                          </div>
                      </div>
                  </div>

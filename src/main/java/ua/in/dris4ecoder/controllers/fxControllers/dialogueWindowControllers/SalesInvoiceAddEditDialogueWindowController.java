@@ -50,10 +50,10 @@ public class SalesInvoiceAddEditDialogueWindowController implements AddEditContr
         if (salesInvoice == null) {
             salesInvoice = new SalesInvoice();
             fillInvoice();
-            Main.getManagementController().addSalesInvoice(salesInvoice, controlledStage);
+            Main.getManagementController().addSalesInvoice(salesInvoice, true);
         } else {
             fillInvoice();
-            Main.getManagementController().editSalesInvoice(salesInvoice, controlledStage);
+            Main.getManagementController().editSalesInvoice(salesInvoice, true);
         }
 
         invoicesObservableList.clear();

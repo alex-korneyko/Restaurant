@@ -43,13 +43,13 @@ public class Order {
     private UserImpl orderOwner;
 
     @ManyToMany
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "service.order_composition",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id")
     )
-    private List<Dish> dishes = new ArrayList<>();
+    private Set<Dish> dishes = new HashSet<>();
 
     @ElementCollection
     @CollectionTable(name = "service.order_dish_counts")
@@ -57,6 +57,9 @@ public class Order {
     @Column(name = "dish_count")
     @Fetch(FetchMode.JOIN)
     private Map<Dish, Integer> dishesCount = new HashMap<>();
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private SalesInvoice salesInvoice;
 
     @Transient
     private SimpleIntegerProperty idProp = new SimpleIntegerProperty();
@@ -72,6 +75,7 @@ public class Order {
     public Order() {
         this.status = OrderDishStatus.EDITING;
         dateOfCreation = LocalDateTime.now();
+
     }
 
     public Order(Employee employee) {
@@ -138,7 +142,7 @@ public class Order {
         dateProp.set(dateOfCreation.toString());
     }
 
-    public List<Dish> getDishes() {
+    public Set<Dish> getDishes() {
         return dishes;
     }
 
@@ -180,9 +184,16 @@ public class Order {
         if (dishesCount.get(dish) > 1) {
             dishesCount.put(dish, dishesCount.get(dish) - 1);
         } else {
-            dishes.remove(dish);
-            dishesCount.remove(dish);
+            deleteDish(dish);
         }
+    }
+
+    public void deleteDish(Dish dish) {
+
+        if (!dishes.contains(dish)) return;
+
+        dishes.remove(dish);
+        dishesCount.remove(dish);
     }
 
     public int getDishCount(Dish dish) {
@@ -197,8 +208,27 @@ public class Order {
         return dishes.stream().mapToDouble(dish -> dish.getPrice().doubleValue() * dishesCount.get(dish)).sum();
     }
 
-    //------------------------------------
+    public SalesInvoice getSalesInvoice() {
 
+        return salesInvoice;
+    }
+
+    public void addSalesInvoice(SalesInvoice salesInvoice) {
+
+        salesInvoice.setOrder(this);
+        this.salesInvoice = salesInvoice;
+    }
+
+    public void removeSalesInvoice() {
+
+        if (salesInvoice != null) {
+            salesInvoice.setOrder(null);
+            this.salesInvoice = null;
+        }
+    }
+
+
+    //------------------------------------
 
     public SimpleIntegerProperty idPropProperty() {
         idProp.set(id);
@@ -225,8 +255,8 @@ public class Order {
         return dateProp;
     }
 
-    //----------------------------------------
 
+    //----------------------------------------
 
     @Override
     public String toString() {

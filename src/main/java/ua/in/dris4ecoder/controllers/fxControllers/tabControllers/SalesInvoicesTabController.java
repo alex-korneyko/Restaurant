@@ -51,7 +51,7 @@ public class SalesInvoicesTabController implements TabController<SalesInvoice> {
             return;
 
         final SalesInvoice selectedItem = tableView.getSelectionModel().getSelectedItem();
-        Main.getManagementController().removeSalesInvoice(selectedItem, mainStage);
+        Main.getManagementController().removeSalesInvoice(selectedItem, true);
         getAllAction(actionEvent);
     }
 

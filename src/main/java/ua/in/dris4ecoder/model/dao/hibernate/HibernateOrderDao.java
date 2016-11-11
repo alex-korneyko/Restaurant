@@ -30,8 +30,8 @@ public class HibernateOrderDao implements RestaurantDao<Order> {
     public int addItem(Order item) {
         Set<Order> orders = new HashSet<>(findAll());
         if (!orders.contains(item)) {
-            Serializable save = sessionFactory.getCurrentSession().save(item);
-            return ((int) save);
+            sessionFactory.getCurrentSession().persist(item);
+            return (0);
         } else {
             throw new RuntimeException("Object already exist: " + item.toString());
         }
@@ -55,7 +55,7 @@ public class HibernateOrderDao implements RestaurantDao<Order> {
     @Override
     @Transactional
     public void removeItem(Order item) {
-        sessionFactory.getCurrentSession().remove(item);
+        sessionFactory.getCurrentSession().delete(item);
     }
 
     @Override

@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
 import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
-import ua.in.dris4ecoder.model.businessObjects.Contractor;
-import ua.in.dris4ecoder.model.businessObjects.Ingredient;
-import ua.in.dris4ecoder.model.businessObjects.PurchaseInvoice;
-import ua.in.dris4ecoder.model.businessObjects.WarehouseChangeResult;
+import ua.in.dris4ecoder.model.businessObjects.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -84,6 +81,14 @@ public class PurchaseInvoiceWebController {
                 modelAndView.addObject("error", true);
                 modelAndView.addObject("errorMessage", "Не удалось удалить некоторые накладные");
             }
+        }
+
+        if (params.containsKey("invoiceInfo")) {
+
+            PurchaseInvoice invoice = managementController.findPurchaseInvoice(Integer.parseInt(params.get("invoiceInfo")));
+            modelAndView.addObject("invoiceForEditing", invoice);
+            modelAndView.addObject("openEditWindow", true);
+            modelAndView.addObject("disableOk", true);
         }
 
         //----------------- INGREDIENTS LIST -------------------------------------

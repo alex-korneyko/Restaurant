@@ -102,6 +102,7 @@ public abstract class Invoice implements BusinessObject {
     public void addIngredient(Ingredient ingredient) {
 
         if (ingredientCostPerInvoice.containsKey(ingredient)) {
+            // TODO: 11.11.2016 не правильно расчитывается цена ингредиента при его добавлении, если он уже есть в накладной
             ingredientCostPerInvoice.put(ingredient, ingredientCostPerInvoice.get(ingredient) + ingredient.getIngredientPrice());
             ingredientWeightPerInvoice.put(ingredient, ingredientWeightPerInvoice.get(ingredient) + ingredient.getIngredientWeight());
         } else {

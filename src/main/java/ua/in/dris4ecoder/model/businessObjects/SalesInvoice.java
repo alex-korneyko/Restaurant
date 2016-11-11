@@ -14,7 +14,7 @@ import java.util.Map;
 @PrimaryKeyJoinColumn(name = "invoice_id", referencedColumnName = "id")
 public class SalesInvoice extends Invoice {
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
     private Order order;
 
