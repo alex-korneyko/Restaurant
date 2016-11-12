@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 
 import ua.in.dris4ecoder.Main;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 /**
  * Created by Alex Korneyko on 28.07.2016 19:09.
  */
-public class StaffController implements BusinessController {
+public class StaffService implements BusinessService {
 
     private RestaurantDao<EmployeePost> employeePostsDao;
     private RestaurantDao<Employee> employeeDao;
-    private UserRegistrationController userRegistrationController;
-    private GroupsRegistrationController groupsRegistrationController;
+    private UserRegistrationService userRegistrationService;
+    private GroupsRegistrationService groupsRegistrationService;
 
     public void addEmployeePost(String name) {
         employeePostsDao.addItem(new EmployeePost(name));
@@ -57,7 +57,7 @@ public class StaffController implements BusinessController {
 
     public void addEmployee(Employee employee) {
 
-        userRegistrationController.addUser(employee.getUser());
+        userRegistrationService.addUser(employee.getUser());
         employeeDao.addItem(employee);
     }
 
@@ -100,7 +100,7 @@ public class StaffController implements BusinessController {
 
         List<UserGroup> userGroups = new ArrayList<>();
 
-        selectedGroups.forEach(s -> userGroups.add(groupsRegistrationController.findUserGroup(Integer.parseInt(params.get(s)))));
+        selectedGroups.forEach(s -> userGroups.add(groupsRegistrationService.findUserGroup(Integer.parseInt(params.get(s)))));
 
         employee.getUser().setUserName(params.get("userName"));
         employee.getUser().setUserSurName(params.get("userSurName"));
@@ -116,11 +116,11 @@ public class StaffController implements BusinessController {
     public void removeEmployee(int id) {
         Employee employee = employeeDao.findItemById(id);
         employeeDao.removeItemById(id);
-        userRegistrationController.removeUser(employee.getUser().getUserLogin());
+        userRegistrationService.removeUser(employee.getUser().getUserLogin());
     }
 
     public void editEmployee(int id, Employee changedEmployee) {
-        userRegistrationController.editUser(changedEmployee.getUser());
+        userRegistrationService.editUser(changedEmployee.getUser());
         employeeDao.editItem(id, changedEmployee);
     }
 
@@ -154,12 +154,12 @@ public class StaffController implements BusinessController {
         this.employeePostsDao = employeePostsDao;
     }
 
-    public void setUserRegistrationController(UserRegistrationController userRegistrationController) {
-        this.userRegistrationController = userRegistrationController;
+    public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
     }
 
-    public void setGroupsRegistrationController(GroupsRegistrationController groupsRegistrationController) {
-        this.groupsRegistrationController = groupsRegistrationController;
+    public void setGroupsRegistrationService(GroupsRegistrationService groupsRegistrationService) {
+        this.groupsRegistrationService = groupsRegistrationService;
     }
 
     public Employee findEmployeeByUserName(String name) {
@@ -185,7 +185,7 @@ public class StaffController implements BusinessController {
                 return "Некоторые поля не заполнены (" + s + ")";
         }
 
-        if (params.get("employeeId").isEmpty() && userRegistrationController.findUser(params.get("userLogin")) != null) {
+        if (params.get("employeeId").isEmpty() && userRegistrationService.findUser(params.get("userLogin")) != null) {
             return "Пользователь с логином '" + params.get("userLogin") + "' уже существует";
         }
 

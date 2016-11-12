@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserRoles;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 01.11.2016 21:07.
  */
-public class GroupsRegistrationControllerImpl implements GroupsRegistrationController {
+public class GroupsRegistrationServiceImpl implements GroupsRegistrationService {
 
     private RestaurantDao<UserGroup> userGroupRestaurantDao;
 

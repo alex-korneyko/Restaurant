@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
+import ua.in.dris4ecoder.model.businessServices.InstrumentsService;
+import ua.in.dris4ecoder.model.businessServices.ManagementService;
 import ua.in.dris4ecoder.model.businessObjects.*;
 
 import java.time.LocalDate;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Alex Korneyko on 05.11.2016 11:32.
@@ -23,10 +22,10 @@ import java.util.stream.Stream;
 public class PurchaseInvoiceWebController {
 
     @Autowired
-    ManagementController managementController;
+    ManagementService managementController;
 
     @Autowired
-    InstrumentsController instrumentsController;
+    InstrumentsService instrumentsController;
 
     private PurchaseInvoice purchaseInvoice;
 

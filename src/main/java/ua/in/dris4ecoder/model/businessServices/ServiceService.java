@@ -1,24 +1,23 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
  * Created by Alex Korneyko on 04.08.2016 10:55.
  */
-public class ServiceController implements BusinessController {
+public class ServiceService implements BusinessService {
 
     private RestaurantDao<Order> ordersDao;
     private RestaurantDao<KitchenProcess> kitchenProcessDao;
 
     @Autowired
-    private ManagementController managementController;
+    private ManagementService managementController;
 
     @Transactional
     public WarehouseChangeResult addOrder(Order order) {

@@ -1,15 +1,14 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserRoles;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Alex Korneyko on 01.11.2016 20:10.
  */
-public interface GroupsRegistrationController {
+public interface GroupsRegistrationService {
 
     void validateUserGroup(UserGroup userGroup);
 

@@ -11,10 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationController;
-import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationControllerImpl;
-import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
-import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationControllerImpl;
+import ua.in.dris4ecoder.model.businessServices.GroupsRegistrationService;
+import ua.in.dris4ecoder.model.businessServices.GroupsRegistrationServiceImpl;
+import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
+import ua.in.dris4ecoder.model.businessServices.UserRegistrationServiceImpl;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -83,21 +83,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    GroupsRegistrationController groupsRegistrationController(
+    GroupsRegistrationService groupsRegistrationController(
             @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao) {
 
-        GroupsRegistrationControllerImpl groupsRegistrationController = new GroupsRegistrationControllerImpl();
+        GroupsRegistrationServiceImpl groupsRegistrationController = new GroupsRegistrationServiceImpl();
         groupsRegistrationController.setUserGroupRestaurantDao(userGroupRestaurantDao);
 
         return groupsRegistrationController;
     }
 
     @Bean
-    UserRegistrationController userRegistrationController(RestaurantDao<UserImpl> userRestaurantDao,
-                                                          @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao,
-                                                          BCryptPasswordEncoder passwordEncoder) {
+    UserRegistrationService userRegistrationController(RestaurantDao<UserImpl> userRestaurantDao,
+                                                       @Qualifier("groupRestaurantDao") RestaurantDao<UserGroup> userGroupRestaurantDao,
+                                                       BCryptPasswordEncoder passwordEncoder) {
 
-        UserRegistrationControllerImpl userRegistrationController = new UserRegistrationControllerImpl();
+        UserRegistrationServiceImpl userRegistrationController = new UserRegistrationServiceImpl();
         userRegistrationController.setUserRestaurantDao(userRestaurantDao);
         userRegistrationController.setUserGroupRestaurantDao(userGroupRestaurantDao);
         userRegistrationController.setPasswordEncoder(passwordEncoder);

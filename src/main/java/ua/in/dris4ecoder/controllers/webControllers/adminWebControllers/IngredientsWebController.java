@@ -5,8 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
-import ua.in.dris4ecoder.model.businessObjects.Currency;
+import ua.in.dris4ecoder.model.businessServices.InstrumentsService;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 public class IngredientsWebController {
 
     @Autowired
-    InstrumentsController instrumentsController;
+    InstrumentsService instrumentsController;
 
     @RequestMapping(value = "admin/ingredients")
     public ModelAndView ingredients(@RequestParam Map<String, String> params) {

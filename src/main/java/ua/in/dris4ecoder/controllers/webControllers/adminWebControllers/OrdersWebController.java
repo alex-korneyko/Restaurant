@@ -5,10 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.*;
+import ua.in.dris4ecoder.model.businessServices.*;
 import ua.in.dris4ecoder.model.businessObjects.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -21,16 +20,16 @@ import java.util.stream.Collectors;
 public class OrdersWebController {
 
     @Autowired
-    private ServiceController serviceController;
+    private ServiceService serviceController;
 
     @Autowired
-    private UserRegistrationController userRegistrationController;
+    private UserRegistrationService userRegistrationService;
 
     @Autowired
-    private InstrumentsController instrumentsController;
+    private InstrumentsService instrumentsController;
 
     @Autowired
-    private StaffController staffController;
+    private StaffService staffController;
 
     private Order order;
 
@@ -164,7 +163,7 @@ public class OrdersWebController {
         }
 
         modelAndView.addObject("allOrders", serviceController.getAllOrders());
-        modelAndView.addObject("allUsers", userRegistrationController.getAllUsers());
+        modelAndView.addObject("allUsers", userRegistrationService.getAllUsers());
         modelAndView.addObject("order", order);
 
         return modelAndView;
@@ -173,7 +172,7 @@ public class OrdersWebController {
     private void fillOrder(Order order, Map<String, String> params) {
 
         if (order != null) {
-            order.setOrderOwner(userRegistrationController.findUser(params.get("selectedUserId")));
+            order.setOrderOwner(userRegistrationService.findUser(params.get("selectedUserId")));
             order.setDesk(Integer.parseInt(params.get("desk")));
         }
     }

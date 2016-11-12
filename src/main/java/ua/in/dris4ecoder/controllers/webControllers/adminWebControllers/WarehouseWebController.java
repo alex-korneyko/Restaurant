@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
+import ua.in.dris4ecoder.model.businessServices.ManagementService;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 public class WarehouseWebController {
 
     @Autowired
-    ManagementController managementController;
+    ManagementService managementController;
 
     @RequestMapping(value = "admin/warehouse")
     public ModelAndView warehouse(@RequestParam Map<String, String> params) {

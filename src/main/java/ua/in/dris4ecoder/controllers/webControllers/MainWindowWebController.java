@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
+import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
 import java.util.Map;
 
@@ -18,11 +18,11 @@ import java.util.Map;
 @Controller
 public class MainWindowWebController {
 
-    private UserRegistrationController userRegistrationController;
+    private UserRegistrationService userRegistrationService;
 
     @Bean
-    String setUserRegistrationController(UserRegistrationController userRegistrationController) {
-        this.userRegistrationController = userRegistrationController;
+    String setUserRegistrationController(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
         return null;
     }
 
@@ -89,7 +89,7 @@ public class MainWindowWebController {
         }
 
         modelAndView.setViewName("registrationResult");
-        userRegistrationController.addUser(model);
+        userRegistrationService.addUser(model);
 
         return modelAndView;
     }

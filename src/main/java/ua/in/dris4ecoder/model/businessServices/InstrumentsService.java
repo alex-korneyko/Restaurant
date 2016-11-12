@@ -1,4 +1,4 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.*;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 15.08.2016 14:35.
  */
-public class InstrumentsController implements BusinessController {
+public class InstrumentsService implements BusinessService {
 
     private RestaurantDao<Ingredient> ingredientRestaurantDao;
     private RestaurantDao<Unit> unitRestaurantDao;

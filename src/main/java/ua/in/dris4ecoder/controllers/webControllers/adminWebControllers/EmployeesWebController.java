@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.GroupsRegistrationController;
-import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.model.businessServices.GroupsRegistrationService;
+import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 public class EmployeesWebController {
 
     @Autowired
-    private StaffController staffController;
+    private StaffService staffController;
 
     @Autowired
-    private GroupsRegistrationController groupsRegistrationController;
+    private GroupsRegistrationService groupsRegistrationService;
 
     @RequestMapping(value = "/admin/employees/**")
     public ModelAndView employees(@RequestParam Map<String, String> params) {
@@ -33,7 +33,7 @@ public class EmployeesWebController {
         if (params.containsKey("create")) {
 
             modelAndView.addObject("allPosts", staffController.getAllEmployeePosts());
-            modelAndView.addObject("allGroups", groupsRegistrationController.getAllGroups());
+            modelAndView.addObject("allGroups", groupsRegistrationService.getAllGroups());
             modelAndView.addObject("openEditWindow", true);
         }
 
@@ -60,7 +60,7 @@ public class EmployeesWebController {
                 modelAndView.addObject("employeeBirthForEditing", employee.getDateOfBirth());
                 modelAndView.addObject("employeeSalaryForEditing", employee.getSalary());
                 modelAndView.addObject("passEditDisable", true);
-                modelAndView.addObject("allGroups", groupsRegistrationController.getAllGroups());
+                modelAndView.addObject("allGroups", groupsRegistrationService.getAllGroups());
                 modelAndView.addObject("allPosts", staffController.getAllEmployeePosts());
 
                 modelAndView.addObject("openEditWindow", true);

@@ -1,11 +1,10 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Alex Korneyko on 27.10.2016 19:01.
  */
-public class UserRegistrationControllerImpl implements UserRegistrationController {
+public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private RestaurantDao<UserImpl> userRestaurantDao;
     private RestaurantDao<UserGroup> userGroupRestaurantDao;

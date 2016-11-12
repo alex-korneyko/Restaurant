@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import ua.in.dris4ecoder.Main;
-import ua.in.dris4ecoder.controllers.businessControllers.*;
+import ua.in.dris4ecoder.model.businessServices.*;
 import ua.in.dris4ecoder.model.dao.CurrencyDao;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 import ua.in.dris4ecoder.model.businessObjects.*;
@@ -24,10 +24,10 @@ import java.util.Properties;
 public class AppConfig {
 
     @Bean
-    Main main(StaffController staffController,
-              InstrumentsController instrumentsController,
-              ServiceController serviceController,
-              ManagementController managementController,
+    Main main(StaffService staffController,
+              InstrumentsService instrumentsController,
+              ServiceService serviceController,
+              ManagementService managementController,
               MainWindow mainWindow) {
 
         Main mainObject = new Main();
@@ -65,28 +65,28 @@ public class AppConfig {
     }
 
     @Bean
-    StaffController staffController(RestaurantDao<EmployeePost> hibernateEmployeePostDao,
-                                    RestaurantDao<Employee> hibernateEmployeeDao,
-                                    UserRegistrationController userRegistrationController,
-                                    GroupsRegistrationController groupsRegistrationController) {
+    StaffService staffController(RestaurantDao<EmployeePost> hibernateEmployeePostDao,
+                                 RestaurantDao<Employee> hibernateEmployeeDao,
+                                 UserRegistrationService userRegistrationService,
+                                 GroupsRegistrationService groupsRegistrationService) {
 
-        StaffController controller = new StaffController();
+        StaffService controller = new StaffService();
         controller.setEmployeePostsDao(hibernateEmployeePostDao);
         controller.setEmployeeDao(hibernateEmployeeDao);
-        controller.setUserRegistrationController(userRegistrationController);
-        controller.setGroupsRegistrationController(groupsRegistrationController);
+        controller.setUserRegistrationService(userRegistrationService);
+        controller.setGroupsRegistrationService(groupsRegistrationService);
 
         return controller;
     }
 
     @Bean
-    InstrumentsController instrumentsController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
-                                                @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
-                                                @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
-                                                @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao,
-                                                CurrencyDao currencyDao) {
+    InstrumentsService instrumentsController(@Qualifier("hibernateIngredientDao") RestaurantDao<Ingredient> ingredientRestaurantDao,
+                                             @Qualifier("hibernateDishDao") RestaurantDao<Dish> dishRestaurantDao,
+                                             @Qualifier("hibernateMenuDao") RestaurantDao<Menu> menuRestaurantDao,
+                                             @Qualifier("hibernateUnitDao") RestaurantDao<Unit> unitRestaurantDao,
+                                             CurrencyDao currencyDao) {
 
-        InstrumentsController instrumentsController = new InstrumentsController();
+        InstrumentsService instrumentsController = new InstrumentsService();
         instrumentsController.setIngredientRestaurantDao(ingredientRestaurantDao);
         instrumentsController.setDishRestaurantDao(dishRestaurantDao);
         instrumentsController.setMenuRestaurantDao(menuRestaurantDao);
@@ -97,12 +97,12 @@ public class AppConfig {
     }
 
     @Bean
-    ManagementController managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Contractor> supplierRestaurantDao,
-                                              @Qualifier("hibernatePurchaseInvoiceDao") RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao,
-                                              @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao,
-                                              @Qualifier("hibernateWarehouseDao") RestaurantDao<WarehousePosition> warehousePositionRestaurantDao) {
+    ManagementService managementController(@Qualifier("hibernateSupplierDao") RestaurantDao<Contractor> supplierRestaurantDao,
+                                           @Qualifier("hibernatePurchaseInvoiceDao") RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao,
+                                           @Qualifier("hibernateSalesInvoiceDao") RestaurantDao<SalesInvoice> salesInvoiceRestaurantDao,
+                                           @Qualifier("hibernateWarehouseDao") RestaurantDao<WarehousePosition> warehousePositionRestaurantDao) {
 
-        ManagementController managementController = new ManagementController();
+        ManagementService managementController = new ManagementService();
         managementController.setContractorRestaurantDao(supplierRestaurantDao);
         managementController.setPurchaseInvoiceRestaurantDao(purchaseInvoiceRestaurantDao);
         managementController.setSalesInvoiceRestaurantDao(salesInvoiceRestaurantDao);
@@ -111,10 +111,10 @@ public class AppConfig {
     }
 
     @Bean
-    ServiceController serviceController(RestaurantDao<Order> hibernateOrderDao,
-                                        RestaurantDao<KitchenProcess> hibernateKitchenDao) {
+    ServiceService serviceController(RestaurantDao<Order> hibernateOrderDao,
+                                     RestaurantDao<KitchenProcess> hibernateKitchenDao) {
 
-        final ServiceController serviceController = new ServiceController();
+        final ServiceService serviceController = new ServiceService();
         serviceController.setOrdersDao(hibernateOrderDao);
         serviceController.setKitchenProcessDao(hibernateKitchenDao);
 

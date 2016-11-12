@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
+import ua.in.dris4ecoder.model.businessServices.ManagementService;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ContractorsWebController {
 
     @Autowired
-    private ManagementController managementController;
+    private ManagementService managementController;
 
     @RequestMapping(value = "admin/contractors")
     public ModelAndView contractors(@RequestParam Map<String, String> params) {

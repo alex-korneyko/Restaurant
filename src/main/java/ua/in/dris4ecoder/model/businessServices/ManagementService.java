@@ -1,10 +1,9 @@
-package ua.in.dris4ecoder.controllers.businessControllers;
+package ua.in.dris4ecoder.model.businessServices;
 
 import javafx.stage.Stage;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by Alex Korneyko on 30.08.2016 17:24.
  */
-public class ManagementController implements BusinessController {
+public class ManagementService implements BusinessService {
 
     private RestaurantDao<Contractor> contractorRestaurantDao;
     private RestaurantDao<PurchaseInvoice> purchaseInvoiceRestaurantDao;

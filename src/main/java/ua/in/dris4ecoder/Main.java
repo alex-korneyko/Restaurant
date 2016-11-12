@@ -2,11 +2,10 @@ package ua.in.dris4ecoder;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
-import ua.in.dris4ecoder.controllers.businessControllers.ServiceController;
-import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.model.businessServices.InstrumentsService;
+import ua.in.dris4ecoder.model.businessServices.ManagementService;
+import ua.in.dris4ecoder.model.businessServices.ServiceService;
+import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.springConfigClasses.*;
 import ua.in.dris4ecoder.view.windowsSet.MainWindow;
 
@@ -15,10 +14,10 @@ import ua.in.dris4ecoder.view.windowsSet.MainWindow;
  */
 public class Main {
 
-    private static StaffController staffController;
-    private static InstrumentsController instrumentsController;
-    private static ServiceController serviceController;
-    private static ManagementController managementController;
+    private static StaffService staffController;
+    private static InstrumentsService instrumentsController;
+    private static ServiceService serviceController;
+    private static ManagementService managementController;
 
 
     private MainWindow mainWindow;
@@ -36,35 +35,35 @@ public class Main {
         mainWindow.runMainWindow(args);
     }
 
-    public static StaffController getStaffController() {
+    public static StaffService getStaffController() {
         return staffController;
     }
 
-    public static InstrumentsController getInstrumentsController() {
+    public static InstrumentsService getInstrumentsController() {
         return instrumentsController;
     }
 
-    public static ServiceController getServiceController() {
+    public static ServiceService getServiceController() {
         return serviceController;
     }
 
-    public static ManagementController getManagementController() {
+    public static ManagementService getManagementController() {
         return managementController;
     }
 
-    public void setStaffController(StaffController staffController) {
+    public void setStaffController(StaffService staffController) {
         Main.staffController = staffController;
     }
 
-    public void setInstrumentsController(InstrumentsController instrumentsController) {
+    public void setInstrumentsController(InstrumentsService instrumentsController) {
         Main.instrumentsController = instrumentsController;
     }
 
-    public void setServiceController(ServiceController serviceController) {
+    public void setServiceController(ServiceService serviceController) {
         Main.serviceController = serviceController;
     }
 
-    public void setManagementController(ManagementController managementController) {
+    public void setManagementController(ManagementService managementController) {
         Main.managementController = managementController;
     }
 

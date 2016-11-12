@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.InstrumentsController;
-import ua.in.dris4ecoder.controllers.businessControllers.ManagementController;
+import ua.in.dris4ecoder.model.businessServices.InstrumentsService;
+import ua.in.dris4ecoder.model.businessServices.ManagementService;
 import ua.in.dris4ecoder.model.businessObjects.Contractor;
 import ua.in.dris4ecoder.model.businessObjects.Ingredient;
 import ua.in.dris4ecoder.model.businessObjects.SalesInvoice;
@@ -25,10 +25,10 @@ import java.util.stream.Collectors;
 public class SalesInvoicesWebController {
 
     @Autowired
-    ManagementController managementController;
+    ManagementService managementController;
 
     @Autowired
-    InstrumentsController instrumentsController;
+    InstrumentsService instrumentsController;
 
     private SalesInvoice salesInvoice;
 

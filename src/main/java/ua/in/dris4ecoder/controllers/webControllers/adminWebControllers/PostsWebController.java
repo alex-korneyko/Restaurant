@@ -1,12 +1,11 @@
 package ua.in.dris4ecoder.controllers.webControllers.adminWebControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.StaffController;
+import ua.in.dris4ecoder.model.businessServices.StaffService;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class PostsWebController {
 
     @Autowired
-    private StaffController staffController;
+    private StaffService staffController;
 
     @RequestMapping(value = "admin/posts")
     public ModelAndView posts(@RequestParam Map<String, String> params) {

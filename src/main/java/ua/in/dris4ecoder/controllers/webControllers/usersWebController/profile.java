@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.controllers.businessControllers.UserRegistrationController;
+import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 public class profile {
 
     @Autowired
-    UserRegistrationController userRegistrationController;
+    UserRegistrationService userRegistrationService;
 
     @RequestMapping(value = "/user/userProfile")
     public ModelAndView userProfiles(@RequestParam Map<String, String> params) {
@@ -28,7 +28,7 @@ public class profile {
 
         String userLogin = params.get("login");
 
-        modelAndView.addObject("user", userRegistrationController.findUser(userLogin));
+        modelAndView.addObject("user", userRegistrationService.findUser(userLogin));
 
         return modelAndView;
 
