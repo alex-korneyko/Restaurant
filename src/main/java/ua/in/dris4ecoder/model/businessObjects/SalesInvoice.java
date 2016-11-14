@@ -14,7 +14,7 @@ import java.util.Map;
 @PrimaryKeyJoinColumn(name = "invoice_id", referencedColumnName = "id")
 public class SalesInvoice extends Invoice {
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
@@ -39,7 +39,9 @@ public class SalesInvoice extends Invoice {
         fillInvoice(order);
     }
 
-    private void fillInvoice(Order order) {
+    public void fillInvoice(Order order) {
+
+        clearAllIngredients();
 
         Map<Dish, Integer> dishesCount = order.getDishesCount();
 

@@ -57,7 +57,7 @@ public class PurchaseInvoicesTabController implements TabController<PurchaseInvo
             return;
         }
 
-        Main.getManagementController().removePurchaseInvoice(selectedItem, mainStage);
+        Main.getManagementController().removePurchaseInvoice(selectedItem, true);
         getAllAction(actionEvent);
     }
 

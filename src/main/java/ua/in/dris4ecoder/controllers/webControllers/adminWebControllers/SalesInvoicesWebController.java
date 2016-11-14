@@ -174,6 +174,7 @@ public class SalesInvoicesWebController {
         if (params.containsKey("saveInvoiceForm")) {
 
             WarehouseChangeResult result;
+            fillInvoice(salesInvoice, params);
 
             if (salesInvoice.getId() == 0) {
                 result = managementController.addSalesInvoice(salesInvoice, true);
@@ -183,7 +184,7 @@ public class SalesInvoicesWebController {
 
             if (!result.isChangeSuccessfully()) {
                 modelAndView.addObject("error", true);
-                modelAndView.addObject("errorMessage", "На складе не хватает ингредиентов");
+                modelAndView.addObject("errorMessage", result.getMessage());
             }
         }
 

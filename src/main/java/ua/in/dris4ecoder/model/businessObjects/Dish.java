@@ -154,7 +154,7 @@ public class Dish {
             }
         }
 
-        return new BigDecimal(price, new MathContext(2));
+        return (new BigDecimal(price)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public void setPrice(double price) {

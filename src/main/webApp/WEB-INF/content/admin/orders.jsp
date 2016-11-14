@@ -153,7 +153,7 @@
                             <th>Сумма</th>
                             <th>Выбор</th>
                         </tr>
-                        <c:forEach items="${order.dishes}" var="dish">
+                        <c:forEach items="${order.dishesCount.keySet()}" var="dish">
                             <tr>
                                 <td>${dish.id}</td>
                                 <td>${dish.dishName}</td>
@@ -163,7 +163,7 @@
                                 <td><input type="checkbox" name="selectedDish${dish.id}" value="${dish.id}"></td>
                             </tr>
                         </c:forEach>
-                        <c:if test="${order.dishes.size() > 0}">
+                        <c:if test="${order.dishesCount.keySet().size() > 0}">
                             <tr>
                                 <td colspan="4">И того</td>
                                 <td colspan="2">${order.orderCost}</td>

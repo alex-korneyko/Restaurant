@@ -1,6 +1,8 @@
 package ua.in.dris4ecoder.controllers.webControllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -10,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
-import java.util.Map;
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by Alex Korneyko on 25.09.2016 20:32.
@@ -18,18 +23,22 @@ import java.util.Map;
 @Controller
 public class MainWindowWebController {
 
+    @Autowired
     private UserRegistrationService userRegistrationService;
-
-    @Bean
-    String setUserRegistrationController(UserRegistrationService userRegistrationService) {
-        this.userRegistrationService = userRegistrationService;
-        return null;
-    }
 
     @RequestMapping(value = "/")
     public ModelAndView index(@RequestParam Map<String, Object> model) {
 
         ModelAndView modelAndView = new ModelAndView("index");
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof String) {
+            modelAndView.addObject("authority", Collections.singletonList("GUEST"));
+        } else {
+            List<String> authorities = ((UserDetails) principal).getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+            modelAndView.addObject("authority", authorities);
+        }
 
         return modelAndView;
     }

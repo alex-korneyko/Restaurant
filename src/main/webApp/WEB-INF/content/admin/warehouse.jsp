@@ -44,7 +44,7 @@
                 <tr>
                     <td>${warehousePsition.id}</td>
                     <td>${warehousePsition.ingredient.ingredientName}</td>
-                    <td>${warehousePsition.ingredientAmount}</td>
+                    <td>${warehousePsition.ingredientAmountInBigDec.floatValue()}</td>
                     <td>${warehousePsition.ingredient.unit.unitName}</td>
                 </tr>
             </c:forEach>

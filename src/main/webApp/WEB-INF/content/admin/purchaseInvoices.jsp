@@ -172,8 +172,8 @@
                         <tr>
                             <td>${ingredient.id}</td>
                             <td>${ingredient.nameWithHtmlQuot}</td>
-                            <td>${ingredient.ingredientWeight}</td>
-                            <td>${ingredient.ingredientPrice}</td>
+                            <td>${ingredient.ingredientWeightInBDecimal}</td>
+                            <td>${ingredient.ingredientPriceInBDecimal}</td>
                             <td>${ingredient.ingredientPriceOfWeight}</td>
                             <td><input type="checkbox" name="selectedIngredient${ingredient.id}" value="${ingredient.id}"></td>
                         </tr>

@@ -51,10 +51,10 @@ public class PurchaseInvoiceAddEditDialogueWindowController implements AddEditCo
         if (purchaseInvoice == null) {
             purchaseInvoice = new PurchaseInvoice();
             fillInvoice();
-            result = Main.getManagementController().addPurchaseInvoice(purchaseInvoice, controlledStage);
+            result = Main.getManagementController().addPurchaseInvoice(purchaseInvoice, true);
         } else {
             fillInvoice();
-            result = Main.getManagementController().editPurchaseInvoice(purchaseInvoice, controlledStage);
+            result = Main.getManagementController().editPurchaseInvoice(purchaseInvoice, true);
         }
 
         invoicesObservableList.clear();

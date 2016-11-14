@@ -77,7 +77,6 @@
                 <th>Id</th>
                 <th>Дата</th>
                 <th>Контрагент</th>
-                <th>Ордер</th>
                 <th>Сумма</th>
                 <th>Выбор</th>
             </tr>
@@ -87,7 +86,6 @@
                     <td><a href="${pageContext.request.contextPath}/admin/salesInvoices?invoice=${invoice.id}">${invoice.id}</a></td>
                     <td>${invoice.invoiceDate}</td>
                     <td>${invoice.contractor.nameWithHtmlQuot}</td>
-                    <td>${invoice.order.id}</td>
                     <td>${invoice.amountOfInvoice}</td>
                     <td><input type="checkbox" name="selected${invoice.id}" value="${invoice.id}"></td>
                 </tr>
@@ -154,7 +152,7 @@
                 <div class="form-group">
                     <label for="sourceOrderId" class="control-label col-sm-4">Ордер-основание:</label>
                     <div class="col-sm-6">
-                        <input id="sourceOrderId" type="text" class="form-control" name="sourceOrderId" contenteditable="false" value="${invoiceForEditing.order.id}">
+                        <input id="sourceOrderId" type="text" class="form-control" name="sourceOrderId" value="${invoiceForEditing.order.id}">
                     </div>
                 </div>
 
@@ -171,8 +169,8 @@
                         <tr>
                             <td>${ingredient.id}</td>
                             <td>${ingredient.nameWithHtmlQuot}</td>
-                            <td>${ingredient.ingredientWeight}</td>
-                            <td>${ingredient.ingredientPrice}</td>
+                            <td>${ingredient.ingredientWeightInBDecimal}</td>
+                            <td>${ingredient.ingredientPriceInBDecimal}</td>
                             <td>${ingredient.ingredientPriceOfWeight}</td>
                             <td><input type="checkbox" name="selectedIngredient${ingredient.id}" value="${ingredient.id}"></td>
                         </tr>

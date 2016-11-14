@@ -5,10 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.FetchProfile;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -84,14 +86,14 @@ public abstract class Invoice implements BusinessObject {
         this.invoiceDate = invoiceDate;
     }
 
-    public double getAmountOfInvoice() {
+    public BigDecimal getAmountOfInvoice() {
 
         if (autoPrice) {
             amountOfInvoice = ingredientCostPerInvoice.keySet().stream()
                     .mapToDouble(key -> ingredientCostPerInvoice.get(key) * ingredientWeightPerInvoice.get(key)).sum();
         }
 
-        return amountOfInvoice;
+        return (new BigDecimal(amountOfInvoice)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public void setAmountOfInvoice(double amountOfInvoice) {
@@ -102,15 +104,19 @@ public abstract class Invoice implements BusinessObject {
     public void addIngredient(Ingredient ingredient) {
 
         if (ingredientCostPerInvoice.containsKey(ingredient)) {
-            // TODO: 11.11.2016 не правильно расчитывается цена ингредиента при его добавлении, если он уже есть в накладной
-            ingredientCostPerInvoice.put(ingredient, ingredientCostPerInvoice.get(ingredient) + ingredient.getIngredientPrice());
+
+            double oldSum = ingredientCostPerInvoice.get(ingredient) * ingredientWeightPerInvoice.get(ingredient);
+            double newSum = ingredient.getIngredientPrice() * ingredient.getIngredientWeight();
+
+            ingredientCostPerInvoice.put(ingredient, (oldSum + newSum) / (ingredientWeightPerInvoice.get(ingredient) + ingredient.getIngredientWeight()));
+
             ingredientWeightPerInvoice.put(ingredient, ingredientWeightPerInvoice.get(ingredient) + ingredient.getIngredientWeight());
         } else {
             ingredientCostPerInvoice.put(ingredient, ingredient.getIngredientPrice());
             ingredientWeightPerInvoice.put(ingredient, ingredient.getIngredientWeight());
         }
 
-        this.amountOfInvoice = getAmountOfInvoice();
+        this.amountOfInvoice = getAmountOfInvoice().doubleValue();
     }
 
     public void removeIngredient(Ingredient ingredient) {

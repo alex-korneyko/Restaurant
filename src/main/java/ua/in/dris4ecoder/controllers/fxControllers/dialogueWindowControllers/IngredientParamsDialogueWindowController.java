@@ -99,7 +99,7 @@ public class IngredientParamsDialogueWindowController implements AddEditControll
     private void generateAvailabilityAndReserved() {
 
         ingredientAvailability = 0.0;
-        ingredientAvailability = Main.getManagementController().checkAmount(ingredient);
+//        ingredientAvailability = Main.getManagementController().checkAmount(ingredient);
 
         // TODO: 09.09.2016 not yet implement calculate ingredients which reserved
     }

@@ -150,15 +150,18 @@ public class OrdersWebController {
 
         if (params.containsKey("saveOrderForm")) {
 
+            WarehouseChangeResult result;
+
             if (order.getId() == 0) {
                 order.setStatus(OrderDishStatus.IN_QUEUE);
-                WarehouseChangeResult result = serviceController.addOrder(order);
-                if (!result.isChangeSuccessfully()) {
-                    modelAndView.addObject("errorMessage", "Невозможно выполнить заказ. На складе недостаточно ингредиентов");
-                }
+                result = serviceController.addOrder(order);
             } else {
                 fillOrder(order, params);
-                serviceController.editOrder(order);
+                result = serviceController.editOrder(order);
+            }
+
+            if (!result.isChangeSuccessfully()) {
+                modelAndView.addObject("errorMessage", "Невозможно выполнить заказ. На складе недостаточно ингредиентов");
             }
         }
 

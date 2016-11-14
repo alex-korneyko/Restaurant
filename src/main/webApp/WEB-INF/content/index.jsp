@@ -82,35 +82,35 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ассортимент<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Блюда</a></li>
-                                <li><a href="#">Готовые наборы</a></li>
-                                <li><a href="#">Ингредиенты</a></li>
+                                <li><a href="#" onclick="showInFrame('dishes', '')">Блюда</a></li>
+                                <li><a href="#" onclick="showInFrame('sets', '')">Готовые наборы</a></li>
+                                <li><a href="#" onclick="showInFrame('ingredients', '')">Ингредиенты</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Программы<b
                                     class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Выступления</a></li>
-                                <li><a href="#">Авторские вечера</a></li>
-                                <li><a href="#">Караоке</a></li>
+                                <li><a href="#" onclick="showInFrame('concerts', '')">Выступления</a></li>
+                                <li><a href="#" onclick="showInFrame('authorsEvenings', '')">Авторские вечера</a></li>
+                                <li><a href="#" onclick="showInFrame('karaoke', '')">Караоке</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Приват<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Комнаты переговоров</a></li>
-                                <li><a href="#">Комнаты отдыха</a></li>
-                                <li><a href="#">Индивидуальные заказы</a></li>
+                                <li><a href="#" onclick="showInFrame('meetingRoom', 'user/')">Комнаты переговоров</a></li>
+                                <li><a href="#" onclick="showInFrame('restRoom', 'user/')">Комнаты отдыха</a></li>
+                                <li><a href="#" onclick="showInFrame('customOrders', 'user/')">Индивидуальные заказы</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">О нас<b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">Наши сотрудники</a></li>
-                                <li><a href="#">Схема проезда</a></li>
-                                <li><a href="#">Контакты</a></li>
-                                <li><a href="#">Отзывы</a></li>
+                                <li><a href="#" onclick="showInFrame('staff', '')">Наши сотрудники</a></li>
+                                <li><a href="#" onclick="showInFrame('drivingDirections', '')">Схема проезда</a></li>
+                                <li><a href="#" onclick="showInFrame('contacts', '')">Контакты</a></li>
+                                <li><a href="#" onclick="showInFrame('feedback', '')">Отзывы</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -125,83 +125,91 @@
     <div class="row">
 
         <!--Admin panel-->
-        <div class="col-md-2 left-side-panel">
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Люди <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#" onclick="showInFrame('posts', 'admin/')">Должности</a></li>
-                    <li><a href="#" onclick="showInFrame('employees', 'admin/')">Сотрудники</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#" onclick="showInFrame('users', 'admin/')">Клиенты</a></li>
-                </ul>
+        <c:if test="${authority.contains('ROLE_ADMIN')}">
+            <div class="col-md-2 left-side-panel">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Люди <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#" onclick="showInFrame('posts', 'admin/')">Должности</a></li>
+                        <li><a href="#" onclick="showInFrame('employees', 'admin/')">Сотрудники</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" onclick="showInFrame('users', 'admin/')">Клиенты</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Обслужи-<br>вание <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#" onclick="showInFrame('orders', 'admin/')">Заказы</a></li>
+                        <li><a href="#">Кухня</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Инсту-<br>менты <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#" onclick="showInFrame('ingredients', 'admin/')">Ингредиенты</a></li>
+                        <li><a href="#" onclick="showInFrame('dishes', 'admin/')">Блюда</a></li>
+                        <li><a href="#" onclick="showInFrame('menus', 'admin/')">Меню</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Менедж-<br>мент <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#" onclick="showInFrame('purchaseInvoices', 'admin/')">Приход</a></li>
+                        <li><a href="#" onclick="showInFrame('salesInvoices', 'admin/')">Расход</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" onclick="showInFrame('contractors', 'admin/')">Контрагенты</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" onclick="showInFrame('warehouse', 'admin/')">Склад</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Отчёты <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#">Доходы/расходы</a></li>
+                        <li><a href="#">Приход/Расход</a></li>
+                        <li><a href="#">Сотрудники</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Отзывы</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                        Сервис <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-to-right">
+                        <li><a href="#">Настройки</a></li>
+                        <li><a href="#">База данных</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Обслужи-<br>вание <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#" onclick="showInFrame('orders', 'admin/')">Заказы</a></li>
-                    <li><a href="#">Кухня</a></li>
-                </ul>
+        </c:if>
+        <c:if test="${(authority.contains('GUEST') || authority.contains('ROLE_USER')) && authority.size() == 1}">
+            <div class="col-md-2 left-side-panel">
+                <img src="http://placehold.it/130x600" alt="">
             </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Инсту-<br>менты <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#" onclick="showInFrame('ingredients', 'admin/')">Ингредиенты</a></li>
-                    <li><a href="#" onclick="showInFrame('dishes', 'admin/')">Блюда</a></li>
-                    <li><a href="#" onclick="showInFrame('menus', 'admin/')">Меню</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Менедж-<br>мент <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#" onclick="showInFrame('purchaseInvoices', 'admin/')">Приход</a></li>
-                    <li><a href="#" onclick="showInFrame('salesInvoices', 'admin/')">Расход</a></li>
-                    <li><a href="#" onclick="showInFrame('contractors', 'admin/')">Контрагенты</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#" onclick="showInFrame('warehouse', 'admin/')">Склад</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Отчёты <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#">Доходы/расходы</a></li>
-                    <li><a href="#">Приход/Расход</a></li>
-                    <li><a href="#">Сотрудники</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Отзывы</a></li>
-                </ul>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle s100x100" data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false">
-                    Сервис <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-to-right">
-                    <li><a href="#">Настройки</a></li>
-                    <li><a href="#">База данных</a></li>
-                </ul>
-            </div>
-        </div>
+        </c:if>
 
         <!--Content-->
         <div class="col-md-9 center-panel">

@@ -1,6 +1,5 @@
 package ua.in.dris4ecoder.model.businessServices;
 
-import javafx.stage.Stage;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
@@ -62,33 +61,33 @@ public class ManagementService implements BusinessService {
 
     //-----------------------------------PurchaseInvoice---------------------------------------------
 
-    public WarehouseChangeResult addPurchaseInvoice(PurchaseInvoice purchaseInvoice, Stage controlledStage) {
-        purchaseInvoiceRestaurantDao.addItem(purchaseInvoice);
+    public WarehouseChangeResult addPurchaseInvoice(PurchaseInvoice purchaseInvoice, boolean saveToDb) {
 
-        purchaseInvoice.getIngredients().forEach(this::increaseAmount);
+        WarehouseChangeResult changeResult = warehouseUpdate(purchaseInvoice);
 
-        WarehouseChangeResult result = new WarehouseChangeResult();
-        result.setMessage("Успешно");
+        if (changeResult.isChangeSuccessfully() && saveToDb) {
+            purchaseInvoiceRestaurantDao.addItem(purchaseInvoice);
+        }
+
+        return changeResult;
+    }
+
+
+
+    public WarehouseChangeResult editPurchaseInvoice(PurchaseInvoice newPurchaseInvoice, boolean saveChangedInvoiceToDb) {
+
+        PurchaseInvoice differencePurchaseInvoice = (PurchaseInvoice) subtractionWeightsOfCollectionsOfIngredients(newPurchaseInvoice);
+        WarehouseChangeResult result = addPurchaseInvoice(differencePurchaseInvoice, false);
+
+        if (result.isChangeSuccessfully() && saveChangedInvoiceToDb) {
+            purchaseInvoiceRestaurantDao.editItem(newPurchaseInvoice.getId(), newPurchaseInvoice);
+        }
 
         return result;
     }
 
-    public WarehouseChangeResult editPurchaseInvoice(PurchaseInvoice newPurchaseInvoice, Stage controlledStage) {
-
-        for (Ingredient ingredient: subtractionWeightsOfCollectionsOfIngredients(newPurchaseInvoice)) {
-            WarehouseChangeResult result = increaseAmount(ingredient);
-            if (!result.isChangeSuccessfully()) {
-                return result;
-            }
-        }
-
-        purchaseInvoiceRestaurantDao.editItem(newPurchaseInvoice.getId(), newPurchaseInvoice);
-
-        return new WarehouseChangeResult(true, null, "Удачно");
-    }
-
     public PurchaseInvoice findPurchaseInvoice(int id) {
-        return  purchaseInvoiceRestaurantDao.findItemById(id);
+        return purchaseInvoiceRestaurantDao.findItemById(id);
     }
 
     public List<PurchaseInvoice> findPurchaseInvoice(LocalDateTime fromDate, LocalDateTime toDate) {
@@ -100,54 +99,49 @@ public class ManagementService implements BusinessService {
         return purchaseInvoiceRestaurantDao.findAll();
     }
 
-    public WarehouseChangeResult removePurchaseInvoice(int purchaseInvoiceId) {
+    public WarehouseChangeResult removePurchaseInvoice(int purchaseInvoiceId, boolean deleteFromDb) {
 
         PurchaseInvoice purchaseInvoice = purchaseInvoiceRestaurantDao.findItemById(purchaseInvoiceId);
 
-        return removePurchaseInvoice(purchaseInvoice, null);
+        return removePurchaseInvoice(purchaseInvoice, deleteFromDb);
     }
 
-    public WarehouseChangeResult removePurchaseInvoice(PurchaseInvoice selectedItem, Stage controlledStage) {
+    public WarehouseChangeResult removePurchaseInvoice(PurchaseInvoice purchaseInvoice, boolean deleteFromDb) {
 
-        for (Ingredient ingredient: selectedItem.getIngredients()) {
-            WarehouseChangeResult warehouseChangeResult = decreaseAmount(ingredient);
-            if (!warehouseChangeResult.isChangeSuccessfully()) return warehouseChangeResult;
+        SalesInvoice salesInvoice = new SalesInvoice();
+        salesInvoice.setIngredients(purchaseInvoice.getIngredients());
+        WarehouseChangeResult changeResult = warehouseUpdate(salesInvoice);
+
+        if (changeResult.isChangeSuccessfully() && deleteFromDb) {
+            purchaseInvoiceRestaurantDao.removeItem(purchaseInvoice);
         }
 
-        purchaseInvoiceRestaurantDao.removeItem(selectedItem);
-
-        return new WarehouseChangeResult(true);
+        return changeResult;
     }
 
     //------------------------------------SalesInvoice----------------------------------------------
 
     public WarehouseChangeResult addSalesInvoice(SalesInvoice salesInvoice, boolean saveInvoiceInDB) {
 
-        for (Ingredient ingredient : salesInvoice.getIngredients()) {
-            WarehouseChangeResult result = decreaseAmount(ingredient);
-            if (!result.isChangeSuccessfully()) return result;
+        WarehouseChangeResult changeResult = warehouseUpdate(salesInvoice);
+
+        if (changeResult.isChangeSuccessfully() && saveInvoiceInDB) {
+            salesInvoiceRestaurantDao.addItem(salesInvoice);
         }
 
-        int invoiceId = 0;
-
-        if (saveInvoiceInDB) {
-            invoiceId = salesInvoiceRestaurantDao.addItem(salesInvoice);
-        }
-
-        return new WarehouseChangeResult(true, invoiceId);
+        return changeResult;
     }
 
-    public WarehouseChangeResult editSalesInvoice (SalesInvoice salesInvoice, boolean saveChangedInvoiceToDb) {
+    public WarehouseChangeResult editSalesInvoice(SalesInvoice salesInvoice, boolean saveChangedInvoiceToDb) {
 
-        SalesInvoice differenceOfSalesInvoice = new SalesInvoice();
-        differenceOfSalesInvoice.setIngredients(subtractionWeightsOfCollectionsOfIngredients(salesInvoice));
-        WarehouseChangeResult warehouseChangeResult = addSalesInvoice(differenceOfSalesInvoice, false);
+        SalesInvoice differenceSalesInvoice = (SalesInvoice) subtractionWeightsOfCollectionsOfIngredients(salesInvoice);
+        WarehouseChangeResult changeResult = addSalesInvoice(differenceSalesInvoice, false);
 
-        if (saveChangedInvoiceToDb) {
+        if (changeResult.isChangeSuccessfully() && saveChangedInvoiceToDb) {
             salesInvoiceRestaurantDao.editItem(salesInvoice.getId(), salesInvoice);
         }
 
-        return warehouseChangeResult;
+        return changeResult;
     }
 
     public SalesInvoice findSalesInvoice(int id) {
@@ -159,87 +153,25 @@ public class ManagementService implements BusinessService {
         return salesInvoiceRestaurantDao.findAll();
     }
 
-    public WarehouseChangeResult removeSalesInvoice(int invoiceId, boolean deleteInvoiceInDB) {
+    public WarehouseChangeResult removeSalesInvoice(int invoiceId, boolean deleteFromDb) {
 
-        SalesInvoice itemById = salesInvoiceRestaurantDao.findItemById(invoiceId);
+        SalesInvoice salesInvoice = salesInvoiceRestaurantDao.findItemById(invoiceId);
 
-        if (itemById != null) {
-            return removeSalesInvoice(itemById, deleteInvoiceInDB);
-        } else {
-            return new WarehouseChangeResult(false, null, "Накладная не найдена");
-        }
+        return removeSalesInvoice(salesInvoice, deleteFromDb);
     }
 
-    public WarehouseChangeResult removeSalesInvoice(SalesInvoice selectedItem, boolean deleteInvoiceInDB) {
+    public WarehouseChangeResult removeSalesInvoice(SalesInvoice salesInvoice, boolean deleteFromDb) {
 
-        for (Ingredient ingredient: selectedItem.getIngredients()) {
+        PurchaseInvoice purchaseInvoice = new PurchaseInvoice();
+        purchaseInvoice.setIngredients(salesInvoice.getIngredients());
 
-            WarehouseChangeResult result = increaseAmount(ingredient);
-            if (!result.isChangeSuccessfully()) return result;
+        WarehouseChangeResult changeResult = warehouseUpdate(purchaseInvoice);
+
+        if (changeResult.isChangeSuccessfully() && deleteFromDb) {
+            salesInvoiceRestaurantDao.removeItem(salesInvoice);
         }
 
-        if (deleteInvoiceInDB) {
-            salesInvoiceRestaurantDao.removeItem(selectedItem);
-        }
-
-        return new WarehouseChangeResult(true, null, "Удачно");
-    }
-
-    //--------------------------------------Warehouse-----------------------------------------------
-
-    public WarehouseChangeResult increaseAmount(Ingredient ingredient) {
-
-        WarehouseChangeResult result = new WarehouseChangeResult();
-
-        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
-        if(warehousePosition != null) {
-            Double ingredientWeight = warehousePosition.getIngredientAmount();
-            ingredientWeight += ingredient.getIngredientWeight();
-            if(ingredientWeight < 0) {
-                System.out.println(warehousePosition.getIngredient() + " " + ingredientWeight);
-                result.setChangeSuccessfully(false);
-                result.setMessage("На складе нет необходимого количества '" + ingredient.getIngredientName() + "' для данного действия");
-                result.setIngredient(warehousePosition.getIngredient());
-                return result;
-            }
-
-            warehousePosition.setIngredientAmount(ingredientWeight);
-            warehousePositionRestaurantDao.editItem(warehousePosition.getId(), warehousePosition);
-        } else {
-            warehousePositionRestaurantDao.addItem(new WarehousePosition(ingredient));
-        }
-        result.setChangeSuccessfully(true);
-        result.setMessage("Изменение успешно");
-        result.setIngredient(warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient)).getIngredient());
-
-        return result;
-    }
-
-    private WarehouseChangeResult decreaseAmount(Ingredient ingredient) {
-
-        WarehouseChangeResult result = new WarehouseChangeResult();
-
-        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
-
-        if(warehousePosition == null) {
-            result.setChangeSuccessfully(false);
-            ingredient.setIngredientWeight(0.0D);
-            result.setIngredient(ingredient);
-            result.setMessage("На складе нет необходимого количества '" + ingredient.getIngredientName() + "' для данного действия");
-            return result;
-        }
-
-        ingredient.setIngredientWeight(ingredient.getIngredientWeight() * -1);
-        return increaseAmount(ingredient);
-    }
-
-    public Double checkAmount(Ingredient ingredient) {
-
-        final WarehousePosition warehousePosition = warehousePositionRestaurantDao.findItem(new WarehousePosition(ingredient));
-
-        if(warehousePosition == null) return 0.0D;
-
-        return warehousePosition.getIngredientAmount();
+        return changeResult;
     }
 
     public List<WarehousePosition> findAllPositions() {
@@ -252,10 +184,11 @@ public class ManagementService implements BusinessService {
     /**
      * Subtraction weights of ingredients which is located in new and old invoices
      * Old data of weights will be obtained from DB through invoice id
+     *
      * @param invoice invoice with new set of ingredients
      * @return collection with differences of ingredients
      */
-    private List<Ingredient> subtractionWeightsOfCollectionsOfIngredients(Invoice invoice) {
+    private Invoice subtractionWeightsOfCollectionsOfIngredients(Invoice invoice) {
         List<Ingredient> newInvoiceIngredients = invoice.getIngredients();
         List<Ingredient> oldInvoiceIngredients = invoice instanceof PurchaseInvoice ?
                 purchaseInvoiceRestaurantDao.findItemById(invoice.getId()).getIngredients() :
@@ -274,10 +207,81 @@ public class ManagementService implements BusinessService {
             }
         }
 
-        return differentialIngredientList;
+        if (invoice instanceof PurchaseInvoice) {
+            PurchaseInvoice purchaseInvoice = new PurchaseInvoice();
+            purchaseInvoice.setIngredients(differentialIngredientList);
+            return purchaseInvoice;
+        } else {
+            SalesInvoice salesInvoice = new SalesInvoice();
+            salesInvoice.setIngredients(differentialIngredientList);
+            return salesInvoice;
+        }
     }
 
     //------------------------------------------------------------------------------------------------------------------
+
+    private WarehouseChangeResult warehouseUpdate(Invoice invoice) {
+
+        WarehouseChangeResult result = checkAvailability(invoice);
+
+        if (!result.isChangeSuccessfully()) {
+            return result;
+        }
+
+        for (Ingredient ingredient : invoice.getIngredients()) {
+            WarehousePosition position = warehousePositionRestaurantDao.findItem(ingredient.getIngredientName());
+            if (invoice instanceof PurchaseInvoice) {
+                if (position == null) {
+                    warehousePositionRestaurantDao.addItem(new WarehousePosition(ingredient));
+                } else {
+                    position.setIngredientAmount(position.getIngredientAmount() + ingredient.getIngredientWeight());
+                    warehousePositionRestaurantDao.editItem(position.getId(), position);
+                }
+            } else {
+                if (position == null) {
+                    if (ingredient.getIngredientWeight() < 0) {
+                        ingredient.setIngredientWeight(ingredient.getIngredientWeight() * (-1));
+                        warehousePositionRestaurantDao.addItem(new WarehousePosition(ingredient));
+                    }
+                } else {
+                    position.setIngredientAmount(position.getIngredientAmount() - ingredient.getIngredientWeight());
+                    warehousePositionRestaurantDao.editItem(position.getId(), position);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private WarehouseChangeResult checkAvailability(Invoice invoice) {
+
+        for (Ingredient ingredient : invoice.getIngredients()) {
+            WarehousePosition position = warehousePositionRestaurantDao.findItem(ingredient.getIngredientName());
+            if (invoice instanceof PurchaseInvoice) {
+                if (position == null) {
+                    if (ingredient.getIngredientWeight() < 0) {
+                        return new WarehouseChangeResult(false, ingredient, "Не хватает ингредиентов на складе для данной операции");
+                    }
+                } else {
+                    if (position.getIngredientAmount() < (ingredient.getIngredientWeight() * (-1))) {
+                        return new WarehouseChangeResult(false, ingredient, "Не хватает ингредиентов на складе для данной операции");
+                    }
+                }
+            } else {
+                if (position == null) {
+                    if (ingredient.getIngredientWeight() > 0) {
+                        return new WarehouseChangeResult(false, ingredient, "Не хватает ингредиентов на складе для данной операции");
+                    }
+                } else {
+                    if (position.getIngredientAmount() < ingredient.getIngredientWeight()) {
+                        return new WarehouseChangeResult(false, ingredient, "Не хватает ингредиентов на складе для данной операции");
+                    }
+                }
+            }
+        }
+
+        return new WarehouseChangeResult(true, invoice.getId());
+    }
 
     public void setContractorRestaurantDao(RestaurantDao<Contractor> contractorRestaurantDao) {
         this.contractorRestaurantDao = contractorRestaurantDao;

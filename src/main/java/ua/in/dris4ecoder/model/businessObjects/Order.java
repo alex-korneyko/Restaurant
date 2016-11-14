@@ -7,7 +7,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -42,15 +42,6 @@ public class Order {
     @JoinColumn(name = "user_id")
     private UserImpl orderOwner;
 
-    @ManyToMany
-    @Fetch(FetchMode.JOIN)
-    @JoinTable(
-            name = "service.order_composition",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "dish_id")
-    )
-    private Set<Dish> dishes = new HashSet<>();
-
     @ElementCollection
     @CollectionTable(name = "service.order_dish_counts")
     @MapKeyJoinColumn(name = "dish_id")
@@ -58,7 +49,7 @@ public class Order {
     @Fetch(FetchMode.JOIN)
     private Map<Dish, Integer> dishesCount = new HashMap<>();
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private SalesInvoice salesInvoice;
 
     @Transient
@@ -143,7 +134,7 @@ public class Order {
     }
 
     public Set<Dish> getDishes() {
-        return dishes;
+        return dishesCount.keySet();
     }
 
     public void setDishes(List<Dish> dishes) {
@@ -169,17 +160,16 @@ public class Order {
 
     public void addDish(Dish dish) {
 
-        if (dishes.contains(dish)) {
+        if (dishesCount.containsKey(dish)) {
             dishesCount.put(dish, dishesCount.get(dish) + 1);
         } else {
-            dishes.add(dish);
             dishesCount.put(dish, 1);
         }
     }
 
     public void removeDish(Dish dish) {
 
-        if (!dishes.contains(dish)) return;
+        if (!dishesCount.containsKey(dish)) return;
 
         if (dishesCount.get(dish) > 1) {
             dishesCount.put(dish, dishesCount.get(dish) - 1);
@@ -190,9 +180,6 @@ public class Order {
 
     public void deleteDish(Dish dish) {
 
-        if (!dishes.contains(dish)) return;
-
-        dishes.remove(dish);
         dishesCount.remove(dish);
     }
 
@@ -203,9 +190,11 @@ public class Order {
         return dishesCount.get(dish);
     }
 
-    public double getOrderCost() {
+    public BigDecimal getOrderCost() {
 
-        return dishes.stream().mapToDouble(dish -> dish.getPrice().doubleValue() * dishesCount.get(dish)).sum();
+        double sum = dishesCount.keySet().stream().mapToDouble(dish -> dishesCount.get(dish)).sum();
+
+        return (new BigDecimal(sum)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public SalesInvoice getSalesInvoice() {
@@ -266,14 +255,14 @@ public class Order {
                 ", desk=" + desk +
                 ", status=" + status +
                 ", dateOfCreation=" + dateOfCreation +
-                ", dishes=" + dishes +
+                ", dishes=" + dishesCount.keySet() +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Order order = (Order) o;
 
@@ -281,7 +270,8 @@ public class Order {
         if (employee != null ? !employee.equals(order.employee) : order.employee != null) return false;
         if (dateOfCreation != null ? !dateOfCreation.equals(order.dateOfCreation) : order.dateOfCreation != null)
             return false;
-        return dishes != null ? dishes.equals(order.dishes) : order.dishes == null;
+        if (orderOwner != null ? !orderOwner.equals(order.orderOwner) : order.orderOwner != null) return false;
+        return dishesCount != null ? dishesCount.equals(order.dishesCount) : order.dishesCount == null;
 
     }
 
@@ -290,7 +280,8 @@ public class Order {
         int result = employee != null ? employee.hashCode() : 0;
         result = 31 * result + desk;
         result = 31 * result + (dateOfCreation != null ? dateOfCreation.hashCode() : 0);
-        result = 31 * result + (dishes != null ? dishes.hashCode() : 0);
+        result = 31 * result + (orderOwner != null ? orderOwner.hashCode() : 0);
+        result = 31 * result + (dishesCount != null ? dishesCount.hashCode() : 0);
         return result;
     }
 }

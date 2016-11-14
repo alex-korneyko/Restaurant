@@ -60,7 +60,7 @@ public class HibernateWarehouseDao implements RestaurantDao<WarehousePosition> {
     @Override
     @Transactional
     public WarehousePosition findItem(String name) {
-        final Query<WarehousePosition> query =  sessionFactory.getCurrentSession().createQuery("select wp from WarehousePosition wp where wp.ingredient.name = :name");
+        final Query<WarehousePosition> query =  sessionFactory.getCurrentSession().createQuery("select wp from WarehousePosition wp where wp.ingredient.ingredientName = :name");
         query.setParameter("name", name);
         return query.uniqueResult();
     }

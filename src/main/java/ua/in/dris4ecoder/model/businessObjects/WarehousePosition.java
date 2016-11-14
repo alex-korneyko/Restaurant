@@ -6,6 +6,9 @@ import javafx.beans.property.SimpleStringProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Created by Alex Korneyko on 06.09.2016 18:18.
@@ -67,6 +70,11 @@ public class WarehousePosition implements BusinessObject {
 
     public double getIngredientAmount() {
         return ingredientAmount;
+    }
+
+    public BigDecimal getIngredientAmountInBigDec() {
+
+        return (new BigDecimal(ingredientAmount)).setScale(4, BigDecimal.ROUND_HALF_UP);
     }
 
     public void setIngredientAmount(double ingredientAmount) {

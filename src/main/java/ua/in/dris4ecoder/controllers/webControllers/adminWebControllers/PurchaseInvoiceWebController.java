@@ -70,7 +70,7 @@ public class PurchaseInvoiceWebController {
             List<WarehouseChangeResult> results = new ArrayList<>();
 
             for (Integer selectedId : selectedIds) {
-                WarehouseChangeResult result = managementController.removePurchaseInvoice(selectedId);
+                WarehouseChangeResult result = managementController.removePurchaseInvoice(selectedId, true);
                 if (!result.isChangeSuccessfully()) {
                     results.add(result);
                 }
@@ -178,17 +178,20 @@ public class PurchaseInvoiceWebController {
 
         if (params.containsKey("saveInvoiceForm")) {
 
+            WarehouseChangeResult result;
+            fillInvoice(purchaseInvoice, params);
+
             if (purchaseInvoice.getId() == 0) {
-                managementController.addPurchaseInvoice(purchaseInvoice, null);
+                result = managementController.addPurchaseInvoice(purchaseInvoice, true);
             } else {
-                WarehouseChangeResult result = managementController.editPurchaseInvoice(purchaseInvoice, null);
-                if (!result.isChangeSuccessfully()) {
-                    modelAndView.addObject("error", true);
-                    modelAndView.addObject("errorMessage", "На складе не хватает ингредиентов");
-                }
+                result = managementController.editPurchaseInvoice(purchaseInvoice, true);
+            }
+
+            if (!result.isChangeSuccessfully()) {
+                modelAndView.addObject("error", true);
+                modelAndView.addObject("errorMessage", result.getMessage());
             }
         }
-
 
         modelAndView.addObject("allInvoices", managementController.findAllPurchaseInvoices());
         return modelAndView;

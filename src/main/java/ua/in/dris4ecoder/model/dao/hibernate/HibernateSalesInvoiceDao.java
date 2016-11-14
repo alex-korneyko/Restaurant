@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.dao.hibernate;
 
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
@@ -53,7 +54,9 @@ public class HibernateSalesInvoiceDao implements RestaurantDao<SalesInvoice> {
     @Override
     @Transactional
     public SalesInvoice findItemById(int id) {
-        return sessionFactory.getCurrentSession().find(SalesInvoice.class, id);
+        SalesInvoice salesInvoice = sessionFactory.getCurrentSession().find(SalesInvoice.class, id);
+        Hibernate.initialize(salesInvoice.getOrder());
+        return salesInvoice;
     }
 
     @Override

@@ -33,6 +33,26 @@ public class ServiceService implements BusinessService {
         return result;
     }
 
+    public WarehouseChangeResult editOrder(Order order) {
+
+        //receiving old invoice for this order
+        SalesInvoice salesInvoice = managementController.findSalesInvoice(order.getSalesInvoice().getId());
+
+        //filling old invoice
+        salesInvoice.fillInvoice(order);
+
+        //attempt updating of warehouse
+        WarehouseChangeResult changeResult = managementController.editSalesInvoice(salesInvoice, false);
+
+        if (changeResult.isChangeSuccessfully()) {
+
+            order.addSalesInvoice(salesInvoice);
+            ordersDao.editItem(order.getId(), order);
+        }
+
+        return changeResult;
+    }
+
     @Transactional
     public void removeOrder(Order order) {
 
@@ -61,16 +81,6 @@ public class ServiceService implements BusinessService {
     @Transactional
     public List<Order> findOrder(LocalDateTime start, LocalDateTime end) {
         return ordersDao.findItem(start, end);
-    }
-
-    public void editOrder(Order order) {
-
-        SalesInvoice salesInvoice = new SalesInvoice(true, order);
-        salesInvoice.setId(order.getSalesInvoice().getId());
-        order.addSalesInvoice(salesInvoice);
-        managementController.editSalesInvoice(salesInvoice, false);
-
-        ordersDao.editItem(order.getId(), order);
     }
 
     public List<Order> getAllOrders() {

@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 
 /**
  * Created by Alex Korneyko on 01.08.2016 20:14.
@@ -109,7 +110,7 @@ public class Ingredient implements Cloneable {
 
     public BigDecimal getIngredientPriceInBDecimal() {
 
-        return new BigDecimal(ingredientPrice, new MathContext(2));
+        return (new BigDecimal(ingredientPrice)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public void setIngredientPrice(double ingredientPrice) {
@@ -124,7 +125,7 @@ public class Ingredient implements Cloneable {
 
     public BigDecimal getIngredientWeightInBDecimal() {
 
-        return new BigDecimal(ingredientWeight, new MathContext(3));
+        return (new BigDecimal(ingredientWeight)).setScale(3, BigDecimal.ROUND_HALF_UP);
     }
 
     public void setIngredientWeight(double ingredientWeight) {
@@ -135,7 +136,7 @@ public class Ingredient implements Cloneable {
 
     public BigDecimal getIngredientPriceOfWeight() {
 //        ingredientPriceOfWeight = ingredientWeight * ingredientWeight;
-        return new BigDecimal(ingredientPriceOfWeight, new MathContext(2));
+        return (new BigDecimal(ingredientPriceOfWeight)).setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
     public String getNameWithHtmlQuot() {
