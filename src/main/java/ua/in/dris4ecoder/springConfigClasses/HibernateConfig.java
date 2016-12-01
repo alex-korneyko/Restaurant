@@ -38,121 +38,121 @@ public class HibernateConfig {
     }
 
     @Bean
-    RestaurantDao<EmployeePost> hibernateEmployeePostDao(SessionFactory sessionFactory) {
+    RestaurantDao<EmployeePost> hibernateEmployeePostDao(SessionFactory localSessionFactoryBean) {
 
         HibernateEmployeePostDao hibernateEmployeePostDao = new HibernateEmployeePostDao();
-        hibernateEmployeePostDao.setSessionFactory(sessionFactory);
+        hibernateEmployeePostDao.setSessionFactory(localSessionFactoryBean);
 
         return hibernateEmployeePostDao;
     }
 
     @Bean
-    RestaurantDao<Employee> hibernateEmployeeDao(SessionFactory sessionFactory) {
+    RestaurantDao<Employee> hibernateEmployeeDao(SessionFactory localSessionFactoryBean) {
 
         HibernateEmployeeDao hibernateEmployeeDao = new HibernateEmployeeDao();
-        hibernateEmployeeDao.setSessionFactory(sessionFactory);
+        hibernateEmployeeDao.setSessionFactory(localSessionFactoryBean);
 
         return hibernateEmployeeDao;
     }
 
     @Bean
-    RestaurantDao<Ingredient> hibernateIngredientDao(SessionFactory sessionFactory) {
+    RestaurantDao<Ingredient> hibernateIngredientDao(SessionFactory localSessionFactoryBean) {
 
         HibernateIngredientDao ingredientDao = new HibernateIngredientDao();
-        ingredientDao.setSessionFactory(sessionFactory);
+        ingredientDao.setSessionFactory(localSessionFactoryBean);
 
         return ingredientDao;
     }
 
     @Bean
-    RestaurantDao<Dish> hibernateDishDao(SessionFactory sessionFactory) {
+    RestaurantDao<Dish> hibernateDishDao(SessionFactory localSessionFactoryBean) {
 
         HibernateDishDao dishDao = new HibernateDishDao();
-        dishDao.setSessionFactory(sessionFactory);
+        dishDao.setSessionFactory(localSessionFactoryBean);
 
         return dishDao;
     }
 
     @Bean
-    RestaurantDao<Menu> hibernateMenuDao(SessionFactory sessionFactory) {
+    RestaurantDao<Menu> hibernateMenuDao(SessionFactory localSessionFactoryBean) {
 
         HibernateMenuDao menuDao = new HibernateMenuDao();
-        menuDao.setSessionFactory(sessionFactory);
+        menuDao.setSessionFactory(localSessionFactoryBean);
 
         return menuDao;
     }
 
     @Bean
-    RestaurantDao<Order> hibernateOrderDao(SessionFactory sessionFactory) {
+    RestaurantDao<Order> hibernateOrderDao(SessionFactory localSessionFactoryBean) {
         HibernateOrderDao orderDao = new HibernateOrderDao();
-        orderDao.setSessionFactory(sessionFactory);
+        orderDao.setSessionFactory(localSessionFactoryBean);
         return orderDao;
     }
 
     @Bean
-    RestaurantDao<KitchenProcess> hibernateKitchenDao(SessionFactory sessionFactory) {
+    RestaurantDao<KitchenProcess> hibernateKitchenDao(SessionFactory localSessionFactoryBean) {
         HibernateKitchenDao hibernateKitchenDao = new HibernateKitchenDao();
-        hibernateKitchenDao.setSessionFactory(sessionFactory);
+        hibernateKitchenDao.setSessionFactory(localSessionFactoryBean);
         return hibernateKitchenDao;
     }
 
     @Bean
-    RestaurantDao<Unit> hibernateUnitDao(SessionFactory sessionFactory) {
+    RestaurantDao<Unit> hibernateUnitDao(SessionFactory localSessionFactoryBean) {
         HibernateUnitsDao hibernateUnitsDao = new HibernateUnitsDao();
-        hibernateUnitsDao.setSessionFactory(sessionFactory);
+        hibernateUnitsDao.setSessionFactory(localSessionFactoryBean);
         return hibernateUnitsDao;
     }
 
     @Bean
-    RestaurantDao<Contractor> hibernateSupplierDao(SessionFactory sessionFactory) {
+    RestaurantDao<Contractor> hibernateSupplierDao(SessionFactory localSessionFactoryBean) {
         HibernateContractorsDao hibernateContractorsDao = new HibernateContractorsDao();
-        hibernateContractorsDao.setSessionFactory(sessionFactory);
+        hibernateContractorsDao.setSessionFactory(localSessionFactoryBean);
         return hibernateContractorsDao;
     }
 
     @Bean
-    RestaurantDao<PurchaseInvoice> hibernatePurchaseInvoiceDao(SessionFactory sessionFactory) {
+    RestaurantDao<PurchaseInvoice> hibernatePurchaseInvoiceDao(SessionFactory localSessionFactoryBean) {
         HibernatePurchaseInvoiceDao hibernatePurchaseInvoiceDao = new HibernatePurchaseInvoiceDao();
-        hibernatePurchaseInvoiceDao.setSessionFactory(sessionFactory);
+        hibernatePurchaseInvoiceDao.setSessionFactory(localSessionFactoryBean);
         return hibernatePurchaseInvoiceDao;
     }
 
     @Bean
-    RestaurantDao<SalesInvoice> hibernateSalesInvoiceDao(SessionFactory sessionFactory) {
+    RestaurantDao<SalesInvoice> hibernateSalesInvoiceDao(SessionFactory localSessionFactoryBean) {
         HibernateSalesInvoiceDao hibernateSalesInvoiceDao = new HibernateSalesInvoiceDao();
-        hibernateSalesInvoiceDao.setSessionFactory(sessionFactory);
+        hibernateSalesInvoiceDao.setSessionFactory(localSessionFactoryBean);
         return hibernateSalesInvoiceDao;
     }
 
     @Bean
-    RestaurantDao<WarehousePosition> hibernateWarehouseDao(SessionFactory sessionFactory) {
+    RestaurantDao<WarehousePosition> hibernateWarehouseDao(SessionFactory localSessionFactoryBean) {
         HibernateWarehouseDao hibernateWarehouseDao = new HibernateWarehouseDao();
-        hibernateWarehouseDao.setSessionFactory(sessionFactory);
+        hibernateWarehouseDao.setSessionFactory(localSessionFactoryBean);
         return hibernateWarehouseDao;
     }
 
     @Bean
-    HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
+    HibernateTransactionManager hibernateTransactionManager(SessionFactory localSessionFactoryBean) {
 
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(sessionFactory);
+        transactionManager.setSessionFactory(localSessionFactoryBean);
         return transactionManager;
     }
 
     @Bean
-    CurrencyDao currencyDao(SessionFactory sessionFactory) {
+    CurrencyDao currencyDao(SessionFactory localSessionFactoryBean) {
 
         HibernateCurrenciesDao currenciesDao = new HibernateCurrenciesDao();
-        currenciesDao.setSessionFactory(sessionFactory);
+        currenciesDao.setSessionFactory(localSessionFactoryBean);
 
         return currenciesDao;
     }
 
     @Bean
-    RestaurantDao<UserGroup> groupRestaurantDao(SessionFactory sessionFactory) {
+    RestaurantDao<UserGroup> groupRestaurantDao(SessionFactory localSessionFactoryBean) {
 
         HibernateGroupsDao groupsDao = new HibernateGroupsDao();
-        groupsDao.setSessionFactory(sessionFactory);
+        groupsDao.setSessionFactory(localSessionFactoryBean);
 
         return groupsDao;
     }

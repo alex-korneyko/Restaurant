@@ -160,7 +160,7 @@
                     <ul class="dropdown-menu dropdown-to-right">
                         <li><a href="#" onclick="showInFrame('ingredients', 'admin/')">Ингредиенты</a></li>
                         <li><a href="#" onclick="showInFrame('dishes', 'admin/')">Блюда</a></li>
-                        <li><a href="#" onclick="showInFrame('menus', 'admin/')">Меню</a></li>
+                        <li><a href="#" onclick="showInFrame('menu', 'admin/')">Меню</a></li>
                     </ul>
                 </div>
                 <div class="btn-group">

@@ -1,6 +1,8 @@
 package ua.in.dris4ecoder.controllers.webControllers.adminWebControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +18,15 @@ import java.util.stream.Collectors;
  * Created by Alex Korneyko on 04.11.2016 23:55.
  */
 @Controller
+@ComponentScan(value = "ua.in.dris4ecoder.springConfigClasses")
 public class ContractorsWebController {
 
+    private final ManagementService managementController;
+
     @Autowired
-    private ManagementService managementController;
+    public ContractorsWebController(ManagementService managementController) {
+        this.managementController = managementController;
+    }
 
     @RequestMapping(value = "admin/contractors")
     public ModelAndView contractors(@RequestParam Map<String, String> params) {

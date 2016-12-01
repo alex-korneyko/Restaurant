@@ -2,7 +2,9 @@ package ua.in.dris4ecoder.controllers.webControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -23,15 +25,25 @@ import java.util.stream.Stream;
 @Controller
 public class MainWindowWebController {
 
+    private final UserRegistrationService userRegistrationService;
+
     @Autowired
-    private UserRegistrationService userRegistrationService;
+    public MainWindowWebController(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
+    }
 
     @RequestMapping(value = "/")
     public ModelAndView index(@RequestParam Map<String, Object> model) {
 
         ModelAndView modelAndView = new ModelAndView("index");
 
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            modelAndView.addObject("authority", Collections.singletonList("GUEST"));
+            return modelAndView;
+        }
+
+        Object principal = authentication.getPrincipal();
 
         if (principal instanceof String) {
             modelAndView.addObject("authority", Collections.singletonList("GUEST"));
@@ -46,16 +58,13 @@ public class MainWindowWebController {
     @RequestMapping(value = "/mainPage")
     public ModelAndView mainPage() {
 
-        ModelAndView modelAndView = new ModelAndView("mainPage");
-
-        return modelAndView;
+        return new ModelAndView("mainPage");
     }
 
     @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
     public ModelAndView loginPage() {
 
-        ModelAndView modelAndView = new ModelAndView("loginPage");
-        return modelAndView;
+        return new ModelAndView("loginPage");
     }
 
     @RequestMapping(value = "/loginStatusFrame")
@@ -68,14 +77,13 @@ public class MainWindowWebController {
             modelAndView.addObject("userLogin", ((UserDetails) principal).getUsername());
         }
 
-
         return modelAndView;
     }
 
     @RequestMapping(value = "/registrationPage")
     public ModelAndView registrationPage() {
-        ModelAndView modelAndView = new ModelAndView("registrationPage");
-        return modelAndView;
+
+        return new ModelAndView("registrationPage");
     }
 
     @RequestMapping(value = "/registrationResult", method = RequestMethod.POST)
