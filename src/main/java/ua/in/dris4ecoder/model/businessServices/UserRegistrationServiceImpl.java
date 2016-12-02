@@ -3,6 +3,7 @@ package ua.in.dris4ecoder.model.businessServices;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserImpl;
+import ua.in.dris4ecoder.model.businessObjects.UserRole;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
 import java.util.Collections;
@@ -16,7 +17,65 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private RestaurantDao<UserImpl> userRestaurantDao;
     private RestaurantDao<UserGroup> userGroupRestaurantDao;
+    private RestaurantDao<UserRole> userRoleRestaurantDao;
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public void validateUserGroup(UserGroup userGroup) {
+
+    }
+
+    @Override
+    public void addUserGroup(UserGroup userGroup) {
+
+    }
+
+    @Override
+    public void addUserGroup(String groupName, List<UserRole> groupAuthorities) {
+
+    }
+
+    @Override
+    public UserGroup findUserGroup(int userGroupId) {
+
+        return userGroupRestaurantDao.findItemById(userGroupId);
+    }
+
+    @Override
+    public UserGroup findUserGroup(UserGroup userGroup) {
+        return null;
+    }
+
+    @Override
+    public List<UserGroup> findUserGroup(String userGroupName) {
+        return null;
+    }
+
+    @Override
+    public List<UserGroup> getAllGroups() {
+
+        return userGroupRestaurantDao.findAll();
+    }
+
+    @Override
+    public void editUserGroup(UserGroup userGroup) {
+
+    }
+
+    @Override
+    public void removeUserGroup(int userGroupId) {
+
+    }
+
+    @Override
+    public void removeUserGroup(UserGroup userGroup) {
+
+    }
+
+    @Override
+    public void removeUserGroup(String userGroupName) {
+
+    }
 
     @Override
     public void validateUser(UserImpl user) {
@@ -83,6 +142,11 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         return userRestaurantDao.findAll();
     }
 
+    public void addRole(UserRole userRole) {
+
+        userRoleRestaurantDao.addItem(userRole);
+    }
+
     public void setUserRestaurantDao(RestaurantDao<UserImpl> userRestaurantDao) {
         this.userRestaurantDao = userRestaurantDao;
     }
@@ -93,5 +157,9 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     public void setUserGroupRestaurantDao(RestaurantDao<UserGroup> userGroupRestaurantDao) {
         this.userGroupRestaurantDao = userGroupRestaurantDao;
+    }
+
+    public void setUserRoleRestaurantDao(RestaurantDao<UserRole> userRoleRestaurantDao) {
+        this.userRoleRestaurantDao = userRoleRestaurantDao;
     }
 }

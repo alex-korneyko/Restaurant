@@ -25,6 +25,9 @@ public class HibernateEmployeePostDao implements RestaurantDao<EmployeePost> {
     @Transactional
     public int addItem(EmployeePost item) {
 
+        EmployeePost post = findItem(item.getPostName());
+        if (post != null) return post.getId();
+
         Session currentSession = sessionFactory.getCurrentSession();
         Serializable save = currentSession.save(item);
         return ((int) save);
@@ -38,7 +41,7 @@ public class HibernateEmployeePostDao implements RestaurantDao<EmployeePost> {
         @SuppressWarnings("JpaQlInspection")
         Query query = currentSession.createQuery("delete from EmployeePost ep where ep.id = :id");
         query.setParameter("id", id);
-        query.executeUpdate();
+        int i = query.executeUpdate();
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -154,6 +155,12 @@ public class Employee implements BusinessObject {
 
     public void setUser(UserImpl user) {
         this.user = user;
+
+        if (user.getUserName() == null)
+            this.user.setUserName(this.firstName);
+
+        if (user.getUserSurName() == null)
+            this.user.setUserSurName(this.lastName);
     }
 
     //-----------------------------------

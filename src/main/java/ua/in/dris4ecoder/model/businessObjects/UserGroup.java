@@ -30,7 +30,7 @@ public class UserGroup {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "authority")
     )
-    private List<UserRoles> roles;
+    private List<UserRole> roles;
 
     public UserGroup() {
     }
@@ -39,7 +39,7 @@ public class UserGroup {
         this.groupName = groupName;
     }
 
-    public UserGroup(String groupName, List<UserRoles> roles) {
+    public UserGroup(String groupName, List<UserRole> roles) {
         this.groupName = groupName;
         this.roles = roles;
     }
@@ -60,11 +60,11 @@ public class UserGroup {
         this.groupName = groupName;
     }
 
-    public List<UserRoles> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRoles> roles) {
+    public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
 

@@ -67,14 +67,12 @@ public class AppConfig {
     @Bean
     StaffService staffController(RestaurantDao<EmployeePost> hibernateEmployeePostDao,
                                  RestaurantDao<Employee> hibernateEmployeeDao,
-                                 UserRegistrationService userRegistrationService,
-                                 GroupsRegistrationService groupsRegistrationService) {
+                                 UserRegistrationService userRegistrationService) {
 
         StaffService controller = new StaffService();
         controller.setEmployeePostsDao(hibernateEmployeePostDao);
         controller.setEmployeeDao(hibernateEmployeeDao);
         controller.setUserRegistrationService(userRegistrationService);
-        controller.setGroupsRegistrationService(groupsRegistrationService);
 
         return controller;
     }

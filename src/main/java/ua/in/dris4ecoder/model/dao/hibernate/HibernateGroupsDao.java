@@ -6,11 +6,13 @@ import org.hibernate.query.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
 import ua.in.dris4ecoder.model.businessObjects.UserGroup;
+import ua.in.dris4ecoder.model.businessObjects.UserRole;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by Alex Korneyko on 28.10.2016 20:48.
@@ -99,6 +101,12 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
         Query<UserGroup> query = currentSession.createQuery("select g from UserGroup g");
 
         return query.list();
+    }
+
+    @Transactional
+    public void addRole(UserRole role) {
+
+        sessionFactory.getCurrentSession().save(role);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

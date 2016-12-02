@@ -23,7 +23,6 @@ public class StaffService implements BusinessService {
     private RestaurantDao<EmployeePost> employeePostsDao;
     private RestaurantDao<Employee> employeeDao;
     private UserRegistrationService userRegistrationService;
-    private GroupsRegistrationService groupsRegistrationService;
 
     public void addEmployeePost(String name) {
         employeePostsDao.addItem(new EmployeePost(name));
@@ -55,10 +54,11 @@ public class StaffService implements BusinessService {
         employeeDao.addItem(new Employee(lastName, firstName, Main.getStaffController().findEmployeePostById(postId)));
     }
 
-    public void addEmployee(Employee employee) {
+    public int addEmployee(Employee employee) {
 
         userRegistrationService.addUser(employee.getUser());
-        employeeDao.addItem(employee);
+
+        return employeeDao.addItem(employee);
     }
 
     public void addEmployee(Map<String, String> params) {
@@ -100,7 +100,7 @@ public class StaffService implements BusinessService {
 
         List<UserGroup> userGroups = new ArrayList<>();
 
-        selectedGroups.forEach(s -> userGroups.add(groupsRegistrationService.findUserGroup(Integer.parseInt(params.get(s)))));
+        selectedGroups.forEach(s -> userGroups.add(userRegistrationService.findUserGroup(Integer.parseInt(params.get(s)))));
 
         employee.getUser().setUserName(params.get("userName"));
         employee.getUser().setUserSurName(params.get("userSurName"));
@@ -156,10 +156,6 @@ public class StaffService implements BusinessService {
 
     public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
-    }
-
-    public void setGroupsRegistrationService(GroupsRegistrationService groupsRegistrationService) {
-        this.groupsRegistrationService = groupsRegistrationService;
     }
 
     public Employee findEmployeeByUserName(String name) {

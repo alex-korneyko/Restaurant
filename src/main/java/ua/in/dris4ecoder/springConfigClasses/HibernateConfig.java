@@ -2,13 +2,10 @@ package ua.in.dris4ecoder.springConfigClasses;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.dao.CurrencyDao;
@@ -164,5 +161,14 @@ public class HibernateConfig {
         userRestaurantDao.setSessionFactory(localSessionFactoryBean);
 
         return userRestaurantDao;
+    }
+
+    @Bean
+    RestaurantDao<UserRole> userRoleRestaurantDao(SessionFactory localSessionFactoryBean) {
+
+        HibernateUserRolesDao hibernateUserRolesDao = new HibernateUserRolesDao();
+        hibernateUserRolesDao.setSessionFactory(localSessionFactoryBean);
+
+        return hibernateUserRolesDao;
     }
 }

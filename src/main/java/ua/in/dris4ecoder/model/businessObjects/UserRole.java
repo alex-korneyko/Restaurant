@@ -10,22 +10,30 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "security.roles")
-public class UserRoles {
+public class UserRole {
 
     @Id
     @Column(name = "authority_role")
     private String roleName;
 
-    public UserRoles() {
+    public UserRole() {
     }
 
-    public UserRoles(String roleName) {
+    public UserRole(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 
     @Override
     public String toString() {
-        return "UserRoles{" +
+        return "UserRole{" +
                 "roleName='" + roleName + '\'' +
                 '}';
     }

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.in.dris4ecoder.model.businessServices.GroupsRegistrationService;
 import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class EmployeesWebController {
     private StaffService staffController;
 
     @Autowired
-    private GroupsRegistrationService groupsRegistrationService;
+    private UserRegistrationService userRegistrationService;
 
     @RequestMapping(value = "/admin/employees/**")
     public ModelAndView employees(@RequestParam Map<String, String> params) {
@@ -33,7 +33,7 @@ public class EmployeesWebController {
         if (params.containsKey("create")) {
 
             modelAndView.addObject("allPosts", staffController.getAllEmployeePosts());
-            modelAndView.addObject("allGroups", groupsRegistrationService.getAllGroups());
+            modelAndView.addObject("allGroups", userRegistrationService.getAllGroups());
             modelAndView.addObject("openEditWindow", true);
         }
 
@@ -60,7 +60,7 @@ public class EmployeesWebController {
                 modelAndView.addObject("employeeBirthForEditing", employee.getDateOfBirth());
                 modelAndView.addObject("employeeSalaryForEditing", employee.getSalary());
                 modelAndView.addObject("passEditDisable", true);
-                modelAndView.addObject("allGroups", groupsRegistrationService.getAllGroups());
+                modelAndView.addObject("allGroups", userRegistrationService.getAllGroups());
                 modelAndView.addObject("allPosts", staffController.getAllEmployeePosts());
 
                 modelAndView.addObject("openEditWindow", true);
