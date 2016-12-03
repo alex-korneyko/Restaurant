@@ -25,13 +25,15 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
     @Transactional
     public int addItem(UserGroup item) {
 
-        return 0;
+        Serializable save = sessionFactory.getCurrentSession().save(item);
+        return (int) save;
     }
 
     @Override
     @Transactional
     public void removeItemById(int id) {
 
+        sessionFactory.getCurrentSession().remove(findItemById(id));
     }
 
     @Override
@@ -44,12 +46,14 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
     @Transactional
     public void removeItem(UserGroup item) {
 
+        sessionFactory.getCurrentSession().remove(item);
     }
 
     @Override
     @Transactional
     public void editItem(int id, UserGroup changedItem) {
 
+        sessionFactory.getCurrentSession().update(changedItem);
     }
 
     @Override

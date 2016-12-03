@@ -26,6 +26,7 @@ import static org.junit.Assert.assertNull;
 public class UserRolesDaoTest {
 
     public static final String ROLE_USER = "ROLE_USER" ;
+
     @Autowired
     private RestaurantDao<UserRole> userRoleRestaurantDao;
 

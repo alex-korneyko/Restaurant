@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
+import ua.in.dris4ecoder.model.businessObjects.UserGroup;
 import ua.in.dris4ecoder.model.businessObjects.UserRole;
 import ua.in.dris4ecoder.model.businessServices.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
 import ua.in.dris4ecoder.model.dao.hibernate.HibernateEmployeePostDao;
+import ua.in.dris4ecoder.model.dao.hibernate.HibernateGroupsDao;
 import ua.in.dris4ecoder.model.dao.hibernate.HibernateUserRolesDao;
 
 /**
@@ -43,6 +45,15 @@ public class TestConfig {
         userRolesDao.setSessionFactory(sessionFactory);
 
         return userRolesDao;
+    }
+
+    @Bean
+    public RestaurantDao<UserGroup> userGroupRestaurantDao(SessionFactory sessionFactory) {
+
+        HibernateGroupsDao groupsDao = new HibernateGroupsDao();
+        groupsDao.setSessionFactory(sessionFactory);
+
+        return groupsDao;
     }
 
     @Bean
