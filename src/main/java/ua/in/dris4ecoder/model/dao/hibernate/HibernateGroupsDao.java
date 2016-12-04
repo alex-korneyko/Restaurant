@@ -40,6 +40,8 @@ public class HibernateGroupsDao implements RestaurantDao<UserGroup> {
     @Transactional
     public void removeItemByName(String name) {
 
+        removeItemById(findItem(name).getId());
+
     }
 
     @Override

@@ -65,18 +65,20 @@ public class Employee implements BusinessObject {
 
     public Employee(){}
 
-    public Employee(String lastName, String firstName, EmployeePost employeePost) {
+    public Employee(String lastName, String firstName, EmployeePost employeePost, UserImpl user) {
         this.lastName = lastName;
         this.lastNameProp.set(lastName);
         this.firstName = firstName;
         this.firstNameProp.set(firstName);
         this.employeePost = employeePost;
         this.employeePostProp.set(employeePost.toString());
+        this.user = user;
     }
 
-    public Employee(int id, String lastName, String firstName, LocalDate dateOfBirth, String telephone, EmployeePost employeePost, double salary) {
+    public Employee(int id, String lastName, String firstName, LocalDate dateOfBirth, String telephone,
+                    EmployeePost employeePost, double salary, UserImpl user) {
 
-        this(lastName, firstName, employeePost);
+        this(lastName, firstName, employeePost, user);
         this.id = id;
         this.idProp.set(id);
         this.dateOfBirth = dateOfBirth;

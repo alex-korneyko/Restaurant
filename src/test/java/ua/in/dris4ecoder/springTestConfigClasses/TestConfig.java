@@ -5,16 +5,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import ua.in.dris4ecoder.model.businessObjects.EmployeePost;
-import ua.in.dris4ecoder.model.businessObjects.UserGroup;
-import ua.in.dris4ecoder.model.businessObjects.UserRole;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.businessServices.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateEmployeePostDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateGroupsDao;
-import ua.in.dris4ecoder.model.dao.hibernate.HibernateUserRolesDao;
+import ua.in.dris4ecoder.model.dao.hibernate.*;
 
 /**
  * Created by admin on 30.11.2016.
@@ -39,6 +36,15 @@ public class TestConfig {
     }
 
     @Bean
+    public RestaurantDao<Employee> employeeRestaurantDao (SessionFactory sessionFactory) {
+
+        HibernateEmployeeDao hibernateEmployeeDao = new HibernateEmployeeDao();
+        hibernateEmployeeDao.setSessionFactory(sessionFactory);
+
+        return hibernateEmployeeDao;
+    }
+
+    @Bean
     public RestaurantDao<UserRole> userRoleRestaurantDao(SessionFactory sessionFactory) {
 
         HibernateUserRolesDao userRolesDao = new HibernateUserRolesDao();
@@ -56,15 +62,39 @@ public class TestConfig {
         return groupsDao;
     }
 
-    @Bean
-    public UserRegistrationServiceImpl userRegistrationService() {
+    @Bean RestaurantDao<UserImpl> userRestaurantDaoTest(SessionFactory sessionFactory) {
 
-        return new UserRegistrationServiceImpl();
+        HibernateUsersDao hibernateUsersDao = new HibernateUsersDao();
+        hibernateUsersDao.setSessionFactory(sessionFactory);
+
+        return hibernateUsersDao;
     }
 
     @Bean
-    public StaffService staffService() {
+    public UserRegistrationServiceImpl userRegistrationService(RestaurantDao<UserRole> userRoleRestaurantDao,
+                                                               RestaurantDao<UserGroup> userGroupRestaurantDao,
+                                                               RestaurantDao<UserImpl> userRestaurantDaoTest,
+                                                               BCryptPasswordEncoder bCryptPasswordEncoder) {
 
-        return new StaffService();
+        UserRegistrationServiceImpl userRegistrationService = new UserRegistrationServiceImpl();
+        userRegistrationService.setUserRoleRestaurantDao(userRoleRestaurantDao);
+        userRegistrationService.setPasswordEncoder(bCryptPasswordEncoder);
+        userRegistrationService.setUserGroupRestaurantDao(userGroupRestaurantDao);
+        userRegistrationService.setUserRestaurantDao(userRestaurantDaoTest);
+
+        return userRegistrationService;
+    }
+
+    @Bean
+    public StaffService staffService(RestaurantDao<Employee> employeeRestaurantDao,
+                                     RestaurantDao<EmployeePost> employeePostRestaurantDao,
+                                     UserRegistrationServiceImpl userRegistrationService) {
+
+        StaffService staffService = new StaffService();
+        staffService.setEmployeeDao(employeeRestaurantDao);
+        staffService.setEmployeePostsDao(employeePostRestaurantDao);
+        staffService.setUserRegistrationService(userRegistrationService);
+
+        return staffService;
     }
 }

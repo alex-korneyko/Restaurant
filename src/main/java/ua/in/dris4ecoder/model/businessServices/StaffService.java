@@ -51,7 +51,7 @@ public class StaffService implements BusinessService {
 
     public void addEmployee(String lastName, String firstName, int postId) {
 
-        employeeDao.addItem(new Employee(lastName, firstName, Main.getStaffController().findEmployeePostById(postId)));
+        employeeDao.addItem(new Employee(lastName, firstName, Main.getStaffController().findEmployeePostById(postId), new UserImpl()));
     }
 
     public int addEmployee(Employee employee) {

@@ -21,6 +21,41 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
+    public void addUserRole(String userRole) {
+
+       addUserRole(new UserRole(userRole));
+    }
+
+    @Override
+    public void addUserRole(UserRole userRole) {
+
+        userRoleRestaurantDao.addItem(userRole);
+    }
+
+    @Override
+    public UserRole findUserRole(String roleName) {
+
+        return userRoleRestaurantDao.findItem(roleName);
+    }
+
+    @Override
+    public void editUserRole(UserRole changedUserRole) {
+
+        userRoleRestaurantDao.editItem(0, changedUserRole);
+    }
+
+    @Override
+    public void removeUserRole(UserRole userRole) {
+
+        userRoleRestaurantDao.removeItem(userRole);
+    }
+
+    @Override
+    public void removeUserRole(String userRoleName) {
+
+    }
+
+    @Override
     public void validateUserGroup(UserGroup userGroup) {
 
     }
@@ -28,11 +63,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public void addUserGroup(UserGroup userGroup) {
 
+        userGroupRestaurantDao.addItem(userGroup);
     }
 
     @Override
     public void addUserGroup(String groupName, List<UserRole> groupAuthorities) {
 
+        userGroupRestaurantDao.addItem(new UserGroup(groupName, groupAuthorities));
     }
 
     @Override
@@ -47,7 +84,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public List<UserGroup> findUserGroup(String userGroupName) {
+    public UserGroup findUserGroup(String userGroupName) {
         return null;
     }
 
@@ -75,6 +112,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     public void removeUserGroup(String userGroupName) {
 
+        userGroupRestaurantDao.removeItemByName(userGroupName);
     }
 
     @Override
@@ -140,11 +178,6 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     public List<UserImpl> getAllUsers() {
 
         return userRestaurantDao.findAll();
-    }
-
-    public void addRole(UserRole userRole) {
-
-        userRoleRestaurantDao.addItem(userRole);
     }
 
     public void setUserRestaurantDao(RestaurantDao<UserImpl> userRestaurantDao) {
