@@ -19,13 +19,16 @@ import java.util.stream.Collectors;
 @Controller
 public class EmployeesWebController {
 
-    @Autowired
-    private StaffService staffController;
+    private final StaffService staffController;
+    private final UserRegistrationService userRegistrationService;
 
     @Autowired
-    private UserRegistrationService userRegistrationService;
+    public EmployeesWebController(StaffService staffController, UserRegistrationService userRegistrationService) {
+        this.staffController = staffController;
+        this.userRegistrationService = userRegistrationService;
+    }
 
-    @RequestMapping(value = "/admin/employees/**")
+    @RequestMapping(value = "/admin/employees")
     public ModelAndView employees(@RequestParam Map<String, String> params) {
 
         ModelAndView modelAndView = new ModelAndView("admin/employees");

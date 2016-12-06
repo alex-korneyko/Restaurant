@@ -1,5 +1,6 @@
 package ua.in.dris4ecoder.model.dao.hibernate;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -76,7 +77,12 @@ public class HibernateEmployeeDao implements RestaurantDao<Employee> {
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Employee> query = currentSession.createQuery("select e from Employee e where e.user.userLogin = :name");
         query.setParameter("name", name);
-        return query.uniqueResult();
+        Employee employee = query.uniqueResult();
+        if (employee != null) {
+            Hibernate.initialize(employee.getUser().getUserGroups());
+        }
+
+        return employee;
     }
 
     @Override

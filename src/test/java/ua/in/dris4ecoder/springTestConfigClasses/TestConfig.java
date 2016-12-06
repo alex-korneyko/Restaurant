@@ -1,13 +1,15 @@
 package ua.in.dris4ecoder.springTestConfigClasses;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import ua.in.dris4ecoder.BusinessObjectsFactory;
 import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.businessServices.*;
 import ua.in.dris4ecoder.model.dao.RestaurantDao;
@@ -96,5 +98,25 @@ public class TestConfig {
         staffService.setUserRegistrationService(userRegistrationService);
 
         return staffService;
+    }
+
+    @Bean
+    public BusinessObjectsFactory businessObjectsFactory(UserRegistrationService userRegistrationService,
+                                                         StaffService staffService) {
+
+        BusinessObjectsFactory businessObjectsFactory = new BusinessObjectsFactory();
+        businessObjectsFactory.setUserRegistrationService(userRegistrationService);
+        businessObjectsFactory.setStaffService(staffService);
+
+        return businessObjectsFactory;
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        return objectMapper;
     }
 }

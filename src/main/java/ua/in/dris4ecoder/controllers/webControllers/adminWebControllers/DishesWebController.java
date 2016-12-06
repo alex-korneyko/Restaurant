@@ -21,10 +21,14 @@ import java.util.stream.Collectors;
 @Controller
 public class DishesWebController {
 
-    @Autowired
-    InstrumentsService instrumentsController;
+    private final InstrumentsService instrumentsController;
 
     private Dish dish;
+
+    @Autowired
+    public DishesWebController(InstrumentsService instrumentsController) {
+        this.instrumentsController = instrumentsController;
+    }
 
     @RequestMapping(value = "admin/dishes")
     public ModelAndView dishes(@RequestParam Map<String, String> params) {
@@ -150,7 +154,7 @@ public class DishesWebController {
             modelAndView.addObject("openEditWindow", true);
         }
 
-        //----------------- SAVE INVOICE -------------------------------------
+        //----------------- SAVE DISH -------------------------------------
 
         if (params.containsKey("saveDishForm")) {
 

@@ -7,14 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import ua.in.dris4ecoder.BusinessObjectsFactory;
 import ua.in.dris4ecoder.model.businessObjects.Employee;
-import ua.in.dris4ecoder.model.businessObjects.UserImpl;
 import ua.in.dris4ecoder.model.businessServices.StaffService;
-import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 import ua.in.dris4ecoder.springTestConfigClasses.JpaTestConfig;
 import ua.in.dris4ecoder.springTestConfigClasses.TestConfig;
-
-import java.util.Collections;
 
 /**
  * Created by admin on 30.11.2016.
@@ -28,42 +25,40 @@ public class StaffServiceTest {
     private static final String EMPLOYEE_POST = "CEO";
     private static final String ROLE = "ROLE_SUPERUSER";
     private static final String GROUP_NAME = "Employees";
+    private static final String USER_NAME = "user";
+    private static final String FIRST_NAME = "testFirstName";
+    private static final String LAST_NAME = "testLastName";
 
     @Autowired
     private StaffService staffService;
 
     @Autowired
-    private UserRegistrationService userRegistrationService;
+    private BusinessObjectsFactory objectsFactory;
 
     private Employee employee;
 
     @Before
     public void setup() {
 
-        if (staffService.findEmployeeByUserName("test") == null) {
+        if (staffService.findEmployeeByUserName(USER_NAME) == null) {
 
-            staffService.addEmployeePost(EMPLOYEE_POST);
-            userRegistrationService.addUserRole(ROLE);
-            userRegistrationService.addUserGroup(GROUP_NAME, Collections.singletonList(userRegistrationService.findUserRole(ROLE)));
+            objectsFactory.setEmployeeFirstName(FIRST_NAME);
+            objectsFactory.setEmployeeLastName(LAST_NAME);
+            objectsFactory.setEmployeePostName(EMPLOYEE_POST);
+            objectsFactory.setUserGroupName(GROUP_NAME);
+            objectsFactory.setUserName(USER_NAME);
+            objectsFactory.setUserRoleName(ROLE);
+
+            employee = objectsFactory.getEmployee();
         }
-
-        UserImpl user = new UserImpl();
-        user.setUserLogin("test");
-        user.setUserPass("test");
-        user.setUserGroups(Collections.singletonList(userRegistrationService.findUserGroup(GROUP_NAME)));
-
-        employee = new Employee("TestLastName", "TestFirstName", staffService.findEmployeePost(EMPLOYEE_POST), user);
-        employee.setUser(user);
     }
 
     @After
     public void clearAll() {
 
-        if (staffService.findEmployeeByUserName("test") == null) {
+        if (staffService.findEmployeeByUserName(USER_NAME) == null) {
 
-            userRegistrationService.removeUserGroup(GROUP_NAME);
-            userRegistrationService.removeUserRole(ROLE);
-            staffService.removeEmployeePost(staffService.findEmployeePost(EMPLOYEE_POST).getId());
+            objectsFactory.clearAll();
         }
     }
 
@@ -79,18 +74,18 @@ public class StaffServiceTest {
     @Test
     public void findEmployeeTest() {
 
-        Employee employee = staffService.findEmployeeByUserName("test");
+        Employee employee = staffService.findEmployeeByUserName(USER_NAME);
 
         Assert.assertNotNull(employee);
-        Assert.assertEquals("test", employee.getUser().getUserLogin());
+        Assert.assertEquals(USER_NAME, employee.getUser().getUserLogin());
     }
 
     @Test
     public void removeEmployeeTest() {
 
-        staffService.removeEmployee(staffService.findEmployeeByUserName("test").getId());
+        staffService.removeEmployee(staffService.findEmployeeByUserName(USER_NAME).getId());
 
-        Assert.assertNull(staffService.findEmployeeByUserName("test"));
+        Assert.assertNull(staffService.findEmployeeByUserName(USER_NAME));
     }
 
 

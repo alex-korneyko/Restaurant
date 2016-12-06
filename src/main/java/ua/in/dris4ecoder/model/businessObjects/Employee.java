@@ -122,7 +122,7 @@ public class Employee implements BusinessObject {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        this.dateOfBirthProp.set(dateOfBirth.toString());
+//        this.dateOfBirthProp.set(dateOfBirth.toString());
     }
 
     public String getPhoneNumber() {
