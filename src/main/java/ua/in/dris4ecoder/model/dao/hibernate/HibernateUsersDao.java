@@ -65,7 +65,8 @@ public class HibernateUsersDao implements RestaurantDao<UserImpl> {
     @Override
     @Transactional
     public UserImpl findItemById(int id) {
-        return null;
+
+        return sessionFactory.getCurrentSession().find(UserImpl.class, id);
     }
 
     @Override

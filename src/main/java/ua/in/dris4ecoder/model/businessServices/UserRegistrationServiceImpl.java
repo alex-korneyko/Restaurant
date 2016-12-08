@@ -21,15 +21,20 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public void addUserRole(String userRole) {
+    public UserRole addUserRole(String userRoleName) {
 
-       addUserRole(new UserRole(userRole));
+        UserRole userRole = findUserRole(userRoleName);
+        if (userRole != null) return userRole;
+
+        return addUserRole(new UserRole(userRoleName));
     }
 
     @Override
-    public void addUserRole(UserRole userRole) {
+    public UserRole addUserRole(UserRole userRole) {
 
-        userRoleRestaurantDao.addItem(userRole);
+        int result = userRoleRestaurantDao.addItem(userRole);
+
+        return result == 0 ? null : userRole;
     }
 
     @Override
@@ -67,9 +72,14 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public void addUserGroup(String groupName, List<UserRole> groupAuthorities) {
+    public UserGroup addUserGroup(String groupName, List<UserRole> groupAuthorities) {
 
-        userGroupRestaurantDao.addItem(new UserGroup(groupName, groupAuthorities));
+        UserGroup userGroup = findUserGroup(groupName);
+        if (userGroup != null) return userGroup;
+
+        int id = userGroupRestaurantDao.addItem(new UserGroup(groupName, groupAuthorities));
+
+        return findUserGroup(id);
     }
 
     @Override
@@ -85,7 +95,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     @Override
     public UserGroup findUserGroup(String userGroupName) {
-        return null;
+
+        return userGroupRestaurantDao.findItem(userGroupName);
     }
 
     @Override
@@ -121,10 +132,16 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public void addUser(UserImpl user) {
+    public UserImpl addUser(UserImpl user) {
+
+        UserImpl user1 = findUser(user.getUserLogin());
+        if (user1 != null) return user1;
 
         user.setUserPass(passwordEncoder.encode(user.getUserPass()));
+
         userRestaurantDao.addItem(user);
+
+        return findUser(user.getUserLogin());
     }
 
     @Override
@@ -152,9 +169,15 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
+    public UserImpl findUser(int id) {
+
+        return userRestaurantDao.findItemById(id);
+    }
+
+    @Override
     public UserImpl findUser(UserImpl user) {
 
-        return user;
+        return userRestaurantDao.findItem(user);
     }
 
     @Override

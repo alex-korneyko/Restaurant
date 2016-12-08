@@ -24,8 +24,14 @@ public class StaffService implements BusinessService {
     private RestaurantDao<Employee> employeeDao;
     private UserRegistrationService userRegistrationService;
 
-    public void addEmployeePost(String name) {
-        employeePostsDao.addItem(new EmployeePost(name));
+    public EmployeePost addEmployeePost(String name) {
+
+        EmployeePost employeePost = findEmployeePost(name);
+        if (employeePost != null) return employeePost;
+
+        int id = employeePostsDao.addItem(new EmployeePost(name));
+
+        return findEmployeePostById(id);
     }
 
     public void removeEmployeePost(int id) {
@@ -54,11 +60,16 @@ public class StaffService implements BusinessService {
         employeeDao.addItem(new Employee(lastName, firstName, Main.getStaffController().findEmployeePostById(postId), new UserImpl()));
     }
 
-    public int addEmployee(Employee employee) {
+    public Employee addEmployee(Employee employee) {
+
+        Employee employeeByUserName = findEmployeeByUserName(employee.getUser().getUserName());
+        if (employeeByUserName != null) return employeeByUserName;
 
         userRegistrationService.addUser(employee.getUser());
 
-        return employeeDao.addItem(employee);
+        int id = employeeDao.addItem(employee);
+
+        return employeeDao.findItemById(id);
     }
 
     public void addEmployee(Map<String, String> params) {
@@ -115,6 +126,8 @@ public class StaffService implements BusinessService {
 
     public void removeEmployee(int id) {
         Employee employee = employeeDao.findItemById(id);
+        if (employee == null) return;
+
         employeeDao.removeItemById(id);
         userRegistrationService.removeUser(employee.getUser().getUserLogin());
     }

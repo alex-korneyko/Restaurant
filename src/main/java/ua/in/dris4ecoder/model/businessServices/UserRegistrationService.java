@@ -12,9 +12,9 @@ import java.util.Map;
  */
 public interface UserRegistrationService {
 
-    void addUserRole(String userRole);
+    UserRole addUserRole(String userRole);
 
-    void addUserRole(UserRole userRole);
+    UserRole addUserRole(UserRole userRole);
 
     UserRole findUserRole(String roleName);
 
@@ -28,7 +28,7 @@ public interface UserRegistrationService {
 
     void addUserGroup(UserGroup userGroup);
 
-    void addUserGroup(String groupName, List<UserRole> groupAuthorities);
+    UserGroup addUserGroup(String groupName, List<UserRole> groupAuthorities);
 
     UserGroup findUserGroup(int userGroupId);
 
@@ -48,11 +48,13 @@ public interface UserRegistrationService {
 
     void validateUser(UserImpl user);
 
-    void addUser(UserImpl user);
+    UserImpl addUser(UserImpl user);
 
     void addUser(Map<String, String> userData);
 
     void editUser(UserImpl user);
+
+    UserImpl findUser(int id);
 
     UserImpl findUser(UserImpl user);
 

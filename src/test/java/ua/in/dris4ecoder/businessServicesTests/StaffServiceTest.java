@@ -8,10 +8,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ua.in.dris4ecoder.BusinessObjectsFactory;
-import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.springTestConfigClasses.JpaTestConfig;
 import ua.in.dris4ecoder.springTestConfigClasses.TestConfig;
+
+import java.util.Collections;
 
 /**
  * Created by admin on 30.11.2016.
@@ -42,14 +44,11 @@ public class StaffServiceTest {
 
         if (staffService.findEmployeeByUserName(USER_NAME) == null) {
 
-            objectsFactory.setEmployeeFirstName(FIRST_NAME);
-            objectsFactory.setEmployeeLastName(LAST_NAME);
-            objectsFactory.setEmployeePostName(EMPLOYEE_POST);
-            objectsFactory.setUserGroupName(GROUP_NAME);
-            objectsFactory.setUserName(USER_NAME);
-            objectsFactory.setUserRoleName(ROLE);
-
-            employee = objectsFactory.getEmployee();
+            EmployeePost employeePost = objectsFactory.createEmployeePost(EMPLOYEE_POST);
+            UserRole userRole = objectsFactory.createUserRole(ROLE);
+            UserGroup userGroup = objectsFactory.createUserGroup(GROUP_NAME, Collections.singletonList(userRole));
+            UserImpl user = objectsFactory.createUser(USER_NAME, USER_NAME, userGroup);
+            employee = objectsFactory.createEmployee(FIRST_NAME, LAST_NAME, employeePost, user, false);
         }
     }
 
@@ -66,9 +65,9 @@ public class StaffServiceTest {
     public void addEmployeeTest() {
 
 
-        int id = staffService.addEmployee(employee);
+        Employee result = staffService.addEmployee(employee);
 
-        Assert.assertNotEquals(0, id);
+        Assert.assertNotEquals(0, result.getId());
     }
 
     @Test

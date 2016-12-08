@@ -50,7 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().rememberMeParameter("rememberMe").key("restaurant").tokenValiditySeconds(864000)
                 .and().csrf().disable()
                 .logout().logoutUrl("/user/logout").logoutSuccessUrl("/loginStatusFrame")
-
                 .and().headers().frameOptions().sameOrigin();
     }
 

@@ -1,10 +1,9 @@
 package ua.in.dris4ecoder.restTests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,9 +13,13 @@ import org.springframework.test.web.server.MockMvc;
 import org.springframework.test.web.server.ResultActions;
 import org.springframework.test.web.server.setup.MockMvcBuilders;
 import ua.in.dris4ecoder.BusinessObjectsFactory;
-import ua.in.dris4ecoder.model.businessObjects.Employee;
+import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.springTestConfigClasses.TestConfig;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.test.web.server.request.MockMvcRequestBuilders.get;
 
@@ -36,7 +39,6 @@ public class RestStaffWebControllerTest {
     private static final String LAST_NAME = "testLastName";
 
     private MockMvc mockMvc;
-    private Employee employee;
 
     @Autowired
     private BusinessObjectsFactory objectsFactory;
@@ -45,22 +47,25 @@ public class RestStaffWebControllerTest {
     private StaffService staffService;
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
+
+    @BeforeClass
+    public static void init() {
+
+    }
 
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.annotationConfigSetup(TestConfig.class).build();
 
-        objectsFactory.setEmployeeFirstName(FIRST_NAME);
-        objectsFactory.setEmployeeLastName(LAST_NAME);
-        objectsFactory.setEmployeePostName(EMPLOYEE_POST);
-        objectsFactory.setUserGroupName(GROUP_NAME);
-        objectsFactory.setUserName(USER_NAME);
-        objectsFactory.setUserRoleName(ROLE);
+        EmployeePost employeePost = objectsFactory.createEmployeePost(EMPLOYEE_POST);
+        UserRole userRole = objectsFactory.createUserRole(ROLE);
+        UserGroup userGroup = objectsFactory.createUserGroup(GROUP_NAME, Collections.singletonList(userRole));
+        UserImpl user = objectsFactory.createUser(USER_NAME, USER_NAME, userGroup);
+        objectsFactory.createEmployee(FIRST_NAME, LAST_NAME, employeePost, user, true);
 
-        employee = objectsFactory.getEmployee();
-
-        staffService.addEmployee(employee);
+        user = objectsFactory.createUser(USER_NAME + "2", USER_NAME, userGroup);
+        objectsFactory.createEmployee(FIRST_NAME + "2", LAST_NAME + "2", employeePost, user, true);
     }
 
     @After
@@ -80,5 +85,26 @@ public class RestStaffWebControllerTest {
         Employee employeeFromDB = staffService.findEmployeeByUserName(USER_NAME);
 
         Assert.assertEquals(employeeFromDB, employee);
+    }
+
+    @Test
+    public void getEmployeesTest() throws Exception {
+
+        List<Employee> restEmployees = new ArrayList<>();
+
+        ResultActions perform = mockMvc.perform(get("/employee"));
+        String contentAsString = perform.andReturn().getResponse().getContentAsString();
+
+        JSONArray jsonArray = new JSONArray(contentAsString);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            Employee employee = objectMapper.readValue(jsonObject.toString(), Employee.class);
+            restEmployees.add(employee);
+        }
+
+        List<Employee> allEmployeesFromDB = staffService.getAllEmployees();
+
+        Assert.assertEquals(allEmployeesFromDB, restEmployees);
     }
 }

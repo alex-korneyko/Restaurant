@@ -4,82 +4,102 @@ import ua.in.dris4ecoder.model.businessObjects.*;
 import ua.in.dris4ecoder.model.businessServices.StaffService;
 import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by admin on 06.12.2016.
  */
 public class BusinessObjectsFactory {
 
-    private String userRoleName;
-    private String userGroupName;
-    private String userName;
-    private String employeePostName;
-    private String employeeFirstName;
-    private String employeeLastName;
-
     private UserRegistrationService userRegistrationService;
     private StaffService staffService;
 
-    public Employee getEmployee() {
+    private List<Employee> employees = new ArrayList<>();
+    private List<EmployeePost> posts = new ArrayList<>();
+    private List<UserImpl> users = new ArrayList<>();
+    private List<UserGroup> userGroups = new ArrayList<>();
+    private List<UserRole> userRoles = new ArrayList<>();
 
-        UserImpl user = userRegistrationService.findUser(userName);
-        if (user == null) user = getUser();
+    public Employee createEmployee(String employeeFirstName, String employeeLastName, EmployeePost employeePost,
+                                   UserImpl user, boolean saveToDataBase) {
 
-        EmployeePost employeePost = staffService.findEmployeePost(employeePostName);
-        if (employeePost == null) employeePost = getEmployeePost();
+        user = userRegistrationService.findUser(user.getUserLogin());
+        if (user == null) user = createUser(user.getUserName(), user.getUserPass(), user.getUserGroups().get(0));
 
-        return new Employee(employeeLastName, employeeFirstName, employeePost, user);
+        employeePost = staffService.findEmployeePost(employeePost.getPostName());
+        if (employeePost == null) employeePost = createEmployeePost(employeePost.getPostName());
+
+        Employee employee = new Employee(employeeLastName, employeeFirstName, employeePost, user);
+
+        if (saveToDataBase) {
+            employee = staffService.addEmployee(employee);
+            employees.add(employee);
+        }
+
+        return employee;
     }
 
-    private EmployeePost getEmployeePost() {
+    public EmployeePost createEmployeePost(String employeePostName) {
 
-        staffService.addEmployeePost(employeePostName);
+        EmployeePost employeePost = staffService.addEmployeePost(employeePostName);
+        posts.add(employeePost);
 
-        return staffService.findEmployeePost(employeePostName);
+        return employeePost;
     }
 
-    public UserImpl getUser() {
+    public UserImpl createUser(String userName, String userPass, UserGroup userGroup) {
 
         UserImpl user = new UserImpl();
 
         user.setUserLogin(userName);
-        user.setUserPass(userName);
-        UserGroup userGroup = userRegistrationService.findUserGroup(userGroupName);
-        if (userGroup == null) userGroup = getUserGroup();
+        user.setUserPass(userPass);
+        userGroup = userRegistrationService.findUserGroup(userGroup.getGroupName());
+        if (userGroup == null) userGroup = createUserGroup(userGroup.getGroupName(), userGroup.getRoles());
 
         user.setUserGroups(Collections.singletonList(userGroup));
 
-        return user;
+        UserImpl createdUser = userRegistrationService.addUser(user);
+
+        users.add(createdUser);
+
+        return createdUser;
     }
 
-    public UserGroup getUserGroup() {
+    public UserGroup createUserGroup(String userGroupName, List<UserRole> roles) {
 
-        UserRole userRole = userRegistrationService.findUserRole(userRoleName);
-        if (userRole == null) userRole = getUserRole();
+        List<UserRole> userRoles = new ArrayList<>();
 
-        userRegistrationService.addUserGroup(userGroupName, Collections.singletonList(userRole));
+        for (UserRole role : roles) {
+            UserRole userRole = userRegistrationService.findUserRole(role.getRoleName());
+            if (userRole == null) {
+                userRoles.add(createUserRole(role.getRoleName()));
+            } else {
+                userRoles.add(userRole);
+            }
+        }
 
-        return userRegistrationService.findUserGroup(userGroupName);
+        UserGroup userGroup = userRegistrationService.addUserGroup(userGroupName, userRoles);
+        userGroups.add(userGroup);
+
+        return userGroup;
     }
 
-    public UserRole getUserRole() {
+    public UserRole createUserRole(String userRoleName) {
 
-        userRegistrationService.addUserRole(userRoleName);
+        UserRole userRole = userRegistrationService.addUserRole(userRoleName);
+        userRoles.add(userRole);
 
-        return userRegistrationService.findUserRole(userRoleName);
+        return userRole;
     }
 
     public void clearAll() {
 
-        Employee employeeByUserName = staffService.findEmployeeByUserName(userName);
-        if (employeeByUserName != null) {
-            staffService.removeEmployee(employeeByUserName.getId());
-        }
-
-        userRegistrationService.removeUserGroup(userGroupName);
-        userRegistrationService.removeUserRole(userRoleName);
-        staffService.removeEmployeePost(staffService.findEmployeePost(employeePostName).getId());
+        employees.forEach(employee -> staffService.removeEmployee(employee.getId()));
+        posts.forEach(post -> staffService.removeEmployeePost(post.getId()));
+        userGroups.forEach(userGroup -> userRegistrationService.removeUserGroup(userGroup));
+        userRoles.forEach(userRole -> userRegistrationService.removeUserRole(userRole));
     }
 
     public void setUserRegistrationService(UserRegistrationService userRegistrationService) {
@@ -88,29 +108,5 @@ public class BusinessObjectsFactory {
 
     public void setStaffService(StaffService staffService) {
         this.staffService = staffService;
-    }
-
-    public void setUserRoleName(String userRoleName) {
-        this.userRoleName = userRoleName;
-    }
-
-    public void setUserGroupName(String userGroupName) {
-        this.userGroupName = userGroupName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setEmployeePostName(String employeePostName) {
-        this.employeePostName = employeePostName;
-    }
-
-    public void setEmployeeFirstName(String employeeFirstName) {
-        this.employeeFirstName = employeeFirstName;
-    }
-
-    public void setEmployeeLastName(String employeeLastName) {
-        this.employeeLastName = employeeLastName;
     }
 }
