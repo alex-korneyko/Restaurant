@@ -29,7 +29,8 @@
     </div>
     <div class="container">
         <a href="#" onclick="showInFrameParentWindow('/user/userProfile?login=${userLogin}', '')">Профиль </a>
-        <a href="${pageContext.request.contextPath}/user/logout" onclick="showInFrameParentWindow('loginPage', '')">Выход </a>
+        <%--<a href="${pageContext.request.contextPath}/user/logout" onclick="showInFrameParentWindow('loginPage', '')">Выход </a>--%>
+        <a href="${pageContext.request.contextPath}/user/logout" onclick="reloadMainPage()">Выход </a>
     </div>
 </c:if>
 </body>

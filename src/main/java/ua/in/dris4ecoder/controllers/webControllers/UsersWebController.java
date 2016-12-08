@@ -20,7 +20,7 @@ public class UsersWebController {
     @RequestMapping(value = "/user/logout")
     public ModelAndView logout() {
 
-        ModelAndView modelAndView = new ModelAndView("user/logoutPage");
+        ModelAndView modelAndView = new ModelAndView("logoutPage");
         return modelAndView;
     }
 }

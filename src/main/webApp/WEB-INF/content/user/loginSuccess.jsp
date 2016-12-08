@@ -13,7 +13,8 @@
 <body>
 <h2>You are logged successful!</h2>
 <script>
-    window.parent.document.getElementById("loginFrame").setAttribute('src', 'loginStatusFrame');
+    top.location.reload();
+//    window.parent.document.getElementById("loginFrame").setAttribute('src', 'loginStatusFrame');
 </script>
 <a href="${pageContext.request.contextPath}/mainPage">Main page</a>
 </body>

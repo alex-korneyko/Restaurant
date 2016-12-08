@@ -26,3 +26,7 @@ function dropDownComboBoxScr(selectedValue, valueId) {
     document.getElementById('dropDownComboBox').setAttribute('value', selectedValue);
     document.getElementById('dropDownComboBoxSelectedValue').setAttribute('value', valueId);
 }
+
+function reloadMainPage() {
+    top.location.reload();
+}

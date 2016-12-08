@@ -11,6 +11,8 @@
     <title>logoutPage</title>
 </head>
 <body>
-
+<script>
+    top.location.reload();
+</script>
 </body>
 </html>
