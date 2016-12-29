@@ -19,19 +19,20 @@ import java.util.stream.Collectors;
 @Controller
 public class OrdersWebController {
 
-    @Autowired
-    private ServiceService serviceController;
-
-    @Autowired
-    private UserRegistrationService userRegistrationService;
-
-    @Autowired
-    private InstrumentsService instrumentsController;
-
-    @Autowired
-    private StaffService staffController;
-
+    private final ServiceService serviceController;
+    private final UserRegistrationService userRegistrationService;
+    private final InstrumentsService instrumentsController;
+    private final StaffService staffController;
     private Order order;
+
+    @Autowired
+    public OrdersWebController(ServiceService serviceController, UserRegistrationService userRegistrationService,
+                               InstrumentsService instrumentsController, StaffService staffController) {
+        this.serviceController = serviceController;
+        this.userRegistrationService = userRegistrationService;
+        this.instrumentsController = instrumentsController;
+        this.staffController = staffController;
+    }
 
     @RequestMapping(value = "admin/orders")
     public ModelAndView orders(@RequestParam Map<String, String> params, Principal user) {
@@ -50,25 +51,24 @@ public class OrdersWebController {
 
         if (params.containsKey("edit")) {
 
-            List<String> selected = params.keySet().stream()
-                    .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
-                    .collect(Collectors.toList());
+            List<Integer> selectedIds = getSelectedOrders(params);
 
-            if (selected.size() != 1) {
+            if (selectedIds.size() != 1) {
                 modelAndView.addObject("errorMessage", "Нужно выбрать один заказ");
             } else {
-                int orderId = Integer.parseInt(params.get(selected.get(0)));
-                order = serviceController.findOrder(orderId);
+                order = serviceController.findOrder(selectedIds.get(0));
 
-                modelAndView.addObject("openNewOrderWindow", true);
+                if (order.getStatus() != OrderDishStatus.IN_QUEUE) {
+                    modelAndView.addObject("errorMessage", "Заказ " + order.getStatus().toString() + ". Изменение невозможно");
+                } else {
+                    modelAndView.addObject("openNewOrderWindow", true);
+                }
             }
         }
 
         if (params.containsKey("delete")) {
 
-            List<Integer> selectedIds = params.keySet().stream()
-                    .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
-                    .map(s -> Integer.parseInt(params.get(s))).collect(Collectors.toList());
+            List<Integer> selectedIds = getSelectedOrders(params);
 
             for (Integer id : selectedIds) {
                 Order order = serviceController.findOrder(id);
@@ -76,6 +76,22 @@ public class OrdersWebController {
                     serviceController.removeOrder(id);
                 } else {
                     modelAndView.addObject("errorMessage", "Заказ " + order.getStatus().toString() + ". Удаление невозможно");
+                }
+            }
+        }
+
+        if (params.containsKey("close")) {
+
+            List<Integer> selectedOrderIds = getSelectedOrders(params);
+
+            for (Integer selectedOrderId : selectedOrderIds) {
+                Order order = serviceController.findOrder(selectedOrderId);
+
+                if (order.getStatus() != OrderDishStatus.PREPARED) {
+                    modelAndView.addObject("errorMessage", "Заказ id= " +order.getId() + " " + order.getStatus().toString() + ". Выдать невозможно");
+                } else {
+                    order.setStatus(OrderDishStatus.CLOSED);
+                    serviceController.editOrder(order);
                 }
             }
         }
@@ -101,13 +117,11 @@ public class OrdersWebController {
 
         if (params.containsKey("editDish")) {
 
-            List<Integer> dishIds = params.keySet().stream()
-                    .filter(key -> key.length() > 12 && key.substring(0, 12).equals("selectedDish"))
-                    .map(key -> Integer.parseInt(params.get(key))).collect(Collectors.toList());
+            List<Integer> selectedIds = getSelectedOrders(params);
 
-            if (!dishIds.isEmpty()) {
+            if (!selectedIds.isEmpty()) {
 
-                Dish dish = instrumentsController.findDish(dishIds.get(0));
+                Dish dish = instrumentsController.findDish(selectedIds.get(0));
                 int dishCount = order.getDishCount(dish);
                 order.removeDish(dish);
 
@@ -165,11 +179,21 @@ public class OrdersWebController {
             }
         }
 
-        modelAndView.addObject("allOrders", serviceController.getAllOrders());
+        modelAndView.addObject("allOrders", serviceController.getAllOrders().stream()
+                .filter(order -> (order.getStatus() != OrderDishStatus.IN_PROCESS && order.getStatus() != OrderDishStatus.CLOSED)  || params.containsKey("showClosed"))
+                .collect(Collectors.toList()));
+
         modelAndView.addObject("allUsers", userRegistrationService.getAllUsers());
         modelAndView.addObject("order", order);
+        modelAndView.addObject("showClosed", params.containsValue("showClosed"));
 
         return modelAndView;
+    }
+
+    private List<Integer> getSelectedOrders(@RequestParam Map<String, String> params) {
+        return params.keySet().stream()
+                .filter(key -> key.length() > 8 && key.substring(0, 8).equals("selected"))
+                .map(s -> Integer.parseInt(params.get(s))).collect(Collectors.toList());
     }
 
     private void fillOrder(Order order, Map<String, String> params) {

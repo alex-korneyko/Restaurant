@@ -1,10 +1,8 @@
 package ua.in.dris4ecoder.controllers.webControllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ua.in.dris4ecoder.model.businessObjects.OrderDishStatus;
+import ua.in.dris4ecoder.model.businessServices.ServiceService;
 import ua.in.dris4ecoder.model.businessServices.UserRegistrationService;
 
-import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Alex Korneyko on 25.09.2016 20:32.
@@ -26,16 +24,21 @@ import java.util.stream.Stream;
 public class MainWindowWebController {
 
     private final UserRegistrationService userRegistrationService;
+    private final ServiceService service;
 
     @Autowired
-    public MainWindowWebController(UserRegistrationService userRegistrationService) {
+    public MainWindowWebController(UserRegistrationService userRegistrationService, ServiceService service) {
         this.userRegistrationService = userRegistrationService;
+        this.service = service;
     }
 
     @RequestMapping(value = "/")
     public ModelAndView index(@RequestParam Map<String, Object> model) {
 
         ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("ordersInQueue", service.findOrder(OrderDishStatus.IN_QUEUE).size());
+        modelAndView.addObject("ordersArePreparing", service.findOrder(OrderDishStatus.IN_PROCESS).size());
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {

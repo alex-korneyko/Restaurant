@@ -50,8 +50,14 @@
             <button class="btn btn-success" name="create">Создать</button>
             <button class="btn btn-warning" name="edit">Изменить</button>
             <button class="btn btn-danger" name="delete">Удалить</button>
+            <button class="btn btn-success" name="close">Выдать</button>
             <button class="btn btn-primary" name="find">Поиск</button>
             <button class="btn btn-info" name="showAll">Показать всё</button>
+            <label for="showClosed">Показывать закрытые</label>
+            <input id="showClosed" type="checkbox" name="showClosed" value="showClosed"
+                   <c:if test="${showClosed == true}">checked="checked"</c:if>
+            >
+
         </div>
     </div>
     <br>
@@ -82,7 +88,7 @@
             <c:forEach items="${allOrders}" var="order">
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/admin/orders?orderInfo=${order.id}">${order.id}</a></td>
-                    <td><a href="${pageContext.request.contextPath}/admin/employees/?employeeInfoWindow=${order.employee.user.userLogin}">
+                    <td><a href="${pageContext.request.contextPath}/admin/employees?employeeInfoWindow=${order.employee.user.userLogin}">
                     ${order.employee.firstName} ${order.employee.lastName}</a></td>
                     <td>${order.desk}</td>
                     <td>${order.status.toString()}</td>

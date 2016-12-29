@@ -88,7 +88,14 @@ public class HibernateOrderDao implements RestaurantDao<Order> {
     @Override
     @Transactional
     public List<Order> findItem(OrderDishStatus status) {
-        return findAll().stream().filter(order -> order.getStatus() == status).collect(Collectors.toList());
+
+        Query<Order> query = sessionFactory.getCurrentSession()
+                .createQuery("select o from ua.in.dris4ecoder.model.businessObjects.Order o where o.status = :status");
+        query.setParameter("status", status);
+
+        return query.list();
+
+//        return findAll().stream().filter(order -> order.getStatus() == status).collect(Collectors.toList());
     }
 
     @Override

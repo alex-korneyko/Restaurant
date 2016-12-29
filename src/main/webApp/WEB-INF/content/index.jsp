@@ -30,7 +30,7 @@
                     <div class="col-md-2"><p>Столиков свободно:</p></div>
                     <div class="col-md-1"><p>15</p></div>
                     <div class="col-md-2"><p>Заказов в очереди:</p></div>
-                    <div class="col-md-1"><p>5</p></div>
+                    <div class="col-md-1"><p>${ordersInQueue}</p></div>
                     <div class="col-md-4"></div>
                     <%--<div class="col-md-2"><a href="#" onclick="showInFrame('loginPage', '')">Вход</a></div>--%>
                 </div>
@@ -39,8 +39,8 @@
                 <div class="row">
                     <div class="col-md-2"><p>Столиков зарезерв.:</p></div>
                     <div class="col-md-1"><p>3</p></div>
-                    <div class="col-md-2"><p>Блюд готовится:</p></div>
-                    <div class="col-md-1"><p>14</p></div>
+                    <div class="col-md-2"><p>Заказов выполняется:</p></div>
+                    <div class="col-md-1"><p>${ordersArePreparing}</p></div>
                     <div class="col-md-4"></div>
                     <%--<div class="col-md-2"><a href="#" onclick="showInFrame('registrationPage', '')">Регистрация</a>--%>
                 </div>
@@ -148,7 +148,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-to-right">
                         <li><a href="#" onclick="showInFrame('orders', 'admin/')">Заказы</a></li>
-                        <li><a href="#">Кухня</a></li>
+                        <li><a href="#" onclick="showInFrame('kitchen', 'admin/')">Кухня</a></li>
                     </ul>
                 </div>
                 <div class="btn-group">
